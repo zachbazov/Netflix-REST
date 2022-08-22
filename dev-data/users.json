@@ -1,0 +1,74 @@
+[{
+  "_id": {
+    "$oid": "62c58b5adff8634ff1bc44e3"
+  },
+  "name": "zach bazov",
+  "email": "zachbazov@gmail.com",
+  "role": "user",
+  "password": "$2a$12$pzPphrPYASL31.u54e4GHerSpU6SK/s1NznIBMNHQYj8msVgxd076",
+  "passwordChangedAt": {
+    "$date": {
+      "$numberLong": "1657127428125"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62c59b7b9c1ca863522c173f"
+  },
+  "name": "Administrator",
+  "email": "admin@gmail.com",
+  "role": "admin",
+  "password": "$2a$12$BpMiSPiT/q3Qusj6Hk86XOJPkAuihTuGn8YJ.nWBzS92lvr3EfXhu",
+  "passwordChangedAt": {
+    "$date": {
+      "$numberLong": "1657644834295"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62c5f6cfe2386e0a87f3f742"
+  },
+  "name": "George Bush",
+  "email": "georges@gmail.com",
+  "role": "user",
+  "password": "$2a$12$e4WywmWi8DifdCFulCd/Mu6Tq.Jodux9b.bgtarv5d0wohDNZROZC",
+  "passwordChangedAt": {
+    "$date": {
+      "$numberLong": "1657139666657"
+    }
+  },
+  "active": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62de07fbf7f0d055a9888eec"
+  },
+  "name": "qwe",
+  "email": "qwe@gmail.com",
+  "role": "user",
+  "password": "$2a$12$VxbNi03ARptN/uFKbKzZQu3WWIZpuGATc0cYOMZ5kXdV4jZu2U1g2",
+  "passwordChangedAt": {
+    "$date": {
+      "$numberLong": "1658711761524"
+    }
+  },
+  "active": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62de097af7f0d055a9888efb"
+  },
+  "name": "asd",
+  "email": "asd@gmail.com",
+  "role": "user",
+  "password": "$2a$12$9FnCXw9u69VQmdUlnChX3eh772MTWXzySiELAv34fRYLx/2pcsc7q",
+  "passwordChangedAt": {
+    "$date": {
+      "$numberLong": "1658711761524"
+    }
+  },
+  "active": true,
+  "__v": 0
+}]
