@@ -68,6 +68,9 @@ const tvShowSchema = new mongoose.Schema(
                 'A detail cover value is required.'
             ]
         },
+        displayLogos: {
+            type: [String]
+        },
         logos: {
             type: [String],
             required: [true, 'A logo value is required.']
@@ -185,6 +188,19 @@ tvShowSchema.pre('aggregate', function (next) {
 
     next();
 });
+
+// tvShowSchema.post('find', function (docs, next) {
+//     var fs = require('fs');
+//     var files = fs.readdirSync('./public/img/display-logo/tvshows');
+//     docs.forEach((el) => {
+//         el.displayLogos = files.filter(file => file.match(el.slug));
+//         let newLogos = el.displayLogos.map(el => `https://netflix-swift-api.herokuapp.com/img/display-logo/tvshows/${el}`);
+//         el.displayLogos = newLogos;
+//         el.save({ validateBeforeSave: false });
+//     });
+
+//     next();
+// })
 
 // tvShowSchema.post('find', function (docs, next) {
 //     // var fs = require('fs');
