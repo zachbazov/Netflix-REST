@@ -20,6 +20,7 @@ const movieSchema = new mongoose.Schema({
     hasWatched: Boolean,
     newRelease: Boolean,
     previewURL: String,
+    displayLogos: [String],
     logos: [String],
     genres: [String],
     trailers: [String],
@@ -61,18 +62,18 @@ movieSchema.pre('save', function (next) {
 
 // movieSchema.post('find', function (docs, next) {
 //     var fs = require('fs');
-//     var files = fs.readdirSync('./public/img/logo/movies');
+//     var files = fs.readdirSync('./public/img/display-logo/movies');
 //     docs.forEach((el) => {
-//         // el.logos = files.filter(file => file.match(el.slug));
-//         // let newLogos = el.logos.map(el => `https://netflix-swift-api.herokuapp.com/img/logo/tvshows/${el}`);
-//         // newLogos.unshift(newLogos.pop());
-//         // el.logos = newLogos;
+//         el.displayLogos = files.filter(file => file.match(el.slug));
+//         let newLogos = el.displayLogos.map(el => `https://netflix-swift-api.herokuapp.com/img/display-logo/movies/${el}`);
+//         newLogos.unshift(newLogos.pop());
+//         el.displayLogos = newLogos;
 
 //         //el.presentedCover = "0"
 //         // el.presentedLogo = "0"
 //         // el.presentedDisplayLogo = "0"
 
-//         // el.save({ validateBeforeSave: false });
+//         el.save({ validateBeforeSave: false });
 //     });
 //     next();
 // })

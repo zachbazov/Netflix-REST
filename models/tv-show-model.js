@@ -195,6 +195,7 @@ tvShowSchema.pre('aggregate', function (next) {
 //     docs.forEach((el) => {
 //         el.displayLogos = files.filter(file => file.match(el.slug));
 //         let newLogos = el.displayLogos.map(el => `https://netflix-swift-api.herokuapp.com/img/display-logo/tvshows/${el}`);
+//         newLogos.unshift(newLogos.pop());
 //         el.displayLogos = newLogos;
 //         el.save({ validateBeforeSave: false });
 //     });
