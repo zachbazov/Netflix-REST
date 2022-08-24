@@ -60,25 +60,25 @@ movieSchema.pre('save', function (next) {
     next();
 });
 
-movieSchema.post('find', function (docs, next) {
-    var fs = require('fs');
-    var files = fs.readdirSync('./public/img/display-logo/movies');
-    docs.forEach((el) => {
-        el.displayLogos = [];
-        el.displayLogos = files.filter(file => file.match(el.slug));
-        let newLogos = el.displayLogos.map(el => `https://netflix-swift-api.herokuapp.com/img/display-logo/movies/${el}`);
-        newLogos.unshift(newLogos.pop());
-        el.displayLogos = newLogos;
+// movieSchema.post('find', function (docs, next) {
+//     var fs = require('fs');
+//     var files = fs.readdirSync('./public/img/display-logo/movies');
+//     docs.forEach((el) => {
+//         el.displayLogos = [];
+//         el.displayLogos = files.filter(file => file.match(el.slug));
+//         let newLogos = el.displayLogos.map(el => `https://netflix-swift-api.herokuapp.com/img/display-logo/movies/${el}`);
+//         newLogos.unshift(newLogos.pop());
+//         el.displayLogos = newLogos;
 
-        //el.presentedCover = "0"
-        // el.presentedLogo = "0"
-        // el.presentedDisplayLogo = "0"
+//         //el.presentedCover = "0"
+//         // el.presentedLogo = "0"
+//         // el.presentedDisplayLogo = "0"
 
-        el.save({ validateBeforeSave: false });
-    });
+//         el.save({ validateBeforeSave: false });
+//     });
 
-    next();
-})
+//     next();
+// })
 
 // tvShowSchema.post('find', function (docs, next) {
 //     var fs = require('fs');
