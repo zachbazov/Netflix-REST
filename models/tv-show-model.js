@@ -191,13 +191,13 @@ tvShowSchema.pre('aggregate', function (next) {
 
 // tvShowSchema.post('find', function (docs, next) {
 //     var fs = require('fs');
-//     var files = fs.readdirSync('./public/img/display-logo/tvshows');
+//     var files = fs.readdirSync('./public/img/cover/tvshows');
 //     docs.forEach((el) => {
-//         el.displayLogos = [];
-//         el.displayLogos = files.filter(file => file.match(el.slug));
-//         let newLogos = el.displayLogos.map(el => `https://netflix-swift-api.herokuapp.com/img/display-logo/tvshows/${el}`);
+//         el.covers = []; 
+//         el.covers = files.filter(file => file.match(el.slug));
+//         let newLogos = el.covers.map(el => `https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el}`);
 //         newLogos.unshift(newLogos.pop());
-//         el.displayLogos = newLogos;
+//         el.covers = newLogos;
 //         el.save({ validateBeforeSave: false });
 //     });
 
