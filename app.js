@@ -129,7 +129,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Request limitation per IP
 const limiter = rateLimit({
-    max: 300,
+    max: 5000,
     windowMs: 60 * 60 * 1000, // 60m * 60s * 1ms === 1hour
     message: 'Reached max requests limit.'
 });

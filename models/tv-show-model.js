@@ -96,25 +96,11 @@ const tvShowSchema = new mongoose.Schema(
             type: [String],
             required: [true, 'Trailer values are required.']
         },
-        highResCover: {
-            type: String,
-            required: [
-                true,
-                'An high res image value is required.'
-            ]
-        },
         covers: {
             type: [String],
             required: [
                 true,
                 'A cover image value is required.'
-            ]
-        },
-        smallCover: {
-            type: String,
-            required: [
-                true,
-                'A small cover image value is required.'
             ]
         },
         slug: {
