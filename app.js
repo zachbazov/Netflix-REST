@@ -128,13 +128,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Request limitation per IP
-const limiter = rateLimit({
-    max: 5000,
-    windowMs: 60 * 60 * 1000, // 60m * 60s * 1ms === 1hour
-    message: 'Reached max requests limit.'
-});
+// const limiter = rateLimit({
+//     max: 5000,
+//     windowMs: 60 * 60 * 1000, // 60m * 60s * 1ms === 1hour
+//     message: 'Reached max requests limit.'
+// });
 
-app.use('/api/', limiter);
+// app.use('/api/', limiter);
 
 // Body Parser
 // reads data into 'req.body'
