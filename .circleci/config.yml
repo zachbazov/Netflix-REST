@@ -4,17 +4,17 @@ orbs:
   heroku: circleci/heroku@1.2.6
 
 jobs:
-  build_and_test:
-    executor: node/default
+  build_and_test: # this can be any name you choose
+    executor: node/default # use the default executor defined within the orb
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: yarn
-      # - run:
-      #     command: yarn test
-      #     name: Run tests
+          pkg-manager: npm
       - run:
-          command: yarn build
+          command: npm run test
+          name: Run tests
+      - run:
+          command: npm run build
           name: Build app
       - persist_to_workspace:
           root: ~/project
@@ -30,12 +30,13 @@ jobs:
           force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
 
 workflows:
-  test_my_app:
+  build_test_deploy: # this can be any name you choose
     jobs:
-      # - build_and_test
+      - build_and_test
       - deploy:
-          # requires:
-          #   - build_and_test # only deploy if the build_and_test job has completed
+          requires:
+            - build_and_test # only deploy if the build_and_test job has completed
           filters:
             branches:
               only: main # only deploy when on main
+
