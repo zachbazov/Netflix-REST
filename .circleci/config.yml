@@ -10,9 +10,9 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-      - run:
-          command: yarn test
-          name: Run tests
+      # - run:
+      #     command: yarn test
+      #     name: Run tests
       - run:
           command: yarn build
           name: Build app
@@ -34,8 +34,8 @@ workflows:
     jobs:
       - build_and_test
       - deploy:
-          requires:
-            - build_and_test # only deploy if the build_and_test job has completed
+          # requires:
+          #   - build_and_test # only deploy if the build_and_test job has completed
           filters:
             branches:
               only: main # only deploy when on main
