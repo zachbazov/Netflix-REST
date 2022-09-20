@@ -31,7 +31,7 @@
     "description": "apitesting",
     "main": "app.js",
     "scripts": {
-        "test": "test/apptest.js",
+        "test": "apptest.js",
         "start": "node server.js",
         "dev": "nodemon server.js",
         "start:dev": "nodemon server.js",
