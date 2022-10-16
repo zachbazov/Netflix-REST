@@ -14,6 +14,7 @@ const cookieParser = require('cookie-parser');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/error-controller');
 
+const mediaRouter = require('./routes/media-router');
 const tvShowsRouter = require('./routes/tv-show-router');
 const moviesRouter = require('./routes/movie-router');
 const usersRouter = require('./routes/user-router');
@@ -128,13 +129,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Request limitation per IP
-// const limiter = rateLimit({
-//     max: 5000,
-//     windowMs: 60 * 60 * 1000, // 60m * 60s * 1ms === 1hour
-//     message: 'Reached max requests limit.'
-// });
+const limiter = rateLimit({
+    max: 5000,
+    windowMs: 60 * 60 * 1000, // 60m * 60s * 1ms === 1hour
+    message: 'Reached max requests limit.'
+});
 
-// app.use('/api/', limiter);
+app.use('/api/', limiter);
 
 // Body Parser
 // reads data into 'req.body'
@@ -175,6 +176,7 @@ app.use(compression());
 
 // Route Mounting
 app.use('/', viewRouter);
+app.use('/api/v1/media', mediaRouter);
 app.use('/api/v1/movies', moviesRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/tvshows', tvShowsRouter);

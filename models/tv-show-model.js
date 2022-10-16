@@ -131,7 +131,8 @@ const tvShowSchema = new mongoose.Schema(
         },
         presentedCover: String,
         presentedLogo: String,
-        presentedDisplayLogo: String
+        presentedDisplayLogo: String,
+        logoPosition: String
     },
     {
         toJSON: { virtuals: true },
