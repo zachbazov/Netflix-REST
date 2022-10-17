@@ -12,66 +12,75 @@ const isValidObjectId = async (Model, req) => {
     switch (Model.modelName) {
         case "Section":
             if (mongoose.isValidObjectId(req.params.id)) {
-                doc = await Model.findById(req.params.id);
+                let validIdObject = await Model.findById(req.params.id);
                 // There is a change that mongodb recognizes certain slugs as valid id objects.
                 // In that case we need check if any object is returned from the `findById` query.
                 // If not, the object returned with another query.
-                if (!doc) {
+                if (!validIdObject) {
                     return await Model.findOne({ slug: req.params.id });
                 }
-                return doc;
+                return validIdObject;
             }
-            return await Model.findOne({ id: req.params.id });
+            // In this assignment we've been returned an object by a slug query.
+            const slugObject = await Model.findOne({ slug: req.params.id });
+            // If there is no document that conforms to the slug query.
+            // We return an object by an id query.
+            if (!slugObject) {
+                return await Model.findOne({ id: req.params.id });
+            }
+            return slugObject;
         case "Media":
             if (mongoose.isValidObjectId(req.params.id)) {
-                doc = await Model.findById(req.params.id);
-                if (!doc) {
+                let validIdObject = await Model.findById(req.params.id);
+                if (!validIdObject) {
                     return await Model.findOne({ slug: req.params.id });
                 }
-                return doc;
+                return validIdObject;
             }
             return await Model.findOne({
                 slug: req.params.id,
             });
         case "Season":
-            // All seasons for a media case
+            // If there is no 'season' param, returns all seasons for that media.
             if (!req.params.season) {
                 if (mongoose.isValidObjectId(req.params.id)) {
-                    doc = await Media.findById(req.params.id);
-                    return await Model.find({ tvShow: doc.id });
+                    let validIdObject = await Media.findById(req.params.id);
+                    return await Model.find({ tvShow: validIdObject.id });
                 } else {
-                    doc = await Media.findOne({ slug: req.params.id });
-                    return await Model.find({ tvShow: doc.id });
+                    let slugObject = await Media.findOne({
+                        slug: req.params.id,
+                    });
+                    return await Model.find({ tvShow: slugObject.id });
                 }
-                // Single season for a media case
+                // In case a 'season' param is given, return in response accordingly.
             } else {
                 if (mongoose.isValidObjectId(req.params.id)) {
-                    doc = await Media.findById(req.params.id);
+                    let validIdObject = await Media.findById(req.params.id);
                     return await Model.findOne({
-                        tvShow: doc.id,
+                        tvShow: validIdObject.id,
                         season: req.params.season,
                     }).populate("media");
                 }
-                doc = await Media.findOne({ slug: req.params.id });
+                let slugObject = await Media.findOne({ slug: req.params.id });
                 return await Model.findOne({
-                    tvShow: doc.id,
+                    tvShow: slugObject.id,
                     season: req.params.season,
                 }).populate("media");
             }
         case "Episode":
-            doc = await Model.findOne({
+            let object = await Model.findOne({
                 tvShow: req.params.id,
                 season: req.params.season,
                 episode: req.params.episode,
             });
-            if (!doc) {
+            if (!object) {
                 return await Model.findOne({
                     slug: req.params.id,
                     season: req.params.season,
                     episode: req.params.episode,
                 });
             }
-            return doc;
+            return object;
         default:
             break;
     }
