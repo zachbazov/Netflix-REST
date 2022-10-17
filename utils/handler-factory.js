@@ -96,7 +96,7 @@ const assessParams = async (Model, req) => {
             case 'Media':
                 return await Model.findOne({
                     slug: req.params.id
-                });//.populate('seasons');
+                }).populate('seasons');
 
             case 'Season':
                 const tvShow = await Media.findOne({
