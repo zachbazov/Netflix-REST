@@ -1,19 +1,22 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const sectionSchema = new mongoose.Schema({
     id: {
-        type: Number
+        type: Number,
     },
     title: String,
-    media: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Media'
-    }]
+    slug: String,
+    media: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "Media",
+        },
+    ],
 });
 
 sectionSchema.index({ id: 1 });
 sectionSchema.index({ title: 1 });
 
-const Section = mongoose.model('Section', sectionSchema);
+const Section = mongoose.model("Section", sectionSchema);
 
 module.exports = Section;

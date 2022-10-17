@@ -1,19 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const seasonSchema = new mongoose.Schema({
     tvShow: mongoose.Schema.ObjectId,
     slug: String,
     season: Number,
-    title: {
-        type: String
-        // unique: true
-    },
+    title: String,
     media: [
         {
             type: mongoose.Schema.ObjectId,
-            ref: 'Episode'
-        }
-    ]
+            ref: "Episode",
+        },
+    ],
 });
 
 // Improving performance
@@ -22,6 +19,6 @@ seasonSchema.index({ slug: 1 });
 seasonSchema.index({ season: 1 });
 seasonSchema.index({ slug: 1, season: 1 });
 
-const Season = mongoose.model('Season', seasonSchema);
+const Season = mongoose.model("Season", seasonSchema);
 
 module.exports = Season;

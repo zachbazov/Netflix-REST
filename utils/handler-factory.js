@@ -12,15 +12,19 @@ const isValidObjectId = async (Model, req) => {
     switch (Model.modelName) {
         case "Section":
             if (mongoose.isValidObjectId(req.params.id)) {
-                return await Model.findById(req.params.id);
+                doc = await Model.findById(req.params.id);
+                // There is a change that mongodb recognizes certain slugs as valid id objects.
+                // In that case we need check if any object is returned from the `findById` query.
+                // If not, the object returned with another query.
+                if (!doc) {
+                    return await Model.findOne({ slug: req.params.id });
+                }
+                return doc;
             }
             return await Model.findOne({ id: req.params.id });
         case "Media":
             if (mongoose.isValidObjectId(req.params.id)) {
                 doc = await Model.findById(req.params.id);
-                // There is a change that mongodb recognizes certain slugs as valid id objects.
-                // In that case we need check if any object is returned from the `findById` query.
-                // If not, the object returned with another query.
                 if (!doc) {
                     return await Model.findOne({ slug: req.params.id });
                 }
