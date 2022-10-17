@@ -9,8 +9,8 @@ router.route("/").get(episodeController.getAllEpisodes);
 router
     .route("/:episode")
     .get(
-        // authController.protect,
-        // authController.restrictTo('user', 'admin'),
+        authController.protect,
+        authController.restrictTo("user", "admin"),
         episodeController.getEpisode
     )
     .patch(
