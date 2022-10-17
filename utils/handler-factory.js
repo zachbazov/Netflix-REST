@@ -783,7 +783,7 @@ exports.deleteOne = (Model) =>
                     doc = await Model.findById(
                         req.params.id
                     );
-                    break;
+
                 default:
                     doc = await Model.findById(
                         req.params.episode
@@ -823,6 +823,7 @@ exports.deleteAll = (Model) =>
                 docs = await Model.deleteMany();
 
                 break;
+
             case 'Media':
                 docs = await Model.deleteMany();
 
