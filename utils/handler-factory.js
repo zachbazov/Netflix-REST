@@ -27,7 +27,6 @@ const isValidObjectId = async (Model, req) => {
         case "Season":
             // All seasons for a media case
             if (!req.params.season) {
-                console.log("ji");
                 if (mongoose.isValidObjectId(req.params.id)) {
                     doc = await Media.findById(req.params.id);
                     return await Model.find({ tvShow: doc.id });
