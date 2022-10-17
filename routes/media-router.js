@@ -1,53 +1,50 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const mediaController = require('../controllers/media-controller');
-const authController = require('../controllers/auth-controller');
+const mediaController = require("../controllers/media-controller");
+const authController = require("../controllers/auth-controller");
 
-const seasonRouter = require('./../routes/season-router');
+const seasonRouter = require("./../routes/season-router");
 
-router.use('/:id/seasons', seasonRouter);
+router.use("/:id/seasons", seasonRouter);
 
 router
-    .route('/top-rated')
+    .route("/top-rated")
     .get(
         authController.protect,
-        authController.restrictTo('user', 'admin'),
+        authController.restrictTo("user", "admin"),
         mediaController.aliasTopRated,
         mediaController.getAllMedia
     );
 
 router
-    .route('/')
+    .route("/")
     .get(mediaController.getAllMedia)
     .post(
         authController.protect,
-        authController.restrictTo('admin'),
+        authController.restrictTo("admin"),
         mediaController.createMedia
     );
 
 router
-    .route('/:id')
+    .route("/:id")
     .get(
-        authController.protect,
-        authController.restrictTo('user', 'admin'),
+        // authController.protect,
+        // authController.restrictTo("user", "admin"),
         mediaController.getMedia
     )
     .patch(
         authController.protect,
-        authController.restrictTo('admin'),
+        authController.restrictTo("admin"),
         mediaController.updateMedia
     )
     .delete(
         authController.protect,
-        authController.restrictTo('admin'),
+        authController.restrictTo("admin"),
         mediaController.deleteMedia
     );
 
 module.exports = router;
-
-
-
 
 // const express = require('express');
 // const router = express.Router();

@@ -1,9 +1,9 @@
 const AppError = require('../utils/AppError');
-const TVShow = require('./../models/tv-show-model');
+const Media = require('./../models/media-model');
 const catchAsync = require('./../utils/catch-async');
 
 const getOverview = catchAsync(async (req, res, next) => {
-    const tvShows = await TVShow.find();
+    const tvShows = await Media.find();
 
     res.status(200).render('overview', {
         title: 'All TV Shows',
@@ -12,7 +12,7 @@ const getOverview = catchAsync(async (req, res, next) => {
 });
 
 const getTvShow = catchAsync(async (req, res, next) => {
-    const tvShow = await TVShow.findOne({
+    const tvShow = await Media.findOne({
         slug: req.params.id
     });
 
@@ -41,16 +41,16 @@ const getSettings = catchAsync(async (req, res, next) => {
     });
 });
 
-const getStream = catchAsync(async (req, res, next) => {
-    res.status(200).render('video', {
-        title: 'Stream'
-    });
-});
+// const getStream = catchAsync(async (req, res, next) => {
+//     res.status(200).render('video', {
+//         title: 'Stream'
+//     });
+// });
 
 module.exports = {
     getOverview,
     getTvShow,
     getSignin,
-    getSettings,
-    getStream
+    getSettings
+    // getStream
 };
