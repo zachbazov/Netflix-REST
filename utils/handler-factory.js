@@ -821,10 +821,13 @@ exports.deleteAll = (Model) =>
         switch (Model.modelName) {
             case 'Section':
                 docs = await Model.deleteMany();
+
                 break;
             case 'Media':
                 docs = await Model.deleteMany();
+
                 break;
+
             default:
                 break;
         }
