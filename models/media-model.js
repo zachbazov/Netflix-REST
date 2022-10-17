@@ -1,15 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 
-var r = /^a$/
-
-function matchExact(r, str) {
-    var match = str.match(r);
-    return match && str === match[0];
- }
-
-
-
 const mediaSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -83,15 +74,15 @@ mediaSchema.index({ year: 1 });
 
 // Document Middleware
 
-// mediaSchema.pre('save', function (next) {
-//     this.slug = slugify(this.title.replace(/:|!| /g, '-'), {
-//         lower: true
-//     });
+mediaSchema.pre('save', function (next) {
+    this.slug = slugify(this.title.replace(/:|!| /g, '-'), {
+        lower: true
+    });
 
-//     this.id = this._id;
+    this.id = this._id;
 
-//     next();
-// });
+    next();
+});
 
 // Aggregate Middleware
 
@@ -247,6 +238,186 @@ mediaSchema.pre('aggregate', function (next) {
 //     //         el.save({ validateBeforeSave: false });
 //     //     }
 //     // };
+
+//     next();
+// });
+
+
+// tvShowSchema.post('find', function (docs, next) {
+//     var fs = require('fs');
+//     var files = fs.readdirSync('./public/img/cover/tvshows');
+//     docs.forEach((el) => {
+//         el.covers = []; 
+//         el.covers = files.filter(file => file.match(el.slug));
+//         let newLogos = el.covers.map(el => `https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el}`);
+//         newLogos.unshift(newLogos.pop());
+//         el.covers = newLogos;
+//         el.save({ validateBeforeSave: false });
+//     });
+
+//     next();
+// })
+
+// tvShowSchema.post('find', function (docs, next) {
+//     // var fs = require('fs');
+//     // var files = fs.readdirSync('./public/img/logo/tvshows');
+//     docs.forEach((el) => {
+//         // el.logos = files.filter(file => file.match(el.slug));
+//         // let newLogos = el.logos.map(el => `https://netflix-swift-api.herokuapp.com/img/logo/tvshows/${el}`);
+//         // newLogos.unshift(newLogos.pop());
+//         // el.logos = newLogos;
+
+//         // el.presentedCover = "0";
+//         // el.presentedDisplayLogo = "0"
+
+//         // el.save({ validateBeforeSave: false });
+//     });
+//     next();
+// })
+
+// tvShowSchema.post('find', function (docs, next) {
+//     var fs = require('fs');
+//     var files = fs.readdirSync('./public/img/cover/tvshows');
+//     docs.forEach((el) => {
+//         el.covers = files.filter(file => file.match(el.slug));
+//         let newCovers = el.covers.map(el => `https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el}`);
+//         newCovers.unshift(newCovers.pop());
+//         el.covers = newCovers;
+
+//         // el.presentedCover = "0";
+
+//         el.save({ validateBeforeSave: false });
+//     });
+//     next();
+// })
+
+// function containsNumber(str) {
+//     return /\d/.test(str);
+//   }
+
+//   function digitsBeGone(str){
+//     let string = str.match(/\D/g).join('')
+//     if (string.charAt(str.length - 1) === '-') {
+//         string  = string.substr('', str.length - 1)
+//     }
+//     return string
+//   }
+
+// tvShowSchema.post('find', async function (docs, next) {
+//     var fs = require('fs');
+//     var files = fs.readdirSync('./public/img/logo/tvshows');
+//     let element;
+//     let arr = [];
+//     // console.log(files);
+
+//         if (element.length === 1) {
+//             //element[length].split(/^[0-9]+$/)
+//             element = element[0].split('.');
+
+//             // console.log(element);
+
+//             if (containsNumber(element)) {
+//                 // element = element[0].split(/\d$/);
+//                 // countArray.push(0);
+
+//                 // await docs.forEach(async (el) => {
+//                 //     if (el.slug === element[0]) {
+//                 //         countArray.push(i);
+
+//                 //         for (let j = 0; j < countArray.length; j++) {
+//                 //             countArray[j] = j;
+//                 //             if (j == 0) {
+//                 //                 if (el.logos.includes(`https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el.slug}.png`)) {
+//                 //                     continue;
+//                 //                 } else {
+//                 //                     el.logos[0] = `https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el.slug}.png`;
+//                 //                     await el.save({ validateBeforeSave: false });
+//                 //                 }
+//                 //             } else {
+//                 //                 if (el.logos.includes(`https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el.slug}-${j}.png`)) {
+//                 //                     continue;
+//                 //                 } else {
+//                 //                     el.logos.push(`https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el.slug}-${j}.png`)
+//                 //                     await el.save({ validateBeforeSave: false });
+//                 //                 }
+//                 //             }
+//                 //         }
+//                 //     } 
+//                 // })
+//             } else {
+//                 // console.log(element);
+//             }
+//         }
+//     }
+
+//     next();
+// })
+
+// tvShowSchema.post(/^find/, function (docs, next) {
+//     docs.forEach(async (el) => {
+//         // el.id = this._id;
+//         // el.detailCover = `https://netflix-swift-api.herokuapp.com/img/detail-cover/tvshows/${el.slug}.jpeg`;
+//         // el.logo = `https://netflix-swift-api.herokuapp.com/img/logo/movies/${el.slug}.png`;
+//         // el.displayCover = `https://netflix-swift-api.herokuapp.com/img/display-cover/movies/${el.slug}.jpeg`;
+//         // el.covers = [
+//         //     `https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el.slug}.jpg`
+//         // ];
+//         el.logos = [el.logos[0]];
+//         await el.save({ validateBeforeSave: false });
+//     });
+
+//     next();
+// });
+
+// movieSchema.post('find', function (docs, next) {
+//     var fs = require('fs');
+//     var files = fs.readdirSync('./public/img/cover/movies');
+//     docs.forEach((el) => {
+//         // el.displayLogos = [];
+//         el.covers = [];
+//         // el.displayLogos = files.filter(file => file.match(el.slug));
+//         el.covers = files.filter(file => file.match(el.slug));
+//         let newLogos = el.covers.map(el => `https://netflix-swift-api.herokuapp.com/img/cover/movies/${el}`);
+//         newLogos.unshift(newLogos.pop());
+//         el.covers = newLogos;
+
+//         //el.presentedCover = "0"
+//         // el.presentedLogo = "0"
+//         // el.presentedDisplayLogo = "0"
+
+//         el.save({ validateBeforeSave: false });
+//     });
+
+//     next();
+// })
+
+// tvShowSchema.post('find', function (docs, next) {
+//     var fs = require('fs');
+//     var files = fs.readdirSync('./public/img/cover/tvshows');
+//     docs.forEach((el) => {
+//         el.covers = files.filter(file => file.match(el.slug));
+//         let newCovers = el.covers.map(el => `https://netflix-swift-api.herokuapp.com/img/cover/tvshows/${el}`);
+//         newCovers.unshift(newCovers.pop());
+//         el.covers = newCovers;
+
+//         // el.presentedCover = "0";
+
+//         el.save({ validateBeforeSave: false });
+//     });
+//     next();
+// })
+
+// movieSchema.post(/^find/, function (docs, next) {
+//     docs.forEach(async (el) => {
+//         // el.detailCover = `https://netflix-swift-api.herokuapp.com/img/detail-cover/movies/${el.slug}.jpeg`;
+//         // el.logo = `https://netflix-swift-api.herokuapp.com/img/logo/movies/${el.slug}.png`;
+//         // el.displayCover = `https://netflix-swift-api.herokuapp.com/img/display-cover/movies/${el.slug}.jpeg`;
+//         // el.covers = [
+//         //     `https://netflix-swift-api.herokuapp.com/img/cover/movies/${el.slug}.jpeg`
+//         // ];
+//         el.logos = [el.logos[0]];
+//         await el.save({ validateBeforeSave: false });
+//     });
 
 //     next();
 // });
