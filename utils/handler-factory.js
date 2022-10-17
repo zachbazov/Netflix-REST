@@ -10,6 +10,11 @@ const isValidObjectId = async (Model, req) => {
     let doc;
 
     switch (Model.modelName) {
+        case "Section":
+            if (mongoose.isValidObjectId(req.params.id)) {
+                return await Model.findById(req.params.id);
+            }
+            return await Model.findOne({ id: req.params.id });
         case "Media":
             if (mongoose.isValidObjectId(req.params.id)) {
                 doc = await Model.findById(req.params.id);
