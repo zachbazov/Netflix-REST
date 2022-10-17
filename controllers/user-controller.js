@@ -4,13 +4,9 @@ const catchAsync = require('./../utils/catch-async');
 const handlerFactory = require('../utils/handler-factory');
 
 exports.getAllUsers = handlerFactory.getAll(User);
-
 exports.getUser = handlerFactory.getOne(User);
-
 exports.createUser = handlerFactory.createOne(User);
-
 exports.updateUser = handlerFactory.updateOne(User);
-
 exports.deleteUser = handlerFactory.deleteOne(User);
 
 exports.updateData = catchAsync(async (req, res, next) => {

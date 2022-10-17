@@ -14,14 +14,12 @@ const cookieParser = require('cookie-parser');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/error-controller');
 
-const mediaRouter = require('./routes/media-router');
-const tvShowsRouter = require('./routes/tv-show-router');
-const moviesRouter = require('./routes/movie-router');
 const usersRouter = require('./routes/user-router');
+const sectionRouter = require('./routes/section-router');
+const mediaRouter = require('./routes/media-router');
 const seasonRouter = require('./routes/season-router');
 const episodeRouter = require('./routes/episode-router');
 const viewRouter = require('./routes/view-router');
-const sectionRouter = require('./routes/section-router');
 
 const app = express();
 
@@ -177,9 +175,7 @@ app.use(compression());
 // Route Mounting
 app.use('/', viewRouter);
 app.use('/api/v1/media', mediaRouter);
-app.use('/api/v1/movies', moviesRouter);
 app.use('/api/v1/users', usersRouter);
-app.use('/api/v1/tvshows', tvShowsRouter);
 app.use('/api/v1/seasons', seasonRouter);
 app.use('/api/v1/episodes', episodeRouter);
 app.use('/api/v1/sections', sectionRouter);

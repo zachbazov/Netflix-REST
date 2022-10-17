@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const TVShow = require('./../models/tv-show-model');
+const Media = require('./../models/media-model');
 
 const episodeSchema = new mongoose.Schema({
     title: {

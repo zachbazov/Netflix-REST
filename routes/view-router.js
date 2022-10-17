@@ -12,7 +12,7 @@ router.get(
 );
 
 router.get(
-    '/tv-shows/:id',
+    '/media/:id',
     authController.isSignedIn,
     viewController.getTvShow
 );
@@ -29,12 +29,12 @@ router.get(
     viewController.getSettings
 );
 
-router.get('/stream', function (req, res) {
-    res.sendFile(
-        path.join(__dirname, '/../views/index.html')
-    );
-});
+// router.get('/stream', function (req, res) {
+//     res.sendFile(
+//         path.join(__dirname, '/../views/index.html')
+//     );
+// });
 
-router.get('/stream/play', require('./video'));
+// router.get('/stream/play', require('../scripts/video'));
 
 module.exports = router;

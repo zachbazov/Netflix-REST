@@ -3,8 +3,6 @@ const AppError = require('./AppError');
 const APIService = require('../utils/APIService');
 const catchAsync = require('./catch-async');
 const Media = require('../models/media-model');
-const TVShow = require('../models/tv-show-model');
-const Movie = require('../models/movie-model');
 const Season = require('./../models/season-model');
 const Episode = require('../models/episode-model');
 const Section = require('../models/section-model');
@@ -30,24 +28,11 @@ const assessParams = async (Model, req) => {
                 req.params.id
             ).populate('seasons');
 
-            case 'TVShow':
-                doc = await Model.findById(req.params.id);
-
-                if (!doc) {
-                    return await Model.findOne({
-                        slug: req.params.id
-                    }).populate('seasons');
-                }
-
-                return await Model.findById(
-                    req.params.id
-                ).populate('seasons');
-
             case 'Season':
-                doc = await TVShow.findById(req.params.id);
+                doc = await Media.findById(req.params.id);
 
                 if (!doc) {
-                    doc = await TVShow.findOne({
+                    doc = await Media.findOne({
                         slug: req.params.id
                     });
 
@@ -75,10 +60,10 @@ const assessParams = async (Model, req) => {
                 });
 
             case 'Episode':
-                doc = await TVShow.findById(req.params.id);
+                doc = await Media.findById(req.params.id);
 
                 if (!doc) {
-                    doc = await TVShow.findOne({
+                    doc = await Media.findOne({
                         slug: req.params.id
                     });
 
@@ -94,9 +79,6 @@ const assessParams = async (Model, req) => {
                     season: req.params.season * 1,
                     episode: req.params.episode * 1
                 });
-
-            case 'Movie':
-                return await Model.findById(req.params.id);
 
             case 'User':
                 return await Model.findById(req.params.id);
@@ -116,13 +98,8 @@ const assessParams = async (Model, req) => {
                     slug: req.params.id
                 }).populate('seasons');
 
-            case 'TVShow':
-                return await Model.findOne({
-                    slug: req.params.id
-                }).populate('seasons');
-
             case 'Season':
-                const tvShow = await TVShow.findOne({
+                const tvShow = await Media.findOne({
                     slug: req.params.id
                 });
 
@@ -142,11 +119,6 @@ const assessParams = async (Model, req) => {
                     slug: req.params.id,
                     season: req.params.season * 1,
                     episode: req.params.episode * 1
-                });
-
-            case 'Movie':
-                return await Model.findOne({
-                    slug: req.params.id
                 });
 
             default:
@@ -190,26 +162,12 @@ exports.getOne = (Model) =>
                         ))
                     );
                 }
-
-                break;
-
-            case 'TVShow':
-                if (req.params.id !== 'seasons') {
-                    data = await Promise.resolve(
-                        (data = await assessParams(
-                            Model,
-                            req
-                        ))
-                    );
-                }
-
                 break;
 
             default:
                 data = await Promise.resolve(
                     (data = assessParams(Model, req))
                 );
-
                 break;
         }
 
@@ -223,7 +181,7 @@ exports.getOne = (Model) =>
         res.status(200).json({
             status: 'success',
             results: () => {
-                if (Model.modelName === 'Movie') {
+                if (Model.modelName === 'Media') {
                     return;
                 }
 
@@ -276,26 +234,18 @@ exports.createOne = (Model) =>
         switch (Model.modelName) {
             case 'Section':
                 if (req.body.id === 0) {
-                    const tvShows = await TVShow.find();
-
-                    const movies = await Movie.find();
+                    const media = await Media.find();
 
                     let arr = [];
-                    let mvs = [];
 
-                    tvShows.forEach((tvShow) => {
+                    media.forEach((tvShow) => {
                         arr.push(tvShow._id);
-                    });
-
-                    movies.forEach((movie) => {
-                        mvs.push(movie._id);
                     });
 
                     const section = await Model.create({
                         id: req.body.id,
                         title: req.body.title,
-                        media: arr,
-                        movies: mvs
+                        media: arr
                     });
 
                     return res.status(201).json({
@@ -313,49 +263,25 @@ exports.createOne = (Model) =>
                 return next(appError);
 
             case 'Media':
-            data = await Model.create({
-                type: req.body.type,
-                title: req.body.title,
-                rating: req.body.rating,
-                description: req.body.description,
-                cast: req.body.cast,
-                writers: req.body.writers,
-                duration: req.body.duration,
-                length: req.body.length,
-                genres: req.body.genres,
-                hasWatched: req.body.hasWatched,
-                isHD: req.body.isHD,
-                isExclusive: req.body.isExclusive,
-                isNewRelease: req.body.isNewRelease,
-                isSecret: req.body.isSecret,
-                resources: req.body.resources,
-                seasons: req.body.seasons,
-                numberOfEpisodes: req.body.numberOfEpisodes
-            });
-
-            case 'TVShow':
                 data = await Model.create({
+                    type: req.body.type,
                     title: req.body.title,
-                    duration: req.body.duration,
                     rating: req.body.rating,
-                    seasonCount: req.body.seasonCount,
-                    episodeCount: req.body.episodeCount,
                     description: req.body.description,
                     cast: req.body.cast,
-                    isHD: req.body.isHD,
-                    logo: req.body.logo,
-                    hasWatched: req.body.hasWatched,
-                    newRelease: req.body.newRelease,
+                    writers: req.body.writers,
+                    duration: req.body.duration,
+                    length: req.body.length,
                     genres: req.body.genres,
-                    trailers: req.body.trailers,
-                    highResCover: req.body.highResCover,
-                    covers: req.body.covers,
-                    smallCover: req.body.smallCover,
-                    slug: req.body.slug,
+                    hasWatched: req.body.hasWatched,
+                    isHD: req.body.isHD,
+                    isExclusive: req.body.isExclusive,
+                    isNewRelease: req.body.isNewRelease,
                     isSecret: req.body.isSecret,
-                    seasons: req.body.seasons
+                    resources: req.body.resources,
+                    seasons: req.body.seasons,
+                    numberOfEpisodes: req.body.numberOfEpisodes
                 });
-
                 break;
             case 'Episode':
                 data = await Model.create({
@@ -366,7 +292,6 @@ exports.createOne = (Model) =>
                     tvShow: req.body.tvShow,
                     slug: req.body.slug
                 });
-
                 break;
             case 'Season':
                 for (
@@ -374,25 +299,25 @@ exports.createOne = (Model) =>
                     i <= req.params.episodes;
                     i++
                 ) {
-                    const tvShow = await TVShow.findById(
+                    const media = await Media.findById(
                         req.params.id
                     );
 
                     await Episode.create({
                         title: `Ep. ${i}`,
-                        url: `https://${tvShow.slug}.com/ep${i}`,
+                        url: `https://${media.slug}.com/ep${i}`,
                         season: req.params.season,
                         episode: i,
                         tvShow: req.params.id,
-                        slug: tvShow.slug
+                        slug: media.slug
                     });
                 }
 
-                const tvShow = await TVShow.findById(
+                const media = await Media.findById(
                     req.params.id
                 );
 
-                if (!tvShow) {
+                if (!media) {
                     const message =
                         'Unable to find a tv show';
                     const appError = new AppError(
@@ -404,7 +329,7 @@ exports.createOne = (Model) =>
                 }
 
                 const eps = await Episode.find({
-                    tvShow: tvShow._id
+                    tvShow: media._id
                 });
 
                 if (!eps) {
@@ -420,10 +345,10 @@ exports.createOne = (Model) =>
 
                 const season = await Season.create({
                     season: req.params.season,
-                    title: `${tvShow.title} - Season ${req.params.season}`,
+                    title: `${media.title} - Season ${req.params.season}`,
                     media: eps,
                     tvShow: req.params.id,
-                    slug: tvShow.slug
+                    slug: media.slug
                 });
 
                 if (!season) {
@@ -437,8 +362,8 @@ exports.createOne = (Model) =>
                     return next(appError);
                 }
 
-                tvShow.seasons.push(season._id);
-                await tvShow.save();
+                media.seasons.push(season._id);
+                await media.save();
 
                 return res.status(201).json({
                     status: 'success',
@@ -465,40 +390,7 @@ exports.createOne = (Model) =>
                     title: req.body.title,
                     media: req.body.media
                 });
-
-            case 'Movie':
-                data = await Model.create({
-                    title: req.body.title,
-                    rating: req.body.rating,
-                    description: req.body.description,
-                    year: req.body.year,
-                    length: req.body.length,
-                    writers: req.body.writers,
-                    cast: req.body.cast,
-                    isHD: req.body.isHD,
-                    hasWatched: req.body.hasWatched,
-                    newRelease: req.body.newRelease,
-                    previewURL: req.body.previewURL,
-                    logo: req.body.logo,
-                    genres: req.body.genres,
-                    trailers: req.body.trailers,
-                    covers: req.body.covers,
-                    slug: req.body.slug,
-                    displayCover: req.body.displayCover,
-                    detailCover: req.body.detailCover,
-                    isNetflixExclusive:
-                        req.body.isNetflixExclusive,
-                    logoPosition: req.body.logoPosition
-                });
-
-                const section = await Section.findOne({
-                    id: 0
-                });
-                section.movies.push(data);
-                await section.save();
-
                 break;
-
             default:
                 break;
         }
@@ -527,29 +419,26 @@ exports.createMany = (Model) =>
                         req.body.docs
                     );
                 }
-
                 break;
-
             case 'Episode':
                 for (
                     let i = 1;
                     i <= req.params.episodes;
                     i++
                 ) {
-                    const tvShow = await TVShow.findById(
+                    const media = await Media.findById(
                         req.params.id
                     );
 
                     await Episode.create({
                         title: `Ep. ${i}`,
-                        url: `https://${tvShow.slug}.com/ep${i}`,
+                        url: `https://${media.slug}.com/ep${i}`,
                         season: req.params.season,
                         episode: i,
                         tvShow: req.params.id,
-                        slug: tvShow.slug
+                        slug: media.slug
                     });
                 }
-
                 break;
             default:
                 break;
@@ -583,8 +472,7 @@ exports.updateOne = (Model) =>
                         {
                             id: req.body.id,
                             title: req.body.title,
-                            media: req.body.media,
-                            movies: req.body.movies
+                            media: req.body.media
                         },
                         {
                             new: true,
@@ -602,8 +490,7 @@ exports.updateOne = (Model) =>
                             {
                                 id: req.body.id,
                                 title: req.body.title,
-                                media: req.body.media,
-                                movies: req.body.movies
+                                media: req.body.media
                             },
                             {
                                 new: true,
@@ -612,88 +499,7 @@ exports.updateOne = (Model) =>
                         );
                     }
                 }
-
                 break;
-
-            case 'TVShow':
-                doc = await Model.findByIdAndUpdate(
-                    req.params.id,
-                    {
-                        title: req.body.title,
-                        duration: req.body.duration,
-                        rating: req.body.rating,
-                        seasonCount: req.body.seasonCount,
-                        episodeCount: req.body.episodeCount,
-                        description: req.body.description,
-                        cast: req.body.cast,
-                        isHD: req.body.isHD,
-                        logo: req.body.logo,
-                        hasWatched: req.body.hasWatched,
-                        newRelease: req.body.newRelease,
-                        genres: req.body.genres,
-                        trailers: req.body.trailers,
-                        covers: req.body.covers,
-                        slug: req.body.slug,
-                        isSecret: req.body.isSecret,
-                        seasons: req.body.seasons,
-                        durationString:
-                            req.body.durationString,
-                        displayCover: req.body.displayCover,
-                        detailCover: req.body.detailCover,
-                        isNetflixExclusive:
-                            req.body.isNetflixExclusive,
-                        logoPosition: req.body.logoPosition
-                    },
-                    {
-                        new: true,
-                        runValidators: true
-                    }
-                );
-
-                if (!doc) {
-                    doc = await Model.findOneAndUpdate(
-                        { slug: req.params.id },
-                        {
-                            title: req.body.title,
-                            duration: req.body.duration,
-                            rating: req.body.rating,
-                            seasonCount:
-                                req.body.seasonCount,
-                            episodeCount:
-                                req.body.episodeCount,
-                            description:
-                                req.body.description,
-                            cast: req.body.cast,
-                            isHD: req.body.isHD,
-                            logo: req.body.logo,
-                            hasWatched: req.body.hasWatched,
-                            newRelease: req.body.newRelease,
-                            genres: req.body.genres,
-                            trailers: req.body.trailers,
-                            covers: req.body.covers,
-                            slug: req.body.slug,
-                            isSecret: req.body.isSecret,
-                            seasons: req.body.seasons,
-                            durationString:
-                                req.body.durationString,
-                            displayCover:
-                                req.body.displayCover,
-                            detailCover:
-                                req.body.detailCover,
-                            isNetflixExclusive:
-                                req.body.isNetflixExclusive,
-                            logoPosition:
-                                req.body.logoPosition
-                        },
-                        {
-                            new: true,
-                            runValidators: true
-                        }
-                    );
-                }
-
-                break;
-
             case 'Media':
                 doc = await Model.findByIdAndUpdate(
                     req.params.id,
@@ -750,9 +556,7 @@ exports.updateOne = (Model) =>
                         }
                     );
                 }
-
                 break;
-
             case 'Episode':
                 doc = await Model.findByIdAndUpdate(
                     req.params.id,
@@ -769,9 +573,7 @@ exports.updateOne = (Model) =>
                         runValidators: true
                     }
                 );
-
                 break;
-
             case 'Season':
                 doc = await Model.findByIdAndUpdate(
                     req.params.id,
@@ -787,9 +589,7 @@ exports.updateOne = (Model) =>
                         runValidators: true
                     }
                 );
-
                 break;
-
             case 'User':
                 doc = await Model.findByIdAndUpdate(
                     {
@@ -809,84 +609,7 @@ exports.updateOne = (Model) =>
                         runValidators: true
                     }
                 );
-
                 break;
-
-            case 'Movie':
-                if (
-                    mongoose.isValidObjectId(req.params.id)
-                ) {
-                    doc = await Model.findByIdAndUpdate(
-                        req.params.id,
-                        {
-                            title: req.body.title,
-                            rating: req.body.rating,
-                            description:
-                                req.body.description,
-                            year: req.body.year,
-                            length: req.body.length,
-                            writers: req.body.writers,
-                            isHD: req.body.isHD,
-                            hasWatched: req.body.hasWatched,
-                            newRelease: req.body.newRelease,
-                            previewURL: req.body.previewURL,
-                            logo: req.body.logo,
-                            genres: req.body.genres,
-                            trailers: req.body.trailers,
-                            covers: req.body.covers,
-                            slug: req.body.slug,
-                            displayCover:
-                                req.body.displayCover,
-                            detailCover:
-                                req.body.detailCover,
-                            isNetflixExclusive:
-                                req.body.isNetflixExclusive,
-                            logoPosition:
-                                req.body.logoPosition
-                        },
-                        {
-                            new: true,
-                            runValidators: true
-                        }
-                    );
-                } else {
-                    doc = await Model.findOneAndUpdate(
-                        { slug: req.params.id },
-                        {
-                            title: req.body.title,
-                            rating: req.body.rating,
-                            description:
-                                req.body.description,
-                            year: req.body.year,
-                            length: req.body.length,
-                            writers: req.body.writers,
-                            isHD: req.body.isHD,
-                            hasWatched: req.body.hasWatched,
-                            newRelease: req.body.newRelease,
-                            previewURL: req.body.previewURL,
-                            logo: req.body.logo,
-                            genres: req.body.genres,
-                            trailers: req.body.trailers,
-                            covers: req.body.covers,
-                            slug: req.body.slug,
-                            displayCover:
-                                req.body.displayCover,
-                            detailCover:
-                                req.body.detailCover,
-                            isNetflixExclusive:
-                                req.body.isNetflixExclusive,
-                            logoPosition:
-                                req.body.logoPosition
-                        },
-                        {
-                            new: true,
-                            runValidators: true
-                        }
-                    );
-                }
-
-                break;
-
             default:
                 break;
         }
@@ -915,11 +638,11 @@ exports.deleteOne = (Model) =>
 
             switch (Model.modelName) {
                 case 'Season':
-                    const tvShow = await TVShow.findById(
+                    const media = await Media.findById(
                         req.params.id
                     );
 
-                    if (!tvShow) {
+                    if (!media) {
                         const message =
                             'Unable to find a tv show';
                         const appError = new AppError(
@@ -965,8 +688,8 @@ exports.deleteOne = (Model) =>
                         return next(appError);
                     }
 
-                    tvShow.seasons.pop(season._id);
-                    await tvShow.save();
+                    media.seasons.pop(season._id);
+                    await media.save();
 
                     await season.delete();
                     eps.forEach(
@@ -977,17 +700,11 @@ exports.deleteOne = (Model) =>
                         status: 'success',
                         data: null
                     });
-
-                case 'Movie':
-                    doc = await Model.findById(
-                        req.params.id
-                    );
-
                 case 'Media':
                     doc = await Model.findById(
                         req.params.id
                     );
-
+                    break;
                 default:
                     break;
             }
@@ -998,14 +715,13 @@ exports.deleteOne = (Model) =>
                     doc = await Model.findOneAndDelete({
                         id: id
                     });
-
                     break;
                 case 'Season':
-                    const tvShow = await TVShow.findById(
+                    const media = await Media.findById(
                         req.params.id
                     );
 
-                    if (!tvShow) {
+                    if (!media) {
                         const message =
                             'Unable to find a tv show';
                         const appError = new AppError(
@@ -1051,8 +767,8 @@ exports.deleteOne = (Model) =>
                         return next(appError);
                     }
 
-                    tvShow.seasons.pop(season._id);
-                    await tvShow.save();
+                    media.seasons.pop(season._id);
+                    await media.save();
 
                     await season.delete();
                     eps.forEach(
@@ -1063,19 +779,11 @@ exports.deleteOne = (Model) =>
                         status: 'success',
                         data: null
                     });
-
-                case 'Movie':
-                    doc = await Model.findOne({
-                        slug: req.params.id
-                    });
-
-                    break;
-
                 case 'Media':
                     doc = await Model.findById(
                         req.params.id
                     );
-
+                    break;
                 default:
                     doc = await Model.findById(
                         req.params.episode
@@ -1113,14 +821,10 @@ exports.deleteAll = (Model) =>
         switch (Model.modelName) {
             case 'Section':
                 docs = await Model.deleteMany();
-
                 break;
-
             case 'Media':
                 docs = await Model.deleteMany();
-
                 break;
-
             default:
                 break;
         }
