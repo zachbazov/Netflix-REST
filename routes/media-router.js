@@ -6,7 +6,7 @@ const authController = require("../controllers/auth-controller");
 
 const seasonRouter = require("./../routes/season-router");
 
-router.use("/:id/seasons", seasonRouter);
+router.use("/:mediaId/seasons", seasonRouter);
 
 router
     .route("/top-rated")
@@ -43,7 +43,7 @@ router
     );
 
 router
-    .route("/:id")
+    .route("/:mediaId")
     .get(
         authController.protect,
         authController.restrictTo("user", "admin"),

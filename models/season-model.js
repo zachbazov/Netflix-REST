@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const seasonSchema = new mongoose.Schema({
-    tvShow: mongoose.Schema.ObjectId,
+    mediaId: mongoose.Schema.ObjectId,
     slug: String,
     season: Number,
     title: String,
-    media: [
+    episodes: [
         {
             type: mongoose.Schema.ObjectId,
             ref: "Episode",

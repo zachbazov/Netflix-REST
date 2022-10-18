@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 
 const sectionSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-    },
+    id: Number,
     title: String,
     slug: String,
     media: [

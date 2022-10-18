@@ -7,8 +7,6 @@ const Season = require("./../models/season-model");
 const Episode = require("../models/episode-model");
 
 const isValidObjectId = async (Model, req) => {
-    let doc;
-
     switch (Model.modelName) {
         case "Section":
             if (mongoose.isValidObjectId(req.params.id)) {
@@ -30,54 +28,70 @@ const isValidObjectId = async (Model, req) => {
             }
             return slugObject;
         case "Media":
-            if (mongoose.isValidObjectId(req.params.id)) {
-                let validIdObject = await Model.findById(req.params.id);
+            if (mongoose.isValidObjectId(req.params.mediaId)) {
+                let validIdObject = await Model.findById(req.params.mediaId);
                 if (!validIdObject) {
-                    return await Model.findOne({ slug: req.params.id });
+                    return await Model.findOne({ slug: req.params.mediaId });
                 }
                 return validIdObject;
             }
             return await Model.findOne({
-                slug: req.params.id,
+                slug: req.params.mediaId,
             });
         case "Season":
-            // If there is no 'season' param, returns all seasons for that media.
-            if (!req.params.season) {
-                if (mongoose.isValidObjectId(req.params.id)) {
-                    let validIdObject = await Media.findById(req.params.id);
-                    return await Model.find({ tvShow: validIdObject.id });
+            // If there is no 'numberOfSeason' param, returns all seasons for that media.
+            if (!req.params.numberOfSeason) {
+                if (mongoose.isValidObjectId(req.params.mediaId)) {
+                    let validIdObject = await Media.findById(
+                        req.params.mediaId
+                    );
+                    return await Model.find({
+                        mediaId: validIdObject.id,
+                    }).populate("episodes");
                 } else {
-                    let slugObject = await Media.findOne({
-                        slug: req.params.id,
+                    let slugObject = await Media.find({
+                        slug: req.params.mediaId,
                     });
-                    return await Model.find({ tvShow: slugObject.id });
+                    slugObject = await Model.find({
+                        slug: req.params.mediaId,
+                    }).populate("episodes");
+                    if (!slugObject) {
+                        slugObject = await Model.find({
+                            mediaId: slugObject.id,
+                        }).populate("episodes");
+                    }
+                    return slugObject;
                 }
-                // In case a 'season' param is given, return in response accordingly.
+                // In case a 'numberOfSeason' param is given, return in response accordingly.
             } else {
-                if (mongoose.isValidObjectId(req.params.id)) {
-                    let validIdObject = await Media.findById(req.params.id);
+                if (mongoose.isValidObjectId(req.params.mediaId)) {
+                    let validIdObject = await Media.findById(
+                        req.params.mediaId
+                    );
                     return await Model.findOne({
-                        tvShow: validIdObject.id,
-                        season: req.params.season,
-                    }).populate("media");
+                        mediaId: validIdObject.id,
+                        season: req.params.numberOfSeason,
+                    }).populate("episodes");
                 }
-                let slugObject = await Media.findOne({ slug: req.params.id });
+                let slugObject = await Media.findOne({
+                    slug: req.params.mediaId,
+                });
                 return await Model.findOne({
-                    tvShow: slugObject.id,
-                    season: req.params.season,
-                }).populate("media");
+                    mediaId: slugObject.id,
+                    season: req.params.numberOfSeason,
+                }).populate("episodes");
             }
         case "Episode":
             let object = await Model.findOne({
-                tvShow: req.params.id,
-                season: req.params.season,
-                episode: req.params.episode,
+                mediaId: req.params.mediaId,
+                season: req.params.numberOfSeason,
+                episode: req.params.numberOfEpisode,
             });
             if (!object) {
                 return await Model.findOne({
-                    slug: req.params.id,
-                    season: req.params.season,
-                    episode: req.params.episode,
+                    slug: req.params.mediaId,
+                    season: req.params.numberOfSeason,
+                    episode: req.params.numberOfEpisode,
                 });
             }
             return object;
@@ -113,14 +127,12 @@ exports.getOne = (Model) =>
 
         switch (Model.modelName) {
             case "Media":
-                if (req.params.id !== "seasons") {
-                    data = await Promise.resolve(
-                        (data = await isValidObjectId(Model, req))
-                    );
-                }
+                data = await Promise.resolve(
+                    (data = await isValidObjectId(Model, req))
+                );
                 break;
-
             default:
+                console.log(req.params);
                 data = await Promise.resolve(
                     (data = isValidObjectId(Model, req))
                 );
@@ -153,9 +165,9 @@ exports.getMany = (Model) =>
 
         switch (Model.modelName) {
             case "Season":
-                if (!req.params.id) {
+                if (!req.params.mediaId) {
                     return next();
-                } else if (req.params.season) {
+                } else if (req.params.numberOfSeason) {
                     return next();
                 } else {
                     data = await Promise.resolve(
@@ -192,8 +204,8 @@ exports.createOne = (Model) =>
 
                     let arr = [];
 
-                    media.forEach((tvShow) => {
-                        arr.push(tvShow._id);
+                    media.forEach((el) => {
+                        arr.push(el._id);
                     });
 
                     const section = await Model.create({
@@ -238,29 +250,29 @@ exports.createOne = (Model) =>
                 break;
             case "Episode":
                 data = await Model.create({
+                    mediaId: req.body.mediaId,
                     title: req.body.title,
-                    url: req.body.url,
+                    slug: req.body.slug,
                     season: req.body.season,
                     episode: req.body.episode,
-                    tvShow: req.body.tvShow,
-                    slug: req.body.slug,
+                    url: req.body.url,
                 });
                 break;
             case "Season":
-                for (let i = 1; i <= req.params.episodes; i++) {
-                    const media = await Media.findById(req.params.id);
+                for (let i = 1; i <= req.params.numberOfEpisode; i++) {
+                    const media = await Media.findById(req.params.mediaId);
 
                     await Episode.create({
+                        mediaId: req.params.mediaId,
                         title: `Ep. ${i}`,
-                        url: `https://${media.slug}.com/ep${i}`,
-                        season: req.params.season,
-                        episode: i,
-                        tvShow: req.params.id,
                         slug: media.slug,
+                        season: req.params.numberOfSeason,
+                        episode: i,
+                        url: `https://${media.slug}.com/ep${i}`,
                     });
                 }
 
-                const media = await Media.findById(req.params.id);
+                const media = await Media.findById(req.params.mediaId);
 
                 if (!media) {
                     const message = "Unable to find a tv show";
@@ -270,7 +282,7 @@ exports.createOne = (Model) =>
                 }
 
                 const eps = await Episode.find({
-                    tvShow: media._id,
+                    mediaId: media._id,
                 });
 
                 if (!eps) {
@@ -281,11 +293,11 @@ exports.createOne = (Model) =>
                 }
 
                 const season = await Season.create({
-                    season: req.params.season,
-                    title: `${media.title} - Season ${req.params.season}`,
-                    media: eps,
-                    tvShow: req.params.id,
+                    mediaId: req.params.mediaId,
+                    title: `${media.title} - Season ${req.params.numberOfSeason}`,
                     slug: media.slug,
+                    season: req.params.numberOfSeason,
+                    episodes: eps,
                 });
 
                 if (!season) {
@@ -348,16 +360,16 @@ exports.createMany = (Model) =>
                 }
                 break;
             case "Episode":
-                for (let i = 1; i <= req.params.episodes; i++) {
-                    const media = await Media.findById(req.params.id);
+                for (let i = 1; i <= req.params.numberOfEpisode; i++) {
+                    const media = await Media.findById(req.params.mediaId);
 
                     await Episode.create({
+                        mediaId: req.params.mediaId,
                         title: `Ep. ${i}`,
-                        url: `https://${media.slug}.com/ep${i}`,
-                        season: req.params.season,
-                        episode: i,
-                        tvShow: req.params.id,
                         slug: media.slug,
+                        season: req.params.numberOfSeason,
+                        episode: i,
+                        url: `https://${media.slug}.com/ep${i}`,
                     });
                 }
                 break;
@@ -385,9 +397,9 @@ exports.updateOne = (Model) =>
 
         switch (Model.modelName) {
             case "Section":
-                if (mongoose.isValidObjectId(req.params.id)) {
+                if (mongoose.isValidObjectId(req.params.mediaId)) {
                     doc = await Model.findByIdAndUpdate(
-                        req.params.id,
+                        req.params.mediaId,
                         {
                             id: req.body.id,
                             title: req.body.title,
@@ -399,12 +411,12 @@ exports.updateOne = (Model) =>
                         }
                     );
                 } else {
-                    const id = req.params.id * 1;
+                    const id = req.params.mediaId * 1;
 
                     if (typeof id == "number") {
                         doc = await Model.findOneAndUpdate(
                             {
-                                id: req.params.id,
+                                id: req.params.mediaId,
                             },
                             {
                                 id: req.body.id,
@@ -421,7 +433,7 @@ exports.updateOne = (Model) =>
                 break;
             case "Media":
                 doc = await Model.findByIdAndUpdate(
-                    req.params.id,
+                    req.params.mediaId,
                     {
                         type: req.body.type,
                         title: req.body.title,
@@ -449,7 +461,7 @@ exports.updateOne = (Model) =>
 
                 if (!doc) {
                     doc = await Model.findOneAndUpdate(
-                        { slug: req.params.id },
+                        { slug: req.params.mediaId },
                         {
                             type: req.body.type,
                             title: req.body.title,
@@ -478,14 +490,14 @@ exports.updateOne = (Model) =>
                 break;
             case "Episode":
                 doc = await Model.findByIdAndUpdate(
-                    req.params.id,
+                    req.params.mediaId,
                     {
+                        mediaId: req.body.mediaId,
+                        title: req.body.title,
+                        slug: req.body.slug,
                         season: req.body.season,
                         episode: req.body.episode,
-                        title: req.body.title,
-                        media: req.body.media,
-                        tvShow: req.body.tvShow,
-                        slug: req.body.slug,
+                        url: req.body.url,
                     },
                     {
                         new: true,
@@ -495,13 +507,13 @@ exports.updateOne = (Model) =>
                 break;
             case "Season":
                 doc = await Model.findByIdAndUpdate(
-                    req.params.id,
+                    req.params.mediaId,
                     {
-                        tvShow: req.body.tvShow,
+                        mediaId: req.body.mediaId,
+                        title: req.body.title,
                         slug: req.body.slug,
                         season: req.body.season,
-                        title: req.body.title,
-                        media: req.body.media,
+                        episodes: req.body.episodes,
                     },
                     {
                         new: true,
@@ -551,12 +563,12 @@ exports.deleteOne = (Model) =>
     catchAsync(async (req, res, next) => {
         let doc;
 
-        if (mongoose.isValidObjectId(req.params.id)) {
-            doc = await Model.findById(req.params.id);
+        if (mongoose.isValidObjectId(req.params.mediaId)) {
+            doc = await Model.findById(req.params.mediaId);
 
             switch (Model.modelName) {
                 case "Season":
-                    const media = await Media.findById(req.params.id);
+                    const media = await Media.findById(req.params.mediaId);
 
                     if (!media) {
                         const message = "Unable to find a tv show";
@@ -567,7 +579,7 @@ exports.deleteOne = (Model) =>
 
                     const eps = await Episode.find(
                         {
-                            tvShow: req.params.id,
+                            mediaId: req.params.mediaId,
                             season: req.params.season,
                         },
                         { _id: 1 }
@@ -581,7 +593,7 @@ exports.deleteOne = (Model) =>
                     }
 
                     const season = await Season.findOne({
-                        tvShow: req.params.id,
+                        mediaId: req.params.mediaId,
                         season: req.params.season,
                     });
 
@@ -603,7 +615,7 @@ exports.deleteOne = (Model) =>
                         data: null,
                     });
                 case "Media":
-                    doc = await Model.findById(req.params.id);
+                    doc = await Model.findById(req.params.mediaId);
                     break;
                 default:
                     break;
@@ -617,7 +629,7 @@ exports.deleteOne = (Model) =>
                     });
                     break;
                 case "Season":
-                    const media = await Media.findById(req.params.id);
+                    const media = await Media.findById(req.params.mediaId);
 
                     if (!media) {
                         const message = "Unable to find a tv show";
@@ -628,7 +640,7 @@ exports.deleteOne = (Model) =>
 
                     const eps = await Episode.find(
                         {
-                            tvShow: req.params.id,
+                            mediaId: req.params.mediaId,
                             season: req.params.season,
                         },
                         { _id: 1 }
@@ -642,7 +654,7 @@ exports.deleteOne = (Model) =>
                     }
 
                     const season = await Season.findOne({
-                        tvShow: req.params.id,
+                        mediaId: req.params.mediaId,
                         season: req.params.season,
                     });
 
@@ -664,14 +676,14 @@ exports.deleteOne = (Model) =>
                         data: null,
                     });
                 case "Media":
-                    doc = await Model.findById(req.params.id);
+                    doc = await Model.findById(req.params.mediaId);
 
                 default:
-                    doc = await Model.findById(req.params.episode);
+                    doc = await Model.findById(req.params.numberOfEpisode);
 
                     if (!doc) {
                         doc = await Model.findOne({
-                            slug: req.params.id,
+                            slug: req.params.mediaId,
                         });
                     }
 
@@ -680,7 +692,7 @@ exports.deleteOne = (Model) =>
         }
 
         if (!doc) {
-            const message = "None TV Show has been found.";
+            const message = `None ${Model.modelName} has been found.`;
             const appError = new AppError(message, 404);
 
             return next(appError);

@@ -7,7 +7,7 @@ const authController = require("../controllers/auth-controller");
 router.route("/").get(episodeController.getAllEpisodes);
 
 router
-    .route("/:episode")
+    .route("/:numberOfEpisode")
     .get(
         authController.protect,
         authController.restrictTo("user", "admin"),

@@ -32,7 +32,7 @@ router
     .post(
         authController.protect,
         authController.restrictTo("admin"),
-        sectionController.createPrimarySection
+        sectionController.createManySections
     )
     .patch(
         authController.protect,
