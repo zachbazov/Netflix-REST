@@ -42,7 +42,6 @@ const isValidObjectId = async (Model, req) => {
             // If there is no 'numberOfSeason' param, returns all seasons for that media.
             if (!req.params.numberOfSeason) {
                 if (mongoose.isValidObjectId(req.params.mediaId)) {
-                    console.log(1);
                     let validIdObject = await Media.findById(
                         req.params.mediaId
                     );
@@ -55,7 +54,6 @@ const isValidObjectId = async (Model, req) => {
                         mediaId: validIdObject.id,
                     }).populate("episodes");
                 } else {
-                    console.log(2);
                     let slugObject = await Media.find({
                         slug: req.params.mediaId,
                     });
@@ -63,7 +61,6 @@ const isValidObjectId = async (Model, req) => {
                         slug: req.params.mediaId,
                     }).populate("episodes");
                     if (!slugObject) {
-                        console.log(3);
                         slugObject = await Model.find({
                             mediaId: slugObject.id,
                         }).populate("episodes");
@@ -72,7 +69,6 @@ const isValidObjectId = async (Model, req) => {
                 }
                 // In case a 'numberOfSeason' param is given, return in response accordingly.
             } else {
-                console.log(4);
                 if (mongoose.isValidObjectId(req.params.mediaId)) {
                     let validIdObject = await Media.findById(
                         req.params.mediaId
@@ -88,7 +84,6 @@ const isValidObjectId = async (Model, req) => {
                         season: req.params.numberOfSeason,
                     }).populate("episodes");
                 }
-                console.log(5);
                 let slugObject = await Media.findOne({
                     slug: req.params.mediaId,
                 });
