@@ -45,6 +45,11 @@ const isValidObjectId = async (Model, req) => {
                     let validIdObject = await Media.findById(
                         req.params.mediaId
                     );
+                    if (!validIdObject) {
+                        return await Model.find({
+                            slug: req.params.mediaId,
+                        }).populate("episodes");
+                    }
                     return await Model.find({
                         mediaId: validIdObject.id,
                     }).populate("episodes");

@@ -28,45 +28,15 @@
   "__v": 0
 },{
   "_id": {
-    "$oid": "62c5f6cfe2386e0a87f3f742"
-  },
-  "name": "George Bush",
-  "email": "georges@gmail.com",
-  "role": "user",
-  "password": "$2a$12$e4WywmWi8DifdCFulCd/Mu6Tq.Jodux9b.bgtarv5d0wohDNZROZC",
-  "passwordChangedAt": {
-    "$date": {
-      "$numberLong": "1657139666657"
-    }
-  },
-  "active": true,
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "62de07fbf7f0d055a9888eec"
+    "$oid": "62eef0c6d5e26b89f4969033"
   },
   "name": "qwe",
   "email": "qwe@gmail.com",
   "role": "user",
-  "password": "$2a$12$VxbNi03ARptN/uFKbKzZQu3WWIZpuGATc0cYOMZ5kXdV4jZu2U1g2",
+  "password": "$2a$12$07Tgoy7A7IS6XLIJAGIcbucGkWkK5pLLIFsQWl.0/aMdbLuVdAcuK",
   "passwordChangedAt": {
     "$date": {
-      "$numberLong": "1658711761524"
-    }
-  },
-  "active": true,
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "62de097af7f0d055a9888efb"
-  },
-  "name": "asd",
-  "email": "asd@gmail.com",
-  "role": "user",
-  "password": "$2a$12$9FnCXw9u69VQmdUlnChX3eh772MTWXzySiELAv34fRYLx/2pcsc7q",
-  "passwordChangedAt": {
-    "$date": {
-      "$numberLong": "1658711761524"
+      "$numberLong": "1659819021347"
     }
   },
   "active": true,

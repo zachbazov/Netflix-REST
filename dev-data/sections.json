@@ -1,528 +1,145 @@
 [{
   "_id": {
-    "$oid": "62cf5e5012343587f11b001f"
+    "$oid": "62cf5e5212343587f11b0027"
   },
-  "id": 0,
-  "title": "Display",
-  "movies": [
-    {
-      "$oid": "62ce279d0e736d0f64e6ac67"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac68"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac6a"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac6c"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac6d"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac6e"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac6f"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac70"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac71"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac72"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac73"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac74"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac75"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac76"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac77"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac78"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac6b"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac7b"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac69"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac7c"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac7d"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac7e"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac7f"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac80"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac81"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac82"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac83"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac84"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac85"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac86"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac87"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac88"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac89"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac8a"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac8b"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac8c"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac8d"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac8e"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac8f"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac90"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac91"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac92"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac7a"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac79"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac95"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac96"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac97"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac99"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac98"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac9a"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac9b"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac9c"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac9d"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac9e"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac9f"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca0"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca1"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca2"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca3"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca4"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca5"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca6"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca7"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca8"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acaa"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6aca9"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acab"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acac"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acad"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acae"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acaf"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acb1"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acb0"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acb2"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acb3"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acb4"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acb5"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acb6"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac94"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6ac93"
-    },
-    {
-      "$oid": "62ce279d0e736d0f64e6acb7"
-    }
-  ],
+  "id": 6,
+  "title": "My List",
   "__v": 0,
-  "tvshows": [
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e0"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e1"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e2"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e3"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804de"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e5"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804df"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e7"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e8"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e9"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804ea"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804eb"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804ec"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804ed"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804ee"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804ef"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f0"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f1"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f2"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e4"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f4"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f5"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804e6"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f7"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f9"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f8"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804fa"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804fb"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804fc"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804fe"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804fd"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804ff"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80500"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80501"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80503"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80502"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80504"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80505"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80506"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80508"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80507"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc80509"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc8050a"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc8050b"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f3"
-    },
-    {
-      "$oid": "62c5a6b3a4b1f594bdc804f6"
-    }
-  ]
+  "media": [],
+  "slug": "my-list"
 },{
   "_id": {
     "$oid": "62cf5e5212343587f11b0022"
   },
   "id": 1,
   "title": "Top Rated on Netflix",
-  "movies": [],
   "__v": 0,
-  "tvshows": []
+  "media": [],
+  "slug": "top-rated-on-netflix"
 },{
   "_id": {
-    "$oid": "62cf5e5212343587f11b0023"
+    "$oid": "62cf5e5012343587f11b001f"
   },
-  "id": 2,
-  "title": "Resume Watching",
-  "movies": [],
+  "id": 0,
+  "title": "Display",
   "__v": 0,
-  "tvshows": []
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0024"
-  },
-  "id": 3,
-  "title": "Action",
-  "movies": [],
-  "__v": 0,
-  "tvshows": []
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0025"
-  },
-  "id": 4,
-  "title": "Sci-Fi",
-  "movies": [],
-  "__v": 0,
-  "tvshows": []
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0026"
-  },
-  "id": 5,
-  "title": "Blockbusters",
-  "movies": [],
-  "__v": 0,
-  "tvshows": []
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0027"
-  },
-  "id": 6,
-  "title": "My List",
-  "movies": [],
-  "__v": 0,
-  "tvshows": []
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0028"
-  },
-  "id": 7,
-  "title": "Crime",
-  "movies": [],
-  "__v": 0,
-  "tvshows": []
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0029"
-  },
-  "id": 8,
-  "title": "Thriller",
-  "movies": [],
-  "__v": 0,
-  "tvshows": []
+  "media": [],
+  "slug": "display"
 },{
   "_id": {
     "$oid": "62cf5e5212343587f11b002a"
   },
   "id": 9,
   "title": "Adventure",
-  "movies": [],
   "__v": 0,
-  "tvshows": []
+  "media": [],
+  "slug": "adventure"
 },{
   "_id": {
     "$oid": "62cf5e5212343587f11b002b"
   },
   "id": 10,
   "title": "Comedy",
-  "movies": [],
   "__v": 0,
-  "tvshows": []
+  "media": [],
+  "slug": "comedy"
 },{
   "_id": {
     "$oid": "62cf5e5212343587f11b002c"
   },
   "id": 11,
   "title": "Drama",
-  "movies": [],
   "__v": 0,
-  "tvshows": []
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b002d"
-  },
-  "id": 12,
-  "title": "Horror",
-  "movies": [],
-  "__v": 0,
-  "tvshows": []
+  "media": [],
+  "slug": "drama"
 },{
   "_id": {
     "$oid": "62cf5e5212343587f11b002e"
   },
   "id": 13,
   "title": "Anime",
-  "movies": [],
   "__v": 0,
-  "tvshows": []
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b002f"
-  },
-  "id": 14,
-  "title": "Family & Children",
-  "movies": [],
-  "__v": 0,
-  "tvshows": []
+  "media": [],
+  "slug": "anime"
 },{
   "_id": {
     "$oid": "62cf5e5212343587f11b0030"
   },
   "id": 15,
   "title": "Documentary",
-  "movies": [],
   "__v": 0,
-  "tvshows": []
+  "media": [],
+  "slug": "documentary"
+},{
+  "_id": {
+    "$oid": "62cf5e5212343587f11b0023"
+  },
+  "id": 2,
+  "title": "Resume Watching",
+  "__v": 0,
+  "media": [],
+  "slug": "resume-watching"
+},{
+  "_id": {
+    "$oid": "62cf5e5212343587f11b0024"
+  },
+  "id": 3,
+  "title": "Action",
+  "__v": 0,
+  "media": [],
+  "slug": "action"
+},{
+  "_id": {
+    "$oid": "62cf5e5212343587f11b0025"
+  },
+  "id": 4,
+  "title": "Sci-Fi",
+  "__v": 0,
+  "media": [],
+  "slug": "sci-fi"
+},{
+  "_id": {
+    "$oid": "62cf5e5212343587f11b0029"
+  },
+  "id": 8,
+  "title": "Thriller",
+  "__v": 0,
+  "media": [],
+  "slug": "thriller"
+},{
+  "_id": {
+    "$oid": "62cf5e5212343587f11b0026"
+  },
+  "id": 5,
+  "title": "Blockbusters",
+  "__v": 0,
+  "media": [],
+  "slug": "blockbusters"
+},{
+  "_id": {
+    "$oid": "62cf5e5212343587f11b0028"
+  },
+  "id": 7,
+  "title": "Crime",
+  "__v": 0,
+  "media": [],
+  "slug": "crime"
+},{
+  "_id": {
+    "$oid": "62cf5e5212343587f11b002d"
+  },
+  "id": 12,
+  "title": "Horror",
+  "__v": 0,
+  "media": [],
+  "slug": "horror"
+},{
+  "_id": {
+    "$oid": "62cf5e5212343587f11b002f"
+  },
+  "id": 14,
+  "title": "Family & Children",
+  "__v": 0,
+  "media": [],
+  "slug": "family-and-children"
 }]
