@@ -112,6 +112,17 @@ const isValidObjectId = async (Model, req) => {
                 });
             }
             return object;
+        case "User":
+            if (mongoose.isValidObjectId(req.params.userId)) {
+                return await Model.findById(req.params.userId);
+            }
+        case "MyList":
+            if (mongoose.isValidObjectId(req.params.listId)) {
+                return await Model.findOne({
+                    user: req.params.listId,
+                }).populate("media");
+            }
+            break;
         default:
             break;
     }
@@ -149,7 +160,6 @@ exports.getOne = (Model) =>
                 );
                 break;
             default:
-                console.log(req.params);
                 data = await Promise.resolve(
                     (data = isValidObjectId(Model, req))
                 );
@@ -215,35 +225,43 @@ exports.createOne = (Model) =>
         let data;
 
         switch (Model.modelName) {
+            // case "Section":
+            //     if (req.body.id === 0) {
+            //         const media = await Media.find();
+
+            //         let arr = [];
+
+            //         media.forEach((el) => {
+            //             arr.push(el._id);
+            //         });
+
+            //         const section = await Model.create({
+            //             id: req.body.id,
+            //             title: req.body.title,
+            //             media: arr,
+            //         });
+
+            //         return res.status(201).json({
+            //             status: "success",
+            //             data: {
+            //                 section,
+            //             },
+            //         });
+            //     }
+
+            //     const message =
+            //         "Only the primary section is allowed to be created.";
+            //     const appError = new AppError(message, 405);
+
+            //     return next(appError);
+
             case "Section":
-                if (req.body.id === 0) {
-                    const media = await Media.find();
-
-                    let arr = [];
-
-                    media.forEach((el) => {
-                        arr.push(el._id);
-                    });
-
-                    const section = await Model.create({
-                        id: req.body.id,
-                        title: req.body.title,
-                        media: arr,
-                    });
-
-                    return res.status(201).json({
-                        status: "success",
-                        data: {
-                            section,
-                        },
-                    });
-                }
-
-                const message =
-                    "Only the primary section is allowed to be created.";
-                const appError = new AppError(message, 405);
-
-                return next(appError);
+                data = await Model.create({
+                    id: req.body.id,
+                    title: req.body.title,
+                    media: req.body.media,
+                });
+                break;
             case "Media":
                 data = await Model.create({
                     type: req.body.type,
@@ -342,10 +360,15 @@ exports.createOne = (Model) =>
                     passwordConfirm: req.body.passwordConfirm,
                 });
                 break;
-            case "Section":
+            case "MyList":
+                const numberOfListsPerUser = await Model.find({
+                    user: req.body.user,
+                });
+                if (numberOfListsPerUser.length > 0) {
+                    return next(new AppError("max capacity reached.", 400));
+                }
                 data = await Model.create({
-                    id: req.body.id,
-                    title: req.body.title,
+                    user: req.body.user,
                     media: req.body.media,
                 });
                 break;
@@ -557,6 +580,18 @@ exports.updateOne = (Model) =>
                     }
                 );
                 break;
+            case "MyList":
+                doc = await Model.findOneAndUpdate(
+                    { user: req.params.userId },
+                    {
+                        user: req.body.user,
+                        media: req.body.media,
+                    },
+                    {
+                        new: true,
+                        runValidators: true,
+                    }
+                );
             default:
                 break;
         }
