@@ -433,12 +433,13 @@ exports.createMany = (Model) =>
 
 exports.updateOne = (Model) =>
     catchAsync(async (req, res, next) => {
+        let doc;
         let data;
 
         switch (Model.modelName) {
             case "Section":
                 if (mongoose.isValidObjectId(req.params.mediaId)) {
-                    data = await Model.findByIdAndUpdate(
+                    doc = await Model.findByIdAndUpdate(
                         req.params.mediaId,
                         {
                             id: req.body.id,
@@ -454,7 +455,7 @@ exports.updateOne = (Model) =>
                     const id = req.params.mediaId * 1;
 
                     if (typeof id == "number") {
-                        data = await Model.findOneAndUpdate(
+                        doc = await Model.findOneAndUpdate(
                             {
                                 id: req.params.mediaId,
                             },
@@ -472,7 +473,7 @@ exports.updateOne = (Model) =>
                 }
                 break;
             case "Media":
-                data = await Model.findByIdAndUpdate(
+                doc = await Model.findByIdAndUpdate(
                     req.params.mediaId,
                     {
                         type: req.body.type,
@@ -499,8 +500,8 @@ exports.updateOne = (Model) =>
                     }
                 );
 
-                if (!data) {
-                    data = await Model.findOneAndUpdate(
+                if (!doc) {
+                    doc = await Model.findOneAndUpdate(
                         { slug: req.params.mediaId },
                         {
                             type: req.body.type,
@@ -529,7 +530,7 @@ exports.updateOne = (Model) =>
                 }
                 break;
             case "Episode":
-                data = await Model.findByIdAndUpdate(
+                doc = await Model.findByIdAndUpdate(
                     req.params.mediaId,
                     {
                         mediaId: req.body.mediaId,
@@ -546,7 +547,7 @@ exports.updateOne = (Model) =>
                 );
                 break;
             case "Season":
-                data = await Model.findByIdAndUpdate(
+                doc = await Model.findByIdAndUpdate(
                     req.params.mediaId,
                     {
                         mediaId: req.body.mediaId,
@@ -562,7 +563,7 @@ exports.updateOne = (Model) =>
                 );
                 break;
             case "User":
-                data = await Model.findByIdAndUpdate(
+                doc = await Model.findByIdAndUpdate(
                     {
                         _id: req.params.id,
                     },
@@ -581,22 +582,36 @@ exports.updateOne = (Model) =>
                 );
                 break;
             case "MyList":
-                data = await Model.findOneAndUpdate(
-                    { user: req.params.userId },
-                    {
-                        user: req.body.user,
-                        media: req.body.media,
-                    },
-                    {
-                        new: true,
-                        runValidators: true,
+                if (mongoose.isValidObjectId(req.params.listId)) {
+                    data = await Model.findOneAndUpdate(
+                        { _id: req.params.listId },
+                        {
+                            user: req.body.user,
+                            media: req.body.media,
+                        },
+                        {
+                            new: true,
+                            runValidators: true,
+                        }
+                    ).populate("media");
+
+                    if (!data) {
+                        const message = "No documents found.";
+                        const appError = new AppError(message, 404);
+
+                        return next(appError);
                     }
-                );
+
+                    return res.status(200).json({
+                        status: "success",
+                        data,
+                    });
+                }
             default:
                 break;
         }
 
-        if (!data) {
+        if (!doc) {
             const message = "No documents found.";
             const appError = new AppError(message, 404);
 
@@ -605,7 +620,9 @@ exports.updateOne = (Model) =>
 
         res.status(200).json({
             status: "success",
-            data,
+            data: {
+                doc,
+            },
         });
     });
 
