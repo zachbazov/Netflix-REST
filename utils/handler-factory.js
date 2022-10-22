@@ -433,12 +433,12 @@ exports.createMany = (Model) =>
 
 exports.updateOne = (Model) =>
     catchAsync(async (req, res, next) => {
-        let doc;
+        let data;
 
         switch (Model.modelName) {
             case "Section":
                 if (mongoose.isValidObjectId(req.params.mediaId)) {
-                    doc = await Model.findByIdAndUpdate(
+                    data = await Model.findByIdAndUpdate(
                         req.params.mediaId,
                         {
                             id: req.body.id,
@@ -454,7 +454,7 @@ exports.updateOne = (Model) =>
                     const id = req.params.mediaId * 1;
 
                     if (typeof id == "number") {
-                        doc = await Model.findOneAndUpdate(
+                        data = await Model.findOneAndUpdate(
                             {
                                 id: req.params.mediaId,
                             },
@@ -472,7 +472,7 @@ exports.updateOne = (Model) =>
                 }
                 break;
             case "Media":
-                doc = await Model.findByIdAndUpdate(
+                data = await Model.findByIdAndUpdate(
                     req.params.mediaId,
                     {
                         type: req.body.type,
@@ -499,8 +499,8 @@ exports.updateOne = (Model) =>
                     }
                 );
 
-                if (!doc) {
-                    doc = await Model.findOneAndUpdate(
+                if (!data) {
+                    data = await Model.findOneAndUpdate(
                         { slug: req.params.mediaId },
                         {
                             type: req.body.type,
@@ -529,7 +529,7 @@ exports.updateOne = (Model) =>
                 }
                 break;
             case "Episode":
-                doc = await Model.findByIdAndUpdate(
+                data = await Model.findByIdAndUpdate(
                     req.params.mediaId,
                     {
                         mediaId: req.body.mediaId,
@@ -546,7 +546,7 @@ exports.updateOne = (Model) =>
                 );
                 break;
             case "Season":
-                doc = await Model.findByIdAndUpdate(
+                data = await Model.findByIdAndUpdate(
                     req.params.mediaId,
                     {
                         mediaId: req.body.mediaId,
@@ -562,7 +562,7 @@ exports.updateOne = (Model) =>
                 );
                 break;
             case "User":
-                doc = await Model.findByIdAndUpdate(
+                data = await Model.findByIdAndUpdate(
                     {
                         _id: req.params.id,
                     },
@@ -581,7 +581,7 @@ exports.updateOne = (Model) =>
                 );
                 break;
             case "MyList":
-                doc = await Model.findOneAndUpdate(
+                data = await Model.findOneAndUpdate(
                     { user: req.params.userId },
                     {
                         user: req.body.user,
@@ -596,7 +596,7 @@ exports.updateOne = (Model) =>
                 break;
         }
 
-        if (!doc) {
+        if (!data) {
             const message = "No documents found.";
             const appError = new AppError(message, 404);
 
@@ -605,9 +605,7 @@ exports.updateOne = (Model) =>
 
         res.status(200).json({
             status: "success",
-            data: {
-                doc,
-            },
+            data,
         });
     });
 
