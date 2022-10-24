@@ -13,7 +13,7 @@ router
     );
 
 router
-    .route("/:listId")
+    .route("/:listUserId")
     .get(
         authController.protect,
         authController.restrictTo("admin", "user"),

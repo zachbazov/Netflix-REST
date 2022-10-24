@@ -117,9 +117,9 @@ const isValidObjectId = async (Model, req) => {
                 return await Model.findById(req.params.userId);
             }
         case "MyList":
-            if (mongoose.isValidObjectId(req.params.listId)) {
+            if (mongoose.isValidObjectId(req.params.listUserId)) {
                 return await Model.findOne({
-                    user: req.params.listId,
+                    user: req.params.listUserId,
                 }).populate("media");
             }
             break;
@@ -582,9 +582,9 @@ exports.updateOne = (Model) =>
                 );
                 break;
             case "MyList":
-                if (mongoose.isValidObjectId(req.params.listId)) {
+                if (mongoose.isValidObjectId(req.params.listUserId)) {
                     data = await Model.findOneAndUpdate(
-                        { _id: req.params.listId },
+                        { user: req.params.listUserId },
                         {
                             user: req.body.user,
                             media: req.body.media,
