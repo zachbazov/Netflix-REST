@@ -15,7 +15,7 @@ dotenv.config({ path: "./config.env" });
 //     }
 // );
 
-const db = process.env.DB_URL;
+const db = `mongodb+srv://zachbazov:zachbazovr123@cluster0.bjjiy.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose
     .connect(db, {
