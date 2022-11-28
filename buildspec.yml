@@ -6,9 +6,3 @@ phases:
             - npm install
 
             - pip install --upgrade awscli
-
-eb_codebuild_settings:
-    CodeBuildServiceRole: "codebuild:CreateProject"
-    ComputeType: size
-    Image: image
-    Timeout: minutes
