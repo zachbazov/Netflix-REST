@@ -1,8 +1,8 @@
-version 0.2
+version: 0.2
 
 phases:
-  install:
-    commands:
-      - npm install
+    install:
+        commands:
+            - npm install
 
-      - pip install --upgrade awscli
+            - pip install --upgrade awscli
