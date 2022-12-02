@@ -15,8 +15,6 @@ const db = process.env.DB_URL.replace(
     }
 );
 
-// const db = `mongodb+srv://zachbazov:zachbazovr123@cluster0.bjjiy.mongodb.net/?retryWrites=true&w=majority`;
-
 mongoose
     .connect(db, {
         useNewUrlParser: true,
