@@ -8,7 +8,7 @@ const seasonRouter = require("./../routes/season-router");
 
 router.use("/:mediaId/seasons", seasonRouter);
 
-router.route("/search").get(mediaController.search);
+router.route("/search/:searchText").get(mediaController.search);
 
 router
     .route("/top-rated")

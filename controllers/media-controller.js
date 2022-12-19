@@ -58,8 +58,12 @@ exports.getTvShowsStats = catchAsync(async (req, res, next) => {
 });
 
 exports.search = catchAsync(async (req, res, next) => {
-    console.log(req.body);
-    const docs = await Media.find({ title: { $regex: `${req.body.text}` } });
+    const docs = await Media.find({
+        slug: {
+            $regex: `${req.params.searchText.toLowerCase().replace(" ", "-")}`,
+        },
+    });
+
     res.status(200).json({
         status: "success",
         results: docs.length,
