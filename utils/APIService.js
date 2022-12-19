@@ -6,15 +6,8 @@ class APIService {
 
     filter() {
         const queryObject = { ...this.queryString };
-        const excludedFields = [
-            'page',
-            'sort',
-            'limit',
-            'fields'
-        ];
-        excludedFields.forEach(
-            (el) => delete queryObject[el]
-        );
+        const excludedFields = ["page", "sort", "limit", "fields"];
+        excludedFields.forEach((el) => delete queryObject[el]);
 
         // console.log(req.query, queryObject);
 
@@ -35,9 +28,7 @@ class APIService {
 
     sort() {
         if (this.queryString.sort) {
-            const sortBy = this.queryString.sort
-                .split(',')
-                .join(' ');
+            const sortBy = this.queryString.sort.split(",").join(" ");
             // console.log(sortBy);
             this.query = this.query.sort(sortBy);
         } else {
@@ -51,6 +42,7 @@ class APIService {
         if (this.queryString.limit) {
             const limit = this.queryString.limit * 1 || 100;
             this.query = this.query.limit(limit);
+            console.log(this.queryString);
         }
 
         return this;
@@ -58,12 +50,10 @@ class APIService {
 
     limitFields() {
         if (this.queryString.fields) {
-            const fields = this.queryString.fields
-                .split(',')
-                .join(' ');
+            const fields = this.queryString.fields.split(",").join(" ");
             this.query = this.query.select(fields);
         } else {
-            this.query = this.query.select('-__v +_id');
+            this.query = this.query.select("-__v +_id");
         }
 
         return this;

@@ -96,6 +96,8 @@ mediaSchema.pre("aggregate", function (next) {
         $match: { isSecret: { $ne: true } },
     });
 
+    console.log(this);
+
     next();
 });
 
