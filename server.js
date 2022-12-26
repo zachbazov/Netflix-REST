@@ -24,6 +24,8 @@ mongoose
     })
     .then(() => console.log("DATABASE: 🟢"));
 
+mongoose.set("strictQuery", false);
+
 const app = require("./app");
 
 const port = process.env.PORT || 8000;
