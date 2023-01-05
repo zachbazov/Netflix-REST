@@ -1424,3 +1424,14 @@ body {
     border-radius: 8px;
     height: 40px;
 }
+
+.body-background {
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        right bottom,
+        from(#111),
+        to(#222)
+    );
+    background-image: linear-gradient(to top bottom, #111, #222);
+}
