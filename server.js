@@ -15,6 +15,7 @@ const db = process.env.DB_URL.replace(
     }
 );
 
+mongoose.set("strictQuery", false);
 mongoose
     .connect(db, {
         useNewUrlParser: true,
@@ -23,8 +24,6 @@ mongoose
         useUnifiedTopology: true,
     })
     .then(() => console.log("DATABASE: 🟢"));
-
-mongoose.set("strictQuery", false);
 
 const app = require("./app");
 

@@ -1,43 +1,40 @@
-import axios from 'axios';
-import { showAlert } from './alert';
+import axios from "axios";
+import { showAlert } from "./alert";
 
 export const signin = async (email, password) => {
     try {
         const res = await axios({
-            method: 'POST',
-            url: '/api/v1/users/signin',
+            method: "POST",
+            url: "api/v1/users/signin",
             data: {
                 email,
-                password
-            }
+                password,
+            },
         });
 
-        if (res.data.status === 'success') {
-            showAlert('success', 'Signed in successfully');
+        if (res.data.status === "success") {
+            showAlert("success", "Signed in successfully");
 
             window.setTimeout(() => {
-                location.assign('/');
+                location.assign("/");
             }, 1500);
         }
     } catch (err) {
-        showAlert('error', err.response.data.message);
+        showAlert("error", err.response.data.message);
     }
 };
 
 export const signout = async () => {
     try {
         const res = await axios({
-            method: 'GET',
-            url: '/api/v1/users/signout'
+            method: "GET",
+            url: "api/v1/users/signout",
         });
 
-        if (res.data.status === 'success') {
+        if (res.data.status === "success") {
             location.reload(true);
         }
     } catch (err) {
-        showAlert(
-            'error',
-            'Error occured while signing out.'
-        );
+        showAlert("error", "Error occurred while signing out", err.message);
     }
 };

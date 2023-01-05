@@ -1,56 +1,56 @@
-const AppError = require('../utils/AppError');
-const Media = require('./../models/media-model');
-const catchAsync = require('./../utils/catch-async');
+const AppError = require("../utils/AppError");
+const Media = require("./../models/media-model");
+const catchAsync = require("./../utils/catch-async");
 
 const getOverview = catchAsync(async (req, res, next) => {
-    const tvShows = await Media.find();
+    const media = await Media.find();
 
-    res.status(200).render('overview', {
-        title: 'All TV Shows',
-        tvShows
+    res.status(200).render("overview", {
+        title: "All Media",
+        media,
     });
 });
 
-const getTvShow = catchAsync(async (req, res, next) => {
-    const tvShow = await Media.findOne({
-        slug: req.params.id
+const getMedia = catchAsync(async (req, res, next) => {
+    const media = await Media.findOne({
+        slug: req.params.id,
     });
 
-    if (!tvShow) {
-        const message = 'No TV Show found.';
+    if (!media) {
+        const message = "No media found.";
         const appError = new AppError(message, 404);
 
         return next(appError);
     }
 
-    res.status(200).render('tv-show', {
-        title: `${tvShow.title} TV Show`,
-        tvShow
+    res.status(200).render("media", {
+        title: media.title,
+        media,
     });
 });
 
 const getSignin = catchAsync(async (req, res, next) => {
-    res.status(200).render('signin', {
-        title: 'Signin'
+    res.status(200).render("signin", {
+        title: "Signin",
     });
 });
 
 const getSettings = catchAsync(async (req, res, next) => {
-    res.status(200).render('settings', {
-        title: 'Settings'
+    res.status(200).render("settings", {
+        title: "Settings",
     });
 });
 
-// const getStream = catchAsync(async (req, res, next) => {
-//     res.status(200).render('video', {
-//         title: 'Stream'
-//     });
-// });
+const createMedia = catchAsync(async (req, res, next) => {
+    res.status(200).render("create-media", {
+        title: "Create a new Media",
+    });
+});
 
 module.exports = {
     getOverview,
-    getTvShow,
+    getMedia,
     getSignin,
-    getSettings
-    // getStream
+    getSettings,
+    createMedia,
 };

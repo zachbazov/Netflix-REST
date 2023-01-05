@@ -3,12 +3,19 @@ html
     head
         meta(charset='UTF-8')
         meta(name='viewport' content='width=device-width, initial-scale=1.0)')
-        link(rel="stylesheet" href="./../css/style.css")
-        link(rel='shortcut icon' type="image/png" href="./../img/system/favicon.png")
+        link(rel="stylesheet" href="/css/style.css")
+        link(rel='shortcut icon' type="image/png" href="/img/system/favicon.png")
         link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
-        title Netflix-Swift | #{title}
+        title Netflix REST API | #{title}
 
-    body
+    body(style=`background-image: -webkit-gradient(
+        linear,
+        left top,
+        right bottom,
+        from(#111),
+        to(#222)
+    );
+    background-image: linear-gradient(to top bottom, #111, #222);`)
         // HEADER
         include _header
 

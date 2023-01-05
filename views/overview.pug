@@ -3,43 +3,40 @@ extends base
 block content
     main.main
         .card-container
-            each tvShow in tvShows
+            each m in media
                 .card
                     .card__header
                         .card__picture
                             .card__picture-overlay &nbsp;
-                            img.card__picture-img(src=`${tvShow.covers[0]}`, alt=`${tvShow.title}`)
+                            img.card__picture-img(src=`/${m.resources.displayPoster.split('.com/')[1]}`, alt=`${m.title}`)
                         h3.heading-tertirary
-                            span= tvShow.title
+                            span= m.title
 
                     .card__details
-                        h4.card__sub-heading= `${tvShow.seasonCount} Seasons & ${tvShow.episodeCount} Episodes`
-                        p.card__text= tvShow.description
+                        h4.card__sub-heading= `${m.seasons.length} Seasons & ${m.numberOfEpisodes} Episodes`
+                        p.card__text= m.description
                         .card__data
                             svg.card__icon
                                 use(xlink:href='/img/icons.svg#icon-map-pin')
-                            span= tvShow.cast
+                            span= m.cast
                         .card__data
                             svg.card__icon
                                 use(xlink:href='/img/icons.svg#icon-calendar')
-                            //- span= tour.startDates[0].toLocaleString('en',{month:'long',year:'numeric'})
                         .card__data
                             svg.card__icon
                                 use(xlink:href='/img/icons.svg#icon-flag')
-                            //- span= `${tour.locations.length} stops`
                         .card__data
                             svg.card__icon
                                 use(xlink:href='/img/icons.svg#icon-user')
-                            //- span= `${tour.maxGroupSize} people`
 
                     .card__footer
                         p
-                            each val in tvShow.genres
+                            each val in m.genres
                                 span.card__footer-value= `${val}, `
                                 |
-                                //- span.card__footer-text= ` per person`
                             p.card__ratings
-                                span.card__footer-value #{tvShow.rating}
+                                svg.reviews__star(class='svg__padding' fill='white')
+                                    use(xlink:href='/img/svg/icons.svg#icon-star', class=`reviews__star--active`)
+                                span.card__footer-value #{m.rating}
                                 |
-                                //- span.card__footer-text= ` rating (${tour.ratingsQuantity})`
-                            a.btn.btn--green.btn--small(href=`/tv-shows/${tvShow.slug}`) Details
+                            a.btn.btn--green.btn--small(href=`/media/${m.slug}`) Details

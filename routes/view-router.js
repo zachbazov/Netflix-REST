@@ -1,40 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const path = require('path');
 
-const viewController = require('./../controllers/view-controller');
-const authController = require('./../controllers/auth-controller');
+const viewController = require("./../controllers/view-controller");
+const authController = require("./../controllers/auth-controller");
 
-router.get(
-    '/',
-    authController.isSignedIn,
-    viewController.getOverview
-);
+router.get("/", authController.isSignedIn, viewController.getOverview);
 
-router.get(
-    '/media/:id',
-    authController.isSignedIn,
-    viewController.getTvShow
-);
+router.get("/media/:id", authController.protect, viewController.getMedia);
 
-router.get(
-    '/signin',
-    authController.isSignedIn,
-    viewController.getSignin
-);
+router.get("/signin", authController.isSignedIn, viewController.getSignin);
 
-router.get(
-    '/settings',
-    authController.protect,
-    viewController.getSettings
-);
+router.get("/settings", authController.protect, viewController.getSettings);
 
-// router.get('/stream', function (req, res) {
-//     res.sendFile(
-//         path.join(__dirname, '/../views/index.html')
-//     );
-// });
-
-// router.get('/stream/play', require('../scripts/video'));
+router.get("/create-media", authController.protect, viewController.createMedia);
 
 module.exports = router;

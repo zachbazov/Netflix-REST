@@ -1,0 +1,49 @@
+extends base
+
+include _review-card
+
+block content
+    section.section-header
+        .header__hero
+            .header__hero-overlay &nbsp;
+            img(src=`/${media.resources.displayPoster.split('.com/')[1]}` width='100%', alt=`${media.slug}`)
+
+        .heading-box
+            h1.heading-primary
+                span= `${media.title}`
+            .heading-box__group
+                .heading-box__detail
+                    svg.heading-box__icon
+                        use(xlink:href='/img/icons.svg#icon-clock')
+                    span.heading-box__text= `${media.seasons.length} Seasons`
+                .heading-box__detail
+                    svg.heading-box__icon
+                        use(xlink:href='/img/icons.svg#icon-map-pin')
+                    span.heading-box__text= media.description
+
+    section.section-pictures
+        each image, i in media.resources.posters
+            .picture-box
+                img.picture-box__img(src=`/${image.split('.com/')[1]}`, alt=`Media ${i+1}`, class=`picture-box__img--${i+1}`)
+
+    section.section-reviews
+        .reviews
+            each season in media.seasons
+                +reviewCard(season)
+                
+    section.section-cta
+        .cta
+            .cta__img.cta__img--logo
+                img(src='/img/system/Netflix-logo.png' width='48' height='48', alt='Netflix logo')
+            - var src1 = `${media.resources.posters[0].split('.com/')[1]}`
+            - console.log(12, src1);
+            img.cta__img.cta__img--1(src=src1, alt='Media picture')
+            img.cta__img.cta__img--2(src=src1, alt='Media picture')
+            .cta__content
+                h2.heading-secondary What are you waiting for?
+                p.cta__text= `${media.duration} days. 1 adventure. Infinite memories. Make it yours today!`
+
+                if user
+                    button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${media._id}`) Book tour now!
+                else
+                    a.btn.btn--green.span-all-rows(href='/signin') Sign in to book this tour

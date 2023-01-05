@@ -1,0 +1,121 @@
+extends base
+
+block content
+    form.form-media-creation.default-background(style="display: flex; justify-content: center; width: 100%;")
+        .form-content
+            .form-group
+            label.input--checkbox-text
+                |   Type
+            select#type(name=type)
+                option series
+                option film
+            .form-group
+            input#title.form__media-creation(name=title, placeholder="Title")
+            .form-group
+            input#rating.form__media-creation(name=rating, placeholder="Rating")
+            .form-group
+            textarea#description.form__media-creation(name=description placeholder="Description")
+            .form-group
+            input#cast.form__media-creation(name=cast, placeholder="Cast")
+            .form-group
+            input#writers.form__media-creation(name=writers, placeholder="Writers")
+            .form-group
+            input#duration.form__media-creation(name=duration, placeholder="Duration")
+            .form-group
+            input#length.form__media-creation(name=length, placeholder="Length")
+            .form-group
+            div.input-div
+                input#input--genre-1.form__media-creation(name=genres, placeholder="Genre #1")
+                button.plus-button--genre(type='button')
+                    | +
+                br
+            .form-group
+            input#hasWatched(name=hasWatched type='checkbox')
+            label.input--checkbox-text
+                |   hasWatched
+            .form-group
+            input#isHD(name=isHD type='checkbox')
+            label.input--checkbox-text
+                |   isHD
+            .form-group
+            input#isExclusive(name=isExclusive type='checkbox')
+            label.input--checkbox-text
+                |   isExclusive
+            .form-group
+            input#isNewRelease(name=isNewRelease type='checkbox')
+            label.input--checkbox-text
+                |   isNewRelease
+            .form-group
+            input#isSecret(name=isSecret type='checkbox')
+            label.input--checkbox-text
+                |   isSecret
+            .form-group
+            div.div--resources-posters
+                input#input--poster-1.form__media-creation(name=posters, placeholder="Poster #1")
+                button.plus-button--poster(type='button')
+                    | +
+                br
+            .form-group
+            div.div--resources-logos
+                input#input--logo-1.form__media-creation(name=logos, placeholder="Logo #1")
+                button.plus-button--logo(type='button')
+                    | +
+                br
+            .form-group
+            div.div--resources-trailers
+                input#input--trailer-1.form__media-creation(name=trailers, placeholder="Trailer #1")
+                button.plus-button--trailer(type='button')
+                    | +
+                br
+            .form-group
+            input#displayPoster.form__media-creation(name=displayPoster, placeholder="Display Poster")
+            .form-group
+            div.div--resources-display-logos
+                input#input--display-logo-1.form__media-creation(name=displayLogos, placeholder="Display Logo #1")
+                button.plus-button--display-logo(type='button')
+                    | +
+                br
+            .form-group
+            input#previewPoster.form__media-creation(name=previewPoster, placeholder="Preview Poster")
+            .form-group
+            input#previewUrl.form__media-creation(name=previewUrl, placeholder="Preview URL")
+            .form-group
+            label.input--checkbox-text
+                |   Presented Poster:
+            select#presentedPoster(name=presentedPoster)
+                option 1
+                option 2
+                option 3
+                option 4
+                option 5
+                option 6
+            .form-group
+            label.input--checkbox-text
+                |   Presented Logo:
+            select#presentedLogo(name=presentedLogo)
+                option 1
+                option 2
+                option 3
+                option 4
+                option 5
+                option 6
+            .form-group
+            label.input--checkbox-text
+                |   Presented Display Logo:
+            select#presentedDisplayLogo(name=presentedDisplayLogo)
+                option 1
+                option 2
+                option 3
+            .form-group
+            label.input--checkbox-text
+                |   Presented Logo Alignment:
+            select#presentedLogoAlignment(name=presentedLogoAlignment)
+                option 1
+                option 2
+                option 3
+            .form-group
+            input#seasons.form__media-creation(name=seasons, placeholder="Seasons ObjectIDs")
+            .form-group
+            br
+            button.btn.btn-primary.center Submit
+            br

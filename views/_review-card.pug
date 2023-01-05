@@ -1,10 +1,10 @@
-//- mixin reviewCard(season)
-//-     .reviews__card
-//-         .reviews__avatar
-//-             img.reviews__avatar-img(src=`/img/users/${season.title}`, alt=`${season.title}`)
-//-             h6.reviews__user= season.tvShow
-//-         p.reviews__text= season.title
-//-         .reviews__rating
-//-             each star in [1, 2, 3, 4, 5]
-//-                 svg.reviews__star
-//-                     use(xlink:href='/img/icons.svg#icon-star', class=`reviews__star--${season.tvShow.season >= star ? 'active' : 'inactive'}`)
+mixin reviewCard(media)
+    .reviews__card
+        .reviews__avatar
+            img.reviews__avatar-img(src=`/img/users/user-2.jpg`, alt=`${media.title}`)
+            h6.reviews__user= media.tvShow
+        p.reviews__text= media.title
+        .reviews__rating
+            each star in [1, 2, 3, 4, 5]
+                svg.reviews__star
+                    use(xlink:href='/img/svg/icons.svg#icon-star', class=`reviews__star--${media >= star ? 'active' : 'inactive'}`)
