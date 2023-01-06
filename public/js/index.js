@@ -199,7 +199,6 @@ addDisplayLogoInput(
 );
 
 //
-
 function addGenreInput(buttonSelector, divSelector) {
     document
         .querySelector(buttonSelector)
