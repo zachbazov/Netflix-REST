@@ -176,8 +176,7 @@ if (createMediaForm) {
     });
 }
 
-//
-
+// MARK: - Create Media Properties
 var genreCounter = 1;
 var posterCounter = 1;
 var logoCounter = 1;
@@ -198,7 +197,7 @@ addDisplayLogoInput(
     ".div--resources-display-logos"
 );
 
-//
+// MARK: - Create Media Functions
 function addGenreInput(buttonSelector, divSelector) {
     document
         .querySelector(buttonSelector)
