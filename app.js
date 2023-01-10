@@ -21,6 +21,7 @@ const seasonRouter = require("./routes/season-router");
 const episodeRouter = require("./routes/episode-router");
 const viewRouter = require("./routes/view-router");
 const myListRouter = require("./routes/mylist-router");
+const imageRouter = require("./routes/image-router");
 
 const app = express();
 
@@ -64,6 +65,7 @@ csp.extend(app, {
                 "https://*.cloudflare.com/",
                 "https://bundle.js:8828",
                 "ws://localhost:56558/",
+                "ws://127.0.0.1:50143/",
             ],
             "worker-src": [
                 "self",
@@ -75,6 +77,7 @@ csp.extend(app, {
                 "https://*.cloudflare.com/",
                 "https://bundle.js:*",
                 "ws://localhost:*/",
+                "ws://127.0.0.1:*/",
             ],
             "frame-src": [
                 "self",
@@ -86,6 +89,7 @@ csp.extend(app, {
                 "https://*.cloudflare.com/",
                 "https://bundle.js:*",
                 "ws://localhost:*/",
+                "ws://127.0.0.1:*/",
             ],
             "img-src": [
                 "self",
@@ -97,6 +101,7 @@ csp.extend(app, {
                 "https://*.cloudflare.com/",
                 "https://bundle.js:*",
                 "ws://localhost:*/",
+                "ws://127.0.0.1:*/",
             ],
             "connect-src": [
                 "self",
@@ -131,7 +136,7 @@ app.use("/api/", limiter);
 
 // Body Parser
 // reads data into 'req.body'
-app.use(express.json({ limit: "1000kb" }));
+app.use(express.json({ limit: "100000kb" }));
 
 // Cookie Parser
 // req.cookies
@@ -174,6 +179,7 @@ app.use("/api/v1/seasons", seasonRouter);
 app.use("/api/v1/episodes", episodeRouter);
 app.use("/api/v1/sections", sectionRouter);
 app.use("/api/v1/mylists", myListRouter);
+app.use("/api/v1/images", imageRouter);
 
 // Error Handling Routes
 app.all("*", (req, res, next) => {

@@ -1,7 +1,26 @@
 import axios from "axios";
-import { showAlert } from "./alert";
+import { showAlert } from "../../utils/alert";
 
-export const signin = async (email, password) => {
+export const executeRequest = (request, el) => {
+    switch (request) {
+        case "signIn":
+            el.addEventListener("click", function (e) {
+                e.preventDefault();
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                signInRequest(email, password);
+            });
+            break;
+        case "signOut":
+            el.addEventListener("click", function (e) {
+                e.preventDefault();
+                signOutRequest();
+            });
+            break;
+    }
+};
+
+const signInRequest = async (email, password) => {
     try {
         const res = await axios({
             method: "POST",
@@ -24,7 +43,7 @@ export const signin = async (email, password) => {
     }
 };
 
-export const signout = async () => {
+const signOutRequest = async () => {
     try {
         const res = await axios({
             method: "GET",

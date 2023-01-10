@@ -1,5 +1,6 @@
 const AppError = require("../utils/AppError");
 const Media = require("./../models/media-model");
+const Image = require("../models/image-model");
 const catchAsync = require("./../utils/catch-async");
 
 const getOverview = catchAsync(async (req, res, next) => {
@@ -30,8 +31,8 @@ const getMedia = catchAsync(async (req, res, next) => {
 });
 
 const getSignin = catchAsync(async (req, res, next) => {
-    res.status(200).render("signin", {
-        title: "Signin",
+    res.status(200).render("sign-in", {
+        title: "Sign In",
     });
 });
 
@@ -47,10 +48,26 @@ const createMedia = catchAsync(async (req, res, next) => {
     });
 });
 
+const getImages = catchAsync(async (req, res, next) => {
+    const images = await Image.find();
+    res.status(200).render("image", {
+        title: "Images",
+        images,
+    });
+});
+
+const uploadImage = catchAsync(async (req, res, next) => {
+    res.status(200).render("image-upload", {
+        title: "Image Upload",
+    });
+});
+
 module.exports = {
     getOverview,
     getMedia,
     getSignin,
     getSettings,
     createMedia,
+    getImages,
+    uploadImage,
 };

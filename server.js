@@ -24,6 +24,43 @@ mongoose
         useUnifiedTopology: true,
     })
     .then(() => console.log("DATABASE: 🟢"));
+// .then(() => {
+//     const fs = require("fs");
+//     const MongoClient = require("mongodb").MongoClient;
+//     const uri = db;
+//     const client = mongoose.connections[0].client;
+//     client.connect((err) => {
+//         console.log("connec");
+
+//         //add
+//         // Read the image file into a Buffer
+//         // const imageBuffer = fs.readFileSync(
+//         //     "/Users/zachbazov/Development/Nodejs/netflix-swift-api/public/img/poster/aladdin.jpg"
+//         // );
+
+//         // Insert the image into the images collection
+//         const collection = client.db("Netflix-Swift").collection("images");
+//         // collection.insertOne({ image: imageBuffer }, (err, result) => {
+//         //     console.log("Inserted image into the images collection");
+//         //     client.close();
+//         // });
+
+//         // get
+//         // Find the image in the images collection
+//         var objectId = new mongoose.Types.ObjectId(
+//             "63b8497ce5bc945c391554c0"
+//         );
+//         collection.findOne({ _id: objectId }, (err, doc) => {
+//             // Convert the BinData image to a binary string
+//             const imageBuffer = Buffer.from(doc.image);
+//             // Convert the binary string to a base64-encoded string
+//             const imageBase64 = imageBuffer.toString("base64");
+//             // You can now use the imageBase64 string to work with the image data in JavaScript
+//             console.log(imageBase64);
+//             client.close();
+//         });
+//     });
+// });
 
 const app = require("./app");
 

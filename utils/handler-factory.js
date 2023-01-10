@@ -5,6 +5,7 @@ const catchAsync = require("./catch-async");
 const Media = require("../models/media-model");
 const Season = require("./../models/season-model");
 const Episode = require("../models/episode-model");
+const Image = require("../models/image-model");
 
 const isValidObjectId = async (Model, req) => {
     switch (Model.modelName) {
@@ -225,6 +226,10 @@ exports.createOne = (Model) =>
         let data;
 
         switch (Model.modelName) {
+            case "Image":
+                const { name, path, type, output } = req.body;
+                data = await Image.create({ name, path, type, output });
+                break;
             // case "Section":
             //     if (req.body.id === 0) {
             //         const media = await Media.find();
@@ -437,6 +442,17 @@ exports.updateOne = (Model) =>
         let data;
 
         switch (Model.modelName) {
+            case "Image":
+                doc = await Model.findOneAndUpdate(
+                    { name: req.params.imageName },
+                    {
+                        name: req.body.name,
+                        path: req.body.path,
+                        type: req.body.type,
+                    },
+                    { new: true }
+                );
+                break;
             case "Section":
                 if (mongoose.isValidObjectId(req.params.mediaId)) {
                     doc = await Model.findByIdAndUpdate(
@@ -756,6 +772,12 @@ exports.deleteOne = (Model) =>
 
                     break;
             }
+        }
+
+        if (Model.modelName === "Image") {
+            doc = await Model.findOne({ name: req.params.imageName });
+        } else {
+            doc = null;
         }
 
         if (!doc) {
