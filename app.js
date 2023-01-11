@@ -25,30 +25,34 @@ const imageRouter = require("./routes/image-router");
 
 const app = express();
 
-// View Engine - PUG
+// MARK: - PUG View Engine
+
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
-// Serving static files
+// MARK: - Serving Static Files
+
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use('/video', require('./routes/video'));
-
-// Trust Proxies
+// MARK: - Trust Proxies
 // Works with `req.headers('x-forwarded-proto')`
 // for secure HTTPS Connections
 app.enable("trust proxy");
 
-// CORS
+// MARK: - CORS
+
 app.use(cors());
 
-// options - An HTTP method that we can respond to.
+// MARK: - options - An HTTP method that we can respond to
+
 app.options("*", cors());
 
-// Security HTTP Headers
+// MARK: - Security HTTP Headers
+
 app.use(helmet());
 
-// Content Security Policy
+// MARK: - Content Security Policy
+
 csp.extend(app, {
     policy: {
         directives: {
@@ -120,12 +124,14 @@ csp.extend(app, {
     },
 });
 
-// Development Logging
+// MARK: - Development Logging
+
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 
-// Request limitation per IP
+// MARK: - Request limitation per IP
+
 const limiter = rateLimit({
     max: 5000,
     windowMs: 60 * 60 * 1000, // 60m * 60s * 1ms === 1hour
@@ -134,24 +140,24 @@ const limiter = rateLimit({
 
 app.use("/api/", limiter);
 
-// Body Parser
+// MARK: - Body Parser
 // reads data into 'req.body'
 app.use(express.json({ limit: "100000kb" }));
 
-// Cookie Parser
+// MARK: - Cookie Parser
 // req.cookies
 app.use(cookieParser());
 
-// Data Sanitization
+// MARK: - Security - Data Sanitization
 // against NoSQL query injection
 app.use(mongoSanitize());
 
-// against XSS
-// cleans any user input from malicious HTML code
+// MARK: - Security - Against XSS
+// Cleans any user input from malicious HTML code
 app.use(xss());
 
-// Prevent Parameter Pollution
-// clears the query string
+// MARK: - Prevent Parameter Pollution
+// Clears the query string
 app.use(
     hpp({
         whitelist: [
@@ -167,11 +173,12 @@ app.use(
     })
 );
 
-// Compression
+// MARK: - Compression
 // Compresses the text that sent to the clients
 app.use(compression());
 
-// Route Mounting
+// MARK: - Route Mounting
+
 app.use("/", viewRouter);
 app.use("/api/v1/media", mediaRouter);
 app.use("/api/v1/users", usersRouter);
@@ -181,20 +188,17 @@ app.use("/api/v1/sections", sectionRouter);
 app.use("/api/v1/mylists", myListRouter);
 app.use("/api/v1/images", imageRouter);
 
-// Error Handling Routes
-app.all("*", (req, res, next) => {
-    // res.status(404).json({
-    //     status: 'failure',
-    //     message: `Can't find ${req.originalUrl} on this server.`
-    // });
+// MARK: - Error Handling Routes
 
+app.all("*", (req, res, next) => {
     const message = `Can't find ${req.originalUrl} on this server.`;
     const err = new AppError(message, 404);
 
     next(err);
 });
 
-// Error Handling MW
+// MARK: - Error Handling Middleware
+
 app.use(globalErrorHandler);
 
 module.exports = app;

@@ -1,8 +1,10 @@
-const Episode = require('../models/episode-model');
-const handlerFactory = require('../utils/handler-factory');
+const Episode = require("../models/episode-model");
+const handlerFactory = require("../utils/handler-factory");
 
-exports.getAllEpisodes = handlerFactory.getAll(Episode);
-exports.getEpisode = handlerFactory.getOne(Episode);
-exports.createEpisode = handlerFactory.createOne(Episode);
-exports.updateEpisode = handlerFactory.updateOne(Episode);
+// MARK: - CRUD Operations
+
+exports.getAllEpisodes = handlerFactory.get(Episode);
+exports.createEpisode = handlerFactory.create(Episode);
+exports.updateEpisode = handlerFactory.update(Episode);
 exports.deleteEpisode = handlerFactory.deleteOne(Episode);
+exports.deleteAllEpisodes = handlerFactory.deleteAll(Episode);

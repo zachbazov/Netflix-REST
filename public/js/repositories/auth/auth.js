@@ -1,6 +1,8 @@
 import axios from "axios";
 import { showAlert } from "../../utils/alert";
 
+// MARK: - Execute Request
+
 export const executeRequest = (request, el) => {
     switch (request) {
         case "signIn":
@@ -19,6 +21,8 @@ export const executeRequest = (request, el) => {
             break;
     }
 };
+
+// MARK: - Private
 
 const signInRequest = async (email, password) => {
     try {

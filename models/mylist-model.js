@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// MARK: - MyList Schema
+
 const myListSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
@@ -12,6 +14,8 @@ const myListSchema = new mongoose.Schema({
         },
     ],
 });
+
+// MARK: - MyList Model
 
 const myList = mongoose.model("MyList", myListSchema);
 

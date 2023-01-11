@@ -1,4 +1,4 @@
-const AppError = require('../utils/AppError');
+const AppError = require("../utils/AppError");
 
 const dbCastErrorResponse = (err) => {
     const message = `Invalid ${err.path}: ${err.value}.`;
@@ -23,86 +23,83 @@ const dbDuplicateFieldsErrorResponse = (err) => {
 };
 
 const dbJWTTokenErrorResponse = (err) => {
-    const message = 'Invalid token. Please sign-in again.';
+    const message = "Invalid token. Please sign-in again.";
     const appError = new AppError(message, 401);
 
     return appError;
 };
 
 const dbJWTTokenExpiredErrorResponse = (err) => {
-    const message =
-        'Token has expired. Please sign-in again.';
+    const message = "Token has expired. Please sign-in again.";
     const appError = new AppError(message, 401);
 
     return appError;
 };
 
 const sendErrorDev = (err, req, res) => {
-    if (req.originalUrl.startsWith('/api')) {
+    if (req.originalUrl.startsWith("/api")) {
         return res.status(err.statusCode).json({
             status: err.status,
             error: err,
             message: err.message,
-            stack: err.stack
+            stack: err.stack,
         });
     }
 
-    res.status(err.statusCode).render('error', {
-        title: 'Internal Server Error',
-        message: err.message
+    res.status(err.statusCode).render("error", {
+        title: "Internal Server Error",
+        message: err.message,
     });
 };
 
 const sendErrorProd = (err, req, res) => {
-    if (req.originalUrl.startsWith('/api')) {
+    if (req.originalUrl.startsWith("/api")) {
         if (err.isOperational) {
             return res.status(err.statusCode).json({
                 status: err.status,
-                message: err.message
+                message: err.message,
             });
         }
 
-        console.log('[ERROR] 💥', err);
+        console.log("[ERROR] 💥", err);
 
         return res.status(500).json({
-            status: 'error',
-            message: 'Something went wrong'
+            status: "error",
+            message: "Something went wrong",
         });
     }
 
     if (err.isOperational) {
-        return res.status(err.statusCode).render('error', {
-            title: 'Internal Server Error',
-            message: err.message
+        return res.status(err.statusCode).render("error", {
+            title: "Internal Server Error",
+            message: err.message,
         });
     }
 
-    console.log('[ERROR] 💥', err);
+    console.log("[ERROR] 💥", err);
 
-    res.status(err.statusCode).render('error', {
-        title: 'Internal Server Error',
-        message: 'Please try again later.'
+    res.status(err.statusCode).render("error", {
+        title: "Internal Server Error",
+        message: "Please try again later.",
     });
 };
 
 module.exports = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
-    err.status = err.status || 'error';
+    err.status = err.status || "error";
 
     const nodeEnvironment = process.env.NODE_ENV;
 
-    if (nodeEnvironment === 'development') {
+    if (nodeEnvironment === "development") {
         sendErrorDev(err, req, res);
-    } else if (nodeEnvironment === 'production') {
+    } else if (nodeEnvironment === "production") {
         let error = Object.assign(err);
 
-        // error.message = err.message;
-
-        if (error.name === 'CastError') {
+        if (error.name === "CastError") {
             error = dbCastErrorResponse(error);
         }
 
-        if (error.name === 'ValidationError') {
+        if (error.name === "ValidationError") {
             error = dbValidationErrorResponse(error);
         }
 
@@ -110,11 +107,11 @@ module.exports = (err, req, res, next) => {
             error = dbDuplicateFieldsErrorResponse(error);
         }
 
-        if (error.name === 'JsonWebTokenError') {
+        if (error.name === "JsonWebTokenError") {
             error = dbJWTTokenErrorResponse(error);
         }
 
-        if (error.name === 'TokenExpiredError') {
+        if (error.name === "TokenExpiredError") {
             error = dbJWTTokenExpiredErrorResponse(error);
         }
 

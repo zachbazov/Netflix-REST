@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// MARK: - Section Schema
+
 const sectionSchema = new mongoose.Schema({
     id: Number,
     title: String,
@@ -12,8 +14,12 @@ const sectionSchema = new mongoose.Schema({
     ],
 });
 
+// MARK: - Improve Performance
+
 sectionSchema.index({ id: 1 });
 sectionSchema.index({ title: 1 });
+
+// MARK: - Section Model
 
 const Section = mongoose.model("Section", sectionSchema);
 

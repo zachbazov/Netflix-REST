@@ -6,16 +6,7 @@ const authController = require("../controllers/auth-controller");
 
 router
     .route("/")
-    .get(
-        authController.protect,
-        authController.restrictTo("user", "admin"),
-        sectionController.getAllSections
-    )
-    .post(
-        authController.protect,
-        authController.restrictTo("admin"),
-        sectionController.createManySections
-    )
+    .get(authController.protect, sectionController.getAllSections)
     .delete(
         authController.protect,
         authController.restrictTo("admin"),
@@ -24,15 +15,10 @@ router
 
 router
     .route("/:id")
-    .get(
-        authController.protect,
-        authController.restrictTo("user", "admin"),
-        sectionController.getSection
-    )
     .post(
         authController.protect,
         authController.restrictTo("admin"),
-        sectionController.createManySections
+        sectionController.createSection
     )
     .patch(
         authController.protect,

@@ -4,57 +4,26 @@ const router = express.Router();
 const usersController = require("../controllers/user-controller");
 const authController = require("../controllers/auth-controller");
 
-router.post("/signin", authController.signIn);
-
-router.post("/signup", authController.signUp);
-
-router.get("/signout", authController.signOut);
-
-router.post("/forgot-password", authController.forgotPassword);
-
-router.patch("/reset-password/:token", authController.resetPassword);
-
-router.patch(
-    "/update-password",
-    authController.protect,
-    authController.restrictTo("user", "admin"),
-    authController.updatePassword
-);
-
-router.patch(
-    "/update-data",
-    authController.protect,
-    authController.restrictTo("user", "admin"),
-    usersController.updateData
-);
-
-router.delete(
-    "/delete-data",
-    authController.protect,
-    authController.restrictTo("user", "admin"),
-    usersController.deleteData
-);
-
 router
     .route("/")
     .get(
         authController.protect,
-        authController.restrictTo("user", "admin"),
+        authController.restrictTo("admin"),
         usersController.getAllUsers
     )
     .post(
         authController.protect,
         authController.restrictTo("admin"),
         usersController.createUser
+    )
+    .delete(
+        authController.protect,
+        authController.restrictTo("admin"),
+        usersController.deleteAllUsers
     );
 
 router
     .route("/:userId")
-    .get(
-        authController.protect,
-        authController.restrictTo("user", "admin"),
-        usersController.getUser
-    )
     .patch(
         authController.protect,
         authController.restrictTo("admin"),
@@ -65,5 +34,30 @@ router
         authController.restrictTo("admin"),
         usersController.deleteUser
     );
+
+router.post("/signin", authController.signIn);
+router.post("/signup", authController.signUp);
+router.get("/signout", authController.signOut);
+
+router.post("/forgot-password", authController.forgotPassword);
+router.patch("/reset-password/:token", authController.resetPassword);
+
+router.patch(
+    "/update-password",
+    authController.protect,
+    authController.updatePassword
+);
+
+router.patch(
+    "/update-data",
+    authController.protect,
+    usersController.updateData
+);
+
+router.delete(
+    "/delete-data",
+    authController.protect,
+    usersController.deleteData
+);
 
 module.exports = router;

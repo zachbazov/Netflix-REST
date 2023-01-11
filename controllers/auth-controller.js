@@ -6,6 +6,8 @@ const catchAsync = require("../utils/catch-async");
 const AppError = require("./../utils/AppError");
 const dispatch = require("./../utils/mailer");
 
+// MARK: - Restrict Feature Access for Roles
+
 const restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
@@ -20,6 +22,8 @@ const restrictTo = (...roles) => {
     };
 };
 
+// MARK: - Feature Protection Layer
+// Request from the user to sign-in to gain access
 const protect = catchAsync(async (req, res, next) => {
     let token;
 
@@ -66,6 +70,8 @@ const protect = catchAsync(async (req, res, next) => {
     next();
 });
 
+// MARK: - Feature Protection Layer
+// Validate if the user is signed in
 const isSignedIn = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
@@ -96,6 +102,8 @@ const isSignedIn = async (req, res, next) => {
     next();
 };
 
+// MARK: - Sign a JWT Token
+// Initiate a JWT token signing request
 const signToken = (id) => {
     return jwt.sign(
         {
@@ -108,6 +116,8 @@ const signToken = (id) => {
     );
 };
 
+// MARK: - Dispatch a Signed JWT Token
+// Register the token as a cookie
 const dispatchSignToken = async (user, statusCode, req, res) => {
     const token = signToken(user._id);
 
@@ -131,6 +141,8 @@ const dispatchSignToken = async (user, statusCode, req, res) => {
     });
 };
 
+// MARK: - Authentication Features
+// Sign up a User
 const signUp = catchAsync(async (req, res, next) => {
     const newUser = await User.create({
         name: req.body.name,
@@ -143,6 +155,7 @@ const signUp = catchAsync(async (req, res, next) => {
     dispatchSignToken(newUser, 201, req, res);
 });
 
+// Sign in a User
 const signIn = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -168,6 +181,7 @@ const signIn = catchAsync(async (req, res, next) => {
     dispatchSignToken(user, 200, req, res);
 });
 
+// Sign out a User
 const signOut = (req, res) => {
     res.cookie("jwt", "signedOut", {
         expires: new Date(Date.now() + 10 * 1000),
@@ -179,6 +193,7 @@ const signOut = (req, res) => {
     });
 };
 
+// Dispatch an Email for a forgotten password
 const forgotPassword = catchAsync(async (req, res, next) => {
     const user = await User.findOne({
         email: req.body.email,
@@ -225,6 +240,7 @@ const forgotPassword = catchAsync(async (req, res, next) => {
     }
 });
 
+// Request a new User password and reset it's token
 const resetPassword = catchAsync(async (req, res, next) => {
     const hashedToken = crypto
         .createHash("sha256")
@@ -253,6 +269,7 @@ const resetPassword = catchAsync(async (req, res, next) => {
     dispatchSignToken(user, 200, req, res);
 });
 
+// Update User Password
 const updatePassword = catchAsync(async (req, res, next) => {
     const user = await User.findById(req.user.id).select("+password");
 

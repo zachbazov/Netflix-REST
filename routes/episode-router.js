@@ -4,15 +4,22 @@ const router = express.Router({ mergeParams: true });
 const episodeController = require("../controllers/episode-controller");
 const authController = require("../controllers/auth-controller");
 
-router.route("/").get(episodeController.getAllEpisodes);
+router
+    .route("/")
+    .get(authController.protect, episodeController.getAllEpisodes)
+    .post(
+        authController.protect,
+        authController.restrictTo("admin"),
+        episodeController.createEpisode
+    )
+    .delete(
+        authController.protect,
+        authController.restrictTo("admin"),
+        episodeController.deleteAllEpisodes
+    );
 
 router
     .route("/:numberOfEpisode")
-    .get(
-        authController.protect,
-        authController.restrictTo("user", "admin"),
-        episodeController.getEpisode
-    )
     .patch(
         authController.protect,
         authController.restrictTo("admin"),
@@ -22,14 +29,6 @@ router
         authController.protect,
         authController.restrictTo("admin"),
         episodeController.deleteEpisode
-    );
-
-router
-    .route("/")
-    .post(
-        authController.protect,
-        authController.restrictTo("admin"),
-        episodeController.createEpisode
     );
 
 module.exports = router;

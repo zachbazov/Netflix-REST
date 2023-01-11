@@ -1,6 +1,8 @@
 import axios from "axios";
 import { showAlert } from "../../utils/alert";
 
+// MARK: - Update Preview Image
+
 export const updatePreviewImage = function (input, previewImage) {
     input.onchange = function () {
         var file = input.files[0],
@@ -13,6 +15,8 @@ export const updatePreviewImage = function (input, previewImage) {
         reader.readAsDataURL(file);
     };
 };
+
+// MARK: - Execute Image Upload
 
 export const executeUpload = async (btn, input) => {
     btn.addEventListener("click", async function (e) {
@@ -41,6 +45,8 @@ export const executeUpload = async (btn, input) => {
         reader.readAsDataURL(file);
     });
 };
+
+// MARK: - Private
 
 const uploadRequest = async (name, path, type, output) => {
     try {

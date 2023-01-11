@@ -1,8 +1,10 @@
 const MyList = require("../models/mylist-model");
 const handlerFactory = require("../utils/handler-factory");
 
-exports.getAllLists = handlerFactory.getAll(MyList);
-exports.getOneList = handlerFactory.getOne(MyList);
-exports.createList = handlerFactory.createOne(MyList);
-exports.updateList = handlerFactory.updateOne(MyList);
+// MARK: - CRUD Operations
+
+exports.getAllLists = handlerFactory.get(MyList);
+exports.createList = handlerFactory.create(MyList);
+exports.updateList = handlerFactory.update(MyList);
 exports.deleteList = handlerFactory.deleteOne(MyList);
+exports.deleteAllLists = handlerFactory.deleteAll(MyList);

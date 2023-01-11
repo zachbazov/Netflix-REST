@@ -7,11 +7,28 @@ const authController = require("../controllers/auth-controller");
 router
     .route("/")
     .get(authController.protect, imageController.getAllImages)
-    .post(authController.protect, imageController.createImage);
+    .post(
+        authController.protect,
+        authController.restrictTo("admin"),
+        imageController.createImage
+    )
+    .delete(
+        authController.protect,
+        authController.restrictTo("admin"),
+        imageController.deleteAllImages
+    );
 
 router
     .route("/:imageName")
-    .patch(authController.protect, imageController.updateImage)
-    .delete(authController.protect, imageController.deleteImage);
+    .patch(
+        authController.protect,
+        authController.restrictTo("admin"),
+        imageController.updateImage
+    )
+    .delete(
+        authController.protect,
+        authController.restrictTo("admin"),
+        imageController.deleteImage
+    );
 
 module.exports = router;

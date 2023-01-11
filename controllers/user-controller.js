@@ -1,13 +1,17 @@
-const AppError = require('../utils/AppError');
-const User = require('./../models/user-model');
-const catchAsync = require('./../utils/catch-async');
-const handlerFactory = require('../utils/handler-factory');
+const AppError = require("../utils/AppError");
+const User = require("./../models/user-model");
+const catchAsync = require("./../utils/catch-async");
+const handlerFactory = require("../utils/handler-factory");
 
-exports.getAllUsers = handlerFactory.getAll(User);
-exports.getUser = handlerFactory.getOne(User);
-exports.createUser = handlerFactory.createOne(User);
-exports.updateUser = handlerFactory.updateOne(User);
+// MARK: - CRUD Operations
+
+exports.getAllUsers = handlerFactory.get(User);
+exports.createUser = handlerFactory.create(User);
+exports.updateUser = handlerFactory.update(User);
 exports.deleteUser = handlerFactory.deleteOne(User);
+exports.deleteAllUsers = handlerFactory.deleteAll(User);
+
+// MARK: - User Settings Operations
 
 exports.updateData = catchAsync(async (req, res, next) => {
     if (req.body.password || req.body.passwordConfirm) {
@@ -29,40 +33,35 @@ exports.updateData = catchAsync(async (req, res, next) => {
         return newObject;
     }
 
-    const filteredBody = filterObject(
-        req.body,
-        'name',
-        'email'
-    );
+    const filteredBody = filterObject(req.body, "name", "email");
 
-    doc = await User.findByIdAndUpdate(
-        req.user.id,
-        filteredBody,
-        { new: true, runValidators: true }
-    );
+    doc = await User.findByIdAndUpdate(req.user.id, filteredBody, {
+        new: true,
+        runValidators: true,
+    });
 
     if (!doc) {
-        const message = 'No documents found.';
+        const message = "No documents found.";
         const appError = new AppError(message, 404);
 
         return next(appError);
     }
 
     res.status(200).json({
-        status: 'success',
+        status: "success",
         data: {
-            doc
-        }
+            doc,
+        },
     });
 });
 
 exports.deleteData = catchAsync(async (req, res, next) => {
     await User.findByIdAndUpdate(req.user.id, {
-        active: false
+        active: false,
     });
 
     res.status(204).json({
-        status: 'success',
-        data: null
+        status: "success",
+        data: null,
     });
 });

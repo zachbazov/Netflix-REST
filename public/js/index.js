@@ -8,6 +8,7 @@ import {
 } from "./repositories/images/images";
 
 // MARK: - Authentication
+
 const signInButton = document.getElementById("btn--sign-in");
 const signOutRef = document.getElementById("ref--sign-out");
 if (signInButton) {
@@ -17,6 +18,7 @@ if (signInButton) {
 }
 
 // MARK: - Update Settings
+
 const updateSettingsButton = document.getElementById("btn--update-settings");
 const updatePasswordButton = document.getElementById("btn--update-password");
 if (updateSettingsButton) {
@@ -26,6 +28,7 @@ if (updateSettingsButton) {
 }
 
 // MARK: - Create Media
+
 const createMediaButton = document.getElementById("btn--create-media");
 if (createMediaButton) {
     createMedia();
@@ -37,6 +40,7 @@ if (createMediaButton) {
 }
 
 // MARK: - Image Upload
+
 const imageUploadInput = document.querySelector(".input--image-upload-p");
 const imageUploadPreviewImage = document.getElementById("preview-img--upload");
 const imageUploadButton = document.querySelector(".btn--image-upload");

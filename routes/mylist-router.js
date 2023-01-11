@@ -10,29 +10,17 @@ router
         authController.protect,
         authController.restrictTo("admin"),
         myListController.getAllLists
+    )
+    .delete(
+        authController.protect,
+        authController.restrictTo("admin"),
+        myListController.deleteAllLists
     );
 
 router
     .route("/:listUserId")
-    .get(
-        authController.protect,
-        authController.restrictTo("admin", "user"),
-        myListController.getOneList
-    )
-    .post(
-        authController.protect,
-        authController.restrictTo("admin", "user"),
-        myListController.createList
-    )
-    .patch(
-        authController.protect,
-        authController.restrictTo("admin", "user"),
-        myListController.updateList
-    )
-    .delete(
-        authController.protect,
-        authController.restrictTo("admin", "user"),
-        myListController.deleteList
-    );
+    .post(authController.protect, myListController.createList)
+    .patch(authController.protect, myListController.updateList)
+    .delete(authController.protect, myListController.deleteList);
 
 module.exports = router;

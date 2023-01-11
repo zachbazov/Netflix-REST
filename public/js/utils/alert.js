@@ -1,3 +1,5 @@
+// MARK: - Hide
+
 export const hideAlert = () => {
     const el = document.querySelector(".alert");
 
@@ -5,6 +7,8 @@ export const hideAlert = () => {
         el.parentElement.removeChild(el);
     }
 };
+
+// MARK: - Show
 
 export const showAlert = (type, message) => {
     hideAlert();

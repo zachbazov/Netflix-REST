@@ -2,6 +2,8 @@ import axios from "axios";
 import { showAlert } from "../../utils/alert";
 const Media = require("../../../../models/media-model");
 
+// MARK: - Create Media's Form Properties
+
 var genreCounter = 1;
 var posterCounter = 1;
 var logoCounter = 1;
@@ -12,6 +14,8 @@ const finalPosters = new Set();
 const finalLogos = new Set();
 const finalDisplayLogos = new Set();
 const finalTrailers = new Set();
+
+// MARK: - Create Media Form Mapping
 
 export const createMedia = () => {
     document
@@ -128,6 +132,8 @@ export const createMedia = () => {
         });
 };
 
+// MARK: - Create Media - Private
+
 const createRequest = async (media) => {
     try {
         const res = await axios({
@@ -163,6 +169,8 @@ const createRequest = async (media) => {
     }
 };
 
+// MARK: - Input Addition/Removal Handler
+
 export const addInput = (type) => {
     switch (type) {
         case "genre":
@@ -188,6 +196,8 @@ export const addInput = (type) => {
             break;
     }
 };
+
+// MARK: - Input Addition/Removal - Private
 
 const addGenreInput = (buttonSelector, divSelector) => {
     document

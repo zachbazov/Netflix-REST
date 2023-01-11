@@ -1,6 +1,8 @@
 import axios from "axios";
 import { showAlert } from "../../utils/alert";
 
+// MARK: - Update User Settings Form Mapping
+
 export const updateUserSettings = function (btn) {
     btn.addEventListener("click", function (e) {
         e.preventDefault();
@@ -11,6 +13,8 @@ export const updateUserSettings = function (btn) {
         updateSettings("data", { name, email });
     });
 };
+
+// MARK: - Update User Password Form Mapping
 
 export const updatePassword = function (btn) {
     btn.addEventListener("click", async function (e) {
@@ -39,6 +43,8 @@ export const updatePassword = function (btn) {
         passwordConfirm.value = "";
     });
 };
+
+// MARK: - Update Settings - Private
 
 const updateSettings = async (type, data) => {
     try {

@@ -1,68 +1,65 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+const mongoose = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+
+// MARK: - User Schema
 
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'A name value is required.']
+        required: [true, "A name value is required."],
     },
     email: {
         type: String,
-        required: [true, 'An email value is required.'],
+        required: [true, "An email value is required."],
         unique: true,
         lowercase: true,
-        validate: [
-            validator.isEmail,
-            'A valid email value is required.'
-        ]
+        validate: [validator.isEmail, "A valid email value is required."],
     },
     photo: {
-        type: String
+        type: String,
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
-        default: 'user'
+        enum: ["user", "admin"],
+        default: "user",
     },
     password: {
         type: String,
-        required: [true, 'A password value is required.'],
+        required: [true, "A password value is required."],
         minlength: 8,
-        select: false
+        select: false,
     },
     passwordConfirm: {
         type: String,
-        required: [
-            true,
-            'A password confirmation value is required.'
-        ],
+        required: [true, "A password confirmation value is required."],
         validate: {
             // validator - function works only on 'save/create' queries.
             validator: function (el) {
                 return el === this.password;
             },
-            message: 'Passwords should match.'
-        }
+            message: "Passwords should match.",
+        },
     },
     passwordChangedAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
     },
     passwordResetToken: String,
     passwordResetExpirationPeriod: Date,
     active: {
         type: Boolean,
         default: true,
-        select: false
-    }
+        select: false,
+    },
 });
 
-// Password Encryption
+// MARK: - Document Middleware
 
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {
+// Password Encryption
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
         return next();
     }
 
@@ -73,8 +70,9 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-userSchema.pre('save', function (next) {
-    if (!this.isModified('password') || this.isNew) {
+// Update Password Change Time
+userSchema.pre("save", function (next) {
+    if (!this.isModified("password") || this.isNew) {
         return next();
     }
 
@@ -83,64 +81,53 @@ userSchema.pre('save', function (next) {
     next();
 });
 
+// `$ne` operator - operating parameter won't be included
 userSchema.pre(/^find/, function (next) {
     this.find({ active: { $ne: false } });
 
     next();
 });
 
-// Instance Method
+// MARK: - Instance Method
 
+// Password Compare
 userSchema.methods.correctPassword = async function (
     candidatePassword,
     userPassword
 ) {
-    return await bcrypt.compare(
-        candidatePassword,
-        userPassword
-    );
+    return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = function (
-    jwtTimestamp
-) {
+// Value JWT Timestamp for Password Changes
+userSchema.methods.changedPasswordAfter = function (jwtTimestamp) {
     if (this.passwordChangedAt) {
         const changedTimestamp = parseInt(
             this.passwordChangedAt.getTime() / 1000,
             10
         );
 
-        // console.log(changedTimestamp, jwtTimestamp);
-
         return jwtTimestamp < changedTimestamp;
     }
 
-    // false - means not changed.
     return false;
 };
 
-userSchema.methods.generatePasswordResetToken =
-    function () {
-        const resetToken = crypto
-            .randomBytes(32)
-            .toString('hex');
+// Generate Password Reset Token
+userSchema.methods.generatePasswordResetToken = function () {
+    const resetToken = crypto.randomBytes(32).toString("hex");
 
-        this.passwordResetToken = crypto
-            .createHash('sha256')
-            .update(resetToken)
-            .digest('hex');
+    this.passwordResetToken = crypto
+        .createHash("sha256")
+        .update(resetToken)
+        .digest("hex");
 
-        // console.log(
-        //     { resetToken },
-        //     this.passwordResetToken
-        // );
+    this.passwordResetExpirationPeriod = Date.now() + 10 * 60 * 1000;
 
-        this.passwordResetExpirationPeriod =
-            Date.now() + 10 * 60 * 1000;
+    return resetToken;
+};
 
-        return resetToken;
-    };
+// MARK: - User Model
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

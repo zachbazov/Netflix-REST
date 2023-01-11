@@ -3,16 +3,18 @@ const router = express.Router({ mergeParams: true });
 
 const seasonController = require("../controllers/season-controller");
 const authController = require("../controllers/auth-controller");
-const episodeRouter = require("../routes/episode-router");
 
 router
     .route("/")
-    .get(seasonController.getSeasons)
-    .get(seasonController.getAllSeasons);
+    .get(authController.protect, seasonController.getAllSeasons)
+    .delete(
+        authController.protect,
+        authController.restrictTo("admin"),
+        seasonController.deleteAllSeasons
+    );
 
 router
-    .route("/:numberOfSeason")
-    .get(seasonController.getSeason)
+    .route("/:mediaId/:numberOfSeason")
     .patch(
         authController.protect,
         authController.restrictTo("admin"),
@@ -21,17 +23,15 @@ router
     .delete(
         authController.protect,
         authController.restrictTo("admin"),
-        seasonController.deleteSeasonWithEpisodes
+        seasonController.deleteSeason
     );
 
 router
-    .route("/:numberOfSeason/:episodes")
+    .route("/:mediaId/:numberOfSeason/:episodes")
     .post(
         authController.protect,
         authController.restrictTo("admin"),
-        seasonController.createSeasonWithEpisodes
+        seasonController.createSeason
     );
-
-router.use("/:numberOfSeason", episodeRouter);
 
 module.exports = router;

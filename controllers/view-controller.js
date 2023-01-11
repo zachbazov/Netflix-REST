@@ -3,6 +3,8 @@ const Media = require("./../models/media-model");
 const Image = require("../models/image-model");
 const catchAsync = require("./../utils/catch-async");
 
+// MARK: - Homepage Views
+
 const getOverview = catchAsync(async (req, res, next) => {
     const media = await Media.find();
 
@@ -11,6 +13,8 @@ const getOverview = catchAsync(async (req, res, next) => {
         media,
     });
 });
+
+// MARK: - Media Views
 
 const getMedia = catchAsync(async (req, res, next) => {
     const media = await Media.findOne({
@@ -30,6 +34,14 @@ const getMedia = catchAsync(async (req, res, next) => {
     });
 });
 
+const createMedia = catchAsync(async (req, res, next) => {
+    res.status(200).render("create-media", {
+        title: "Create a new Media",
+    });
+});
+
+// MARK: - Auth & User Views
+
 const getSignin = catchAsync(async (req, res, next) => {
     res.status(200).render("sign-in", {
         title: "Sign In",
@@ -42,11 +54,7 @@ const getSettings = catchAsync(async (req, res, next) => {
     });
 });
 
-const createMedia = catchAsync(async (req, res, next) => {
-    res.status(200).render("create-media", {
-        title: "Create a new Media",
-    });
-});
+// MARK: - Images Views
 
 const getImages = catchAsync(async (req, res, next) => {
     const images = await Image.find();
