@@ -19,12 +19,9 @@ router.get(
     viewController.createMedia
 );
 
-router.get(
-    "/images",
-    authController.protect,
-    authController.restrictTo("admin"),
-    viewController.getImages
-);
+router.get("/images", viewController.getImages);
+
+router.get("/image", viewController.getImage);
 
 router.get(
     "/upload",

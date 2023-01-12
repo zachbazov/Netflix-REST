@@ -40,3 +40,9 @@ block content
                                 span.card__footer-value #{m.rating}
                                 |
                             a.btn.btn--green.btn--small(href=`/media/${m.slug}`) Details
+
+        br
+        div.page-control
+            btn#btn--page-control-prev.btn__form.btn__form-black Previous
+            span.current-page= `Page ${page} of ${totalPages}`
+            btn#btn--page-control-next.btn__form.btn__form-black Next

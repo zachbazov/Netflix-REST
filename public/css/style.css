@@ -44,14 +44,7 @@ body {
 }
 
 .main {
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        right bottom,
-        from(#430c0c),
-        to(#210e0e)
-    );
-    background-image: linear-gradient(to right bottom, #210e0e, #430c0c);
+    background-color: black;
     padding: 8rem 6rem;
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -206,7 +199,6 @@ body {
     font-weight: 400;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    /*Add later when we use this for the button in form*/
     border: none;
     cursor: pointer;
 }
@@ -307,14 +299,6 @@ body {
 }
 
 .header {
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        right bottom,
-        from(#430c0c),
-        to(#210e0e)
-    );
-    background-image: linear-gradient(to bottom, #430c0c, #210e0e);
     padding: 0 5rem;
     height: 8rem;
     position: relative;
@@ -817,39 +801,12 @@ body {
 }
 
 .footer {
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        right bottom,
-        from(#210e0e),
-        to(#430c0c)
-    );
-    background-image: linear-gradient(to top, #430c0c, #210e0e);
     padding: 6rem 4rem 3rem 4rem;
     font-size: 1.4rem;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-row-gap: 0.75rem;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
 }
-@media only screen and (max-width: 50em) {
-    .footer {
-        grid-template-columns: 1fr;
-        grid-row-gap: 1.25rem;
-        justify-items: center;
-    }
-}
+
 .footer__logo {
-    grid-row: 1 / 3;
-    -ms-flex-item-align: center;
-    align-self: center;
-}
-@media only screen and (max-width: 50em) {
-    .footer__logo {
-        grid-row: 1;
-    }
+    padding-top: 32px;
 }
 .footer__logo img {
     height: 3rem;
@@ -865,7 +822,7 @@ body {
     margin-left: 1.5rem;
 }
 .footer__nav a {
-    color: #777;
+    color: rgb(255, 255, 255);
     text-decoration: none !important;
     -webkit-transition: all 0.2s;
     transition: all 0.2s;
@@ -875,7 +832,9 @@ body {
     color: #383a38da;
 }
 .footer__copyright {
-    justify-self: end;
+    padding-top: 16px;
+    display: flex;
+    justify-content: flex-end;
     color: #999;
 }
 @media only screen and (max-width: 50em) {
@@ -900,18 +859,18 @@ body {
         flex-direction: column;
     }
 }
-.nav--tvshows {
+.nav--media {
     -webkit-box-flex: 0;
     -ms-flex: 0 1 40%;
     flex: 0 1 40%;
 }
 @media only screen and (max-width: 62.5em) {
-    .nav--tvshows {
+    .nav--media {
         margin-bottom: 1.5rem;
     }
 }
 @media only screen and (max-width: 37.5em) {
-    .nav--tvshows {
+    .nav--media {
         margin-bottom: 0;
     }
 }
@@ -1410,6 +1369,32 @@ body {
     background-image: linear-gradient(to right bottom, #210e0e, #430c0c);
 }
 
+.btn__form {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.btn__form-black {
+    background-color: #160303;
+    color: white;
+    border: 2px solid white;
+    border-radius: 12px;
+}
+
+.btn__form-black:hover {
+    background-color: #fff;
+    color: black;
+}
+
 .btn-primary {
     margin: 0 auto;
     display: flex;
@@ -1426,14 +1411,7 @@ body {
 }
 
 .body-background {
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        right bottom,
-        from(#111),
-        to(#222)
-    );
-    background-image: linear-gradient(to top bottom, #111, #222);
+    background-color: black;
 }
 
 .form--image-upload {
@@ -1476,4 +1454,45 @@ textarea {
 
 .btn--image-upload-p:hover {
     background-color: rgb(80, 116, 158);
+}
+
+.page-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.previous-page,
+.next-page {
+    padding: 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+    background-color: #240101;
+}
+.current-page {
+    padding: 8px;
+    margin: 0 8px;
+    font-weight: bold;
+}
+
+.img__header {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+}
+
+.img__footer {
+    position: absolute;
+    bottom: 0 auto;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
 }

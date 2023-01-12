@@ -28,7 +28,7 @@ const signInRequest = async (email, password) => {
     try {
         const res = await axios({
             method: "POST",
-            url: "api/v1/users/signin",
+            url: "/api/v1/users/signin",
             data: {
                 email,
                 password,
@@ -39,7 +39,7 @@ const signInRequest = async (email, password) => {
             showAlert("success", "Signed in successfully");
 
             window.setTimeout(() => {
-                location.assign("/");
+                location.assign("/?page=1&limit=9");
             }, 1500);
         }
     } catch (err) {
@@ -51,7 +51,7 @@ const signOutRequest = async () => {
     try {
         const res = await axios({
             method: "GET",
-            url: "api/v1/users/signout",
+            url: "/api/v1/users/signout",
         });
 
         if (res.data.status === "success") {

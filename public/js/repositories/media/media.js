@@ -138,7 +138,7 @@ const createRequest = async (media) => {
     try {
         const res = await axios({
             method: "POST",
-            url: "api/v1/media",
+            url: "/api/v1/media",
             data: {
                 type: media.type,
                 title: media.title,
@@ -162,7 +162,7 @@ const createRequest = async (media) => {
         if (res.data.status === "success") {
             showAlert("success", "Created successfully");
 
-            Media.save(media);
+            await Media.save(media);
         }
     } catch (err) {
         showAlert("error", err.response.data.message);
@@ -409,4 +409,25 @@ const removeInput = (div, type) => {
             break;
     }
     parent.removeChild(div);
+};
+
+// MARK: - Pagination
+
+export const requestPage = async (page, limit) => {
+    try {
+        const res = await axios({
+            method: "GET",
+            url: `/api/v1/media?page=${page}&limit=${limit}`,
+            data: {
+                page,
+                limit,
+            },
+        });
+
+        if (res.data.status === "success") {
+            window.location.assign(`/?page=${page}&limit=${limit}`);
+        }
+    } catch (err) {
+        showAlert("error", err.response.data.message);
+    }
 };

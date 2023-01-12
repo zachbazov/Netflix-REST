@@ -3,18 +3,25 @@ const Media = require("./../models/media-model");
 const Image = require("../models/image-model");
 const catchAsync = require("./../utils/catch-async");
 
-// MARK: - Homepage Views
+// MARK: - Media
 
 const getOverview = catchAsync(async (req, res, next) => {
-    const media = await Media.find();
+    const allMedia = await Media.find();
+    const { page, limit } = req.query;
+    const totalPages = Math.round(allMedia.length / limit + 1);
+
+    const media = await Media.find()
+        .skip((page - 1) * limit)
+        .limit(limit);
 
     res.status(200).render("overview", {
         title: "All Media",
         media,
+        totalPages,
+        page,
+        limit,
     });
 });
-
-// MARK: - Media Views
 
 const getMedia = catchAsync(async (req, res, next) => {
     const media = await Media.findOne({
@@ -40,7 +47,7 @@ const createMedia = catchAsync(async (req, res, next) => {
     });
 });
 
-// MARK: - Auth & User Views
+// MARK: - Auth & User
 
 const getSignin = catchAsync(async (req, res, next) => {
     res.status(200).render("sign-in", {
@@ -54,14 +61,29 @@ const getSettings = catchAsync(async (req, res, next) => {
     });
 });
 
-// MARK: - Images Views
+// MARK: - Images
 
 const getImages = catchAsync(async (req, res, next) => {
     const images = await Image.find();
+
     res.status(200).render("image", {
         title: "Images",
         images,
     });
+});
+
+const getImage = catchAsync(async (req, res, next) => {
+    console.log(555, req.query);
+
+    const image = await Image.findOne({ name: req.query.name });
+    // console.log(image.output);
+    // const footerImage = document.getElementById("img__footer");
+    // footerImage.src = `${image.output.dataUri}`;
+    // console.log(112, image);
+
+    res.myImage = image;
+    console.log(88888, res.myImage.name);
+    next();
 });
 
 const uploadImage = catchAsync(async (req, res, next) => {
@@ -77,5 +99,6 @@ module.exports = {
     getSettings,
     createMedia,
     getImages,
+    getImage,
     uploadImage,
 };

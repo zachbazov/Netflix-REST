@@ -1,8 +1,9 @@
 header.header
-    nav.nav.nav--tvshows
-        a.nav__el(href='/') All Media
-    .header__logo
-        img(src='/img/system/netflix-logo.png' alt='Logo')
+    img#img__header.img__header
+    nav.nav.nav--media
+        a#ref--all-media.nav__el All Media
+    .center
+        img(src='/img/system/netflix-logo-1.png' alt='Logo')
     nav.nav.nav--user
         if user
             a#ref--sign-out.nav__el.nav__el--logout Sign Out

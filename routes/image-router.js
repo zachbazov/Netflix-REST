@@ -6,7 +6,7 @@ const authController = require("../controllers/auth-controller");
 
 router
     .route("/")
-    .get(authController.protect, imageController.getAllImages)
+    .get(imageController.getAllImages)
     .post(
         authController.protect,
         authController.restrictTo("admin"),
