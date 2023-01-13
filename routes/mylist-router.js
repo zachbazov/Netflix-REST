@@ -6,11 +6,7 @@ const myListController = require("./../controllers/mylist-controller");
 
 router
     .route("/")
-    .get(
-        authController.protect,
-        authController.restrictTo("admin"),
-        myListController.getAllLists
-    )
+    .get(authController.protect, myListController.getAllLists)
     .delete(
         authController.protect,
         authController.restrictTo("admin"),
