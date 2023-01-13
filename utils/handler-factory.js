@@ -23,6 +23,8 @@ exports.get = (Model) =>
 
         if (Model.modelName === "Season") {
             data = await service.query.populate("episodes");
+        } else if (Model.modelName === "MyList") {
+            data = await service.query.populate("media");
         } else {
             data = await service.query; //.explain();
         }
