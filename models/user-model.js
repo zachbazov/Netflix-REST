@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const MyList = require("./mylist-model");
 
 // MARK: - User Schema
 
@@ -53,6 +54,7 @@ const userSchema = new mongoose.Schema({
         default: true,
         select: false,
     },
+    mylist: [{ type: mongoose.Schema.ObjectId, ref: "MyList" }],
 });
 
 // MARK: - Document Middleware
@@ -64,10 +66,24 @@ userSchema.pre("save", async function (next) {
     }
 
     this.password = await bcrypt.hash(this.password, 12);
-
     this.passwordConfirm = undefined;
 
     next();
+});
+
+// Create an associated list for the user once saved
+userSchema.pre("save", async function (next) {
+    await MyList.create({
+        user: this._id,
+        media: [],
+    });
+
+    next();
+});
+
+// Remove user's associated list once the user is deleted
+userSchema.post("remove", async function (doc) {
+    await MyList.findOneAndDelete({ user: doc._id });
 });
 
 // Update Password Change Time

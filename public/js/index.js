@@ -20,7 +20,7 @@ if (allMediaRef) {
     allMediaRef.addEventListener("click", (e) => {
         e.preventDefault();
         localStorage.setItem("page", 1);
-        window.location.assign("?page=1&limit=9");
+        window.location.assign("/?page=1&limit=9");
     });
 }
 
