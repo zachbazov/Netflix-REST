@@ -13,11 +13,27 @@ exports.deleteAllMedia = handlerFactory.deleteAll(Media);
 // MARK: - Search
 
 exports.search = catchAsync(async (req, res, next) => {
-    const docs = await Media.find({
-        slug: {
-            $regex: `${req.params.searchText.toLowerCase().replace(" ", "-")}`,
-        },
-    });
+    const docs = await Media.find(
+        req.query.slug !== undefined
+            ? {
+                  slug: {
+                      $regex: `${req.query.slug
+                          .toLowerCase()
+                          .replace(" ", "-")}`,
+                  },
+              }
+            : req.query.title !== undefined
+            ? {
+                  title: {
+                      $regex: `${req.query.title}`,
+                  },
+              }
+            : {
+                  type: {
+                      $regex: `${req.query.type.toLowerCase()}`,
+                  },
+              }
+    );
 
     res.status(200).json({
         status: "success",

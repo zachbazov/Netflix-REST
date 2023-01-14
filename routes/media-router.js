@@ -47,6 +47,6 @@ router
         mediaController.getTrailersCount
     );
 
-router.route("/search/:searchText").get(mediaController.search);
+router.route("/search").get(mediaController.search);
 
 module.exports = router;
