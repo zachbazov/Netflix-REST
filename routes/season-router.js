@@ -7,14 +7,11 @@ const authController = require("../controllers/auth-controller");
 router
     .route("/")
     .get(authController.protect, seasonController.getAllSeasons)
-    .delete(
+    .post(
         authController.protect,
         authController.restrictTo("admin"),
-        seasonController.deleteAllSeasons
-    );
-
-router
-    .route("/:mediaId/:numberOfSeason")
+        seasonController.createSeason
+    )
     .patch(
         authController.protect,
         authController.restrictTo("admin"),
@@ -24,14 +21,6 @@ router
         authController.protect,
         authController.restrictTo("admin"),
         seasonController.deleteSeason
-    );
-
-router
-    .route("/:mediaId/:numberOfSeason/:episodes")
-    .post(
-        authController.protect,
-        authController.restrictTo("admin"),
-        seasonController.createSeason
     );
 
 module.exports = router;

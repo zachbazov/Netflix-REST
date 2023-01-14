@@ -12,14 +12,6 @@ router
         authController.restrictTo("admin"),
         imageController.createImage
     )
-    .delete(
-        authController.protect,
-        authController.restrictTo("admin"),
-        imageController.deleteAllImages
-    );
-
-router
-    .route("/:imageName")
     .patch(
         authController.protect,
         authController.restrictTo("admin"),

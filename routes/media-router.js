@@ -12,14 +12,6 @@ router
         authController.restrictTo("admin"),
         mediaController.createMedia
     )
-    .delete(
-        authController.protect,
-        authController.restrictTo("admin"),
-        mediaController.deleteAllMedia
-    );
-
-router
-    .route("/:mediaId")
     .patch(
         authController.protect,
         authController.restrictTo("admin"),

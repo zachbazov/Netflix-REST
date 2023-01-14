@@ -6,17 +6,25 @@ const myListController = require("./../controllers/mylist-controller");
 
 router
     .route("/")
-    .get(authController.protect, myListController.getAllLists)
+    .get(
+        authController.protect,
+        authController.isSignedIn,
+        myListController.getAllLists
+    )
+    .post(
+        authController.protect,
+        authController.isSignedIn,
+        myListController.createList
+    )
+    .patch(
+        authController.protect,
+        authController.isSignedIn,
+        myListController.updateList
+    )
     .delete(
         authController.protect,
-        authController.restrictTo("admin"),
-        myListController.deleteAllLists
+        authController.isSignedIn,
+        myListController.deleteList
     );
-
-router
-    .route("/:listUserId")
-    .post(authController.protect, myListController.createList)
-    .patch(authController.protect, myListController.updateList)
-    .delete(authController.protect, myListController.deleteList);
 
 module.exports = router;

@@ -12,14 +12,6 @@ router
         authController.restrictTo("admin"),
         episodeController.createEpisode
     )
-    .delete(
-        authController.protect,
-        authController.restrictTo("admin"),
-        episodeController.deleteAllEpisodes
-    );
-
-router
-    .route("/:numberOfEpisode")
     .patch(
         authController.protect,
         authController.restrictTo("admin"),

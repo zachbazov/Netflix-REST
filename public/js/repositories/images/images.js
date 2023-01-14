@@ -73,7 +73,7 @@ export const executeUpload = async (btn, input) => {
 
 const uploadRequest = async (name, path, type, output) => {
     try {
-        const url = "/api/v1/images";
+        const url = "http://127.0.0.1:3000/api/v1/images";
 
         const res = await axios({
             method: "POST",

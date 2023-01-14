@@ -7,14 +7,6 @@ const authController = require("../controllers/auth-controller");
 router
     .route("/")
     .get(authController.protect, sectionController.getAllSections)
-    .delete(
-        authController.protect,
-        authController.restrictTo("admin"),
-        sectionController.deleteAllSections
-    );
-
-router
-    .route("/:id")
     .post(
         authController.protect,
         authController.restrictTo("admin"),

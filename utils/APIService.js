@@ -54,20 +54,32 @@ class APIService {
         return this;
     }
 
-    pagniate() {
+    paginate() {
         if (this.queryString.page) {
             const page = this.queryString.page * 1 || 1;
-            const limit = this.queryString.limit * 1 || 10;
+            const limit = this.queryString.limit * 1 || 9;
             const skip = (page - 1) * limit;
 
             this.query = this.query.skip(skip).limit(limit);
-
-            // if (skip >= mediaCount)
-            //     throw new Error('Doesnt exists');
         }
 
         return this;
     }
+
+    populate = async (Model) => {
+        let data;
+
+        if (Model.modelName === "Season") {
+            data = await this.query.populate("episodes");
+            return data;
+        } else if (Model.modelName === "MyList") {
+            data = await this.query.populate("media");
+            return data;
+        } else {
+            data = await this.query; //.explain();
+            return data;
+        }
+    };
 }
 
 module.exports = APIService;

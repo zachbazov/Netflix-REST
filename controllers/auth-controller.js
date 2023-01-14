@@ -212,7 +212,7 @@ const forgotPassword = catchAsync(async (req, res, next) => {
 
     const resetURL = `${req.protocol}://${req.get(
         "host"
-    )}/api/v1/users/reset-password/${resetToken}`;
+    )}/api/v1/users/reset-password?token=${resetToken}`;
 
     const message = `Forgot your password?\nin order to reset your password please visit:\n${resetURL}\nIf you didn't forget your password, ignore this message.`;
 
@@ -244,7 +244,7 @@ const forgotPassword = catchAsync(async (req, res, next) => {
 const resetPassword = catchAsync(async (req, res, next) => {
     const hashedToken = crypto
         .createHash("sha256")
-        .update(req.params.token)
+        .update(req.query.token)
         .digest("hex");
 
     const user = await User.findOne({
