@@ -1,0 +1,21 @@
+extends base
+
+block content
+    input#input--image-crop.input--image-crop-p.center.padding--top-md(type='file' name='image' accept='image/*')
+    div.nav-panel.float
+        div.nav-body
+            button#btn--img-crop-poster.btn--img-crop-poster.btn--inlined.btn__form.btn__form-black Poster
+            button#btn--img-crop-logo.btn--img-crop-logo.btn--inlined.btn__form.btn__form-black Logo
+            button#btn--img-crop-display-poster.btn--img-crop-display-poster.btn--inlined.btn__form.btn__form-black Display Poster
+            button#btn--img-crop-display-logo.btn--img-crop-display-logo.btn--inlined.btn__form.btn__form-black Display Logo
+            button#btn--img-crop-preview-poster.btn--img-crop-preview-poster.btn--inlined.btn__form.btn__form-black Preview Poster
+        div.img-crop--data-panel.padding--top-sm
+            input#input--img-crop-width(type='number' name='width' placeholder='width')
+            input#input--img-crop-height(type='number' name='height' placeholder='height')
+            button#btn--img-crop-update-size Update Size
+    div.main-container--img-crop
+        img#preview-img--crop.preview--img-crop.no-selection.center(alt="Preview Image")
+        img#output-img--crop.output--img-crop.center(alt="Output Image")
+    div.padding--default.center.padding--top-md
+        button.btn--image-crop.btn--inlined.btn__form.btn__form-black Crop
+        button.btn--image-save.btn--inlined.btn__form.btn__form-black Save

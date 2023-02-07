@@ -50,6 +50,7 @@ app.options("*", cors());
 // MARK: - Security HTTP Headers
 
 app.use(helmet());
+// app.use(helmet.noSniff());
 
 // MARK: - Content Security Policy
 
@@ -70,6 +71,7 @@ csp.extend(app, {
                 "https://bundle.js:8828",
                 "ws://localhost:56558/",
                 "ws://127.0.0.1:50143/",
+                "https://cdn.jsdelivr.net/npm/cropperjs@1.5.9/dist/cropper.min.js",
             ],
             "worker-src": [
                 "self",
@@ -112,7 +114,6 @@ csp.extend(app, {
                 "unsafe-inline",
                 "data:",
                 "blob:",
-                //'wss://<HEROKU-SUBDOMAIN>.herokuapp.com:<PORT>/',
                 "https://*.stripe.com",
                 "https://*.mapbox.com",
                 "https://*.cloudflare.com/",
@@ -176,6 +177,13 @@ app.use(
 // MARK: - Compression
 // Compresses the text that sent to the clients
 app.use(compression());
+
+//
+
+app.use((req, res, next) => {
+    res.set("X-Content-Type-Options", "nosniff");
+    next();
+});
 
 // MARK: - Route Mounting
 

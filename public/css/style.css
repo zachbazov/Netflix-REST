@@ -1496,3 +1496,71 @@ textarea {
     background-size: cover;
     background-position: center;
 }
+
+.container--image-crop {
+    display: block;
+}
+
+.overlay--image-crop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    background-color: rgba(175, 174, 174, 0.75);
+}
+
+.no-selection {
+    user-select: none;
+}
+
+.preview--img-crop {
+    display: flex;
+    width: 50%;
+    height: auto;
+    max-width: 100%;
+}
+
+.output--img-crop {
+    display: flex;
+    width: 50%;
+    height: auto;
+    max-width: 100%;
+}
+
+.main-container--img-crop {
+    display: block;
+    width: 100%;
+}
+
+.nav-panel.float {
+    float: right;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2.5em;
+}
+
+.btn--inlined {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.padding--top-sm {
+    padding-top: 2.5em;
+}
+.padding--top-md {
+    padding-top: 4em;
+}
+.padding--top-lg {
+    padding-top: 6em;
+}
+.padding--top-xl {
+    padding-top: 8em;
+}
+
+.img-header--logo {
+    width: 128px;
+    height: 44px;
+}

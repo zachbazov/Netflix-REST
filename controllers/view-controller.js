@@ -73,22 +73,29 @@ const getImages = catchAsync(async (req, res, next) => {
 });
 
 const getImage = catchAsync(async (req, res, next) => {
-    console.log(555, req.query);
-
     const image = await Image.findOne({ name: req.query.name });
-    // console.log(image.output);
-    // const footerImage = document.getElementById("img__footer");
-    // footerImage.src = `${image.output.dataUri}`;
-    // console.log(112, image);
-
     res.myImage = image;
-    console.log(88888, res.myImage.name);
     next();
+});
+
+const getImagePreview = catchAsync(async (req, res, next) => {
+    const image = await Image.findOne({ name: req.query.name });
+
+    res.status(200).render("image-preview", {
+        title: `${image.name}`,
+        image,
+    });
 });
 
 const uploadImage = catchAsync(async (req, res, next) => {
     res.status(200).render("image-upload", {
         title: "Image Upload",
+    });
+});
+
+const cropImage = catchAsync(async (req, res, next) => {
+    res.status(200).render("image-crop", {
+        title: "Image Cropping",
     });
 });
 
@@ -101,4 +108,6 @@ module.exports = {
     getImages,
     getImage,
     uploadImage,
+    cropImage,
+    getImagePreview,
 };

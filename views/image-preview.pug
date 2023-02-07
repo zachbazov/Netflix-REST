@@ -1,0 +1,8 @@
+extends base
+
+block content
+    main.main
+        h3.heading-tertirary
+            span= image.name
+        - const dataUri = `${image.output.dataUri}`;
+        img.center(src=dataUri)
