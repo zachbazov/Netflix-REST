@@ -173,7 +173,7 @@ const signIn = catchAsync(async (req, res, next) => {
 
     if (!user || !(await user.correctPassword(password, user.password))) {
         const message = "Incorrect email or password";
-        const appError = new AppError(message, 401); // 401: Unauthorized/
+        const appError = new AppError(message, 401);
 
         return next(appError);
     }
