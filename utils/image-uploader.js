@@ -7,10 +7,13 @@ class ImageUploader {
                 reader = new FileReader();
 
             reader.onloadend = async function () {
-                previewImage.src = reader.result;
+                var b64 = reader.result.replace(/^data:.+;base64,/, "");
+                previewImage.src = b64;
+                // previewImage.src = reader.result;
             };
 
             reader.readAsDataURL(file);
+            // reader.readAsText(file);
         };
     }
 
@@ -33,8 +36,13 @@ class ImageUploader {
                 let name = filename.split("C:\\fakepath\\")[1];
                 const type = `.${name.split(".")[1]}`;
                 name = name.split(".")[0];
+
+                // Since it contains the Data URI, we should remove the prefix and keep only Base64 string
+                var b64 = reader.result.replace(/^data:.+;base64,/, "");
+                // console.log(b64);
+
                 const output = {
-                    dataUri: reader.result,
+                    dataUri: b64,
                 };
 
                 if (name !== undefined) {
@@ -43,6 +51,7 @@ class ImageUploader {
             };
 
             reader.readAsDataURL(file);
+            // reader.readAsText(file);
         });
     }
 }
