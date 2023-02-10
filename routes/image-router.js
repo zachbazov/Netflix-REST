@@ -30,12 +30,4 @@ router
         imageController.deleteImage
     );
 
-router
-    .route("/data")
-    .get(
-        authController.isSignedIn,
-        authController.protect,
-        imageController.getImageData
-    );
-
 module.exports = router;
