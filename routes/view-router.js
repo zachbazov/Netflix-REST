@@ -4,7 +4,12 @@ const router = express.Router();
 const viewController = require("../controllers/view-controller");
 const authController = require("../controllers/auth-controller");
 
-router.get("/", authController.isSignedIn, viewController.getOverview);
+router.get(
+    "/",
+    authController.isSignedIn,
+    authController.protect,
+    viewController.getOverview
+);
 
 router.get(
     "/media/:id",
@@ -30,14 +35,18 @@ router.get(
     viewController.createMedia
 );
 
-router.get("/images", authController.isSignedIn, viewController.getImages);
-
-router.get("/image", authController.isSignedIn, viewController.getImage);
+router.get(
+    "/images",
+    authController.isSignedIn,
+    authController.protect,
+    viewController.getImages
+);
 
 router.get(
-    "/image-preview",
+    "/image",
     authController.isSignedIn,
-    viewController.getImagePreview
+    authController.protect,
+    viewController.getImage
 );
 
 router.get(

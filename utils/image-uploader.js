@@ -7,13 +7,10 @@ class ImageUploader {
                 reader = new FileReader();
 
             reader.onloadend = async function () {
-                var b64 = reader.result.replace(/^data:.+;base64,/, "");
-                previewImage.src = b64;
-                // previewImage.src = reader.result;
+                previewImage.src = reader.result;
             };
 
             reader.readAsDataURL(file);
-            // reader.readAsText(file);
         };
     }
 
@@ -39,7 +36,6 @@ class ImageUploader {
 
                 // Since it contains the Data URI, we should remove the prefix and keep only Base64 string
                 var b64 = reader.result.replace(/^data:.+;base64,/, "");
-                // console.log(b64);
 
                 const output = {
                     dataUri: b64,
@@ -51,7 +47,6 @@ class ImageUploader {
             };
 
             reader.readAsDataURL(file);
-            // reader.readAsText(file);
         });
     }
 }

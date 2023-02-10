@@ -2,13 +2,7 @@ extends base
 
 block content
     main.main
-        .card-container
-            each image in images
-                .card
-                    .card__header
-                        .card__picture
-                            .card__picture-overlay &nbsp;
-                            - const dataUri = `${image.output.dataUri}`;
-                            img#image--preview-img.card__picture-img(src=dataUri)
-                        h3.heading-tertirary
-                            span= image.name
+        h3.heading-tertirary
+            span= image.name
+        - const dataUri = `data:image/jpeg;base64,${image.output.dataUri}`;
+        img.center(src=dataUri)

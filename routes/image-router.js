@@ -6,21 +6,36 @@ const authController = require("../controllers/auth-controller");
 
 router
     .route("/")
-    .get(imageController.getAllImages)
+    .get(
+        authController.isSignedIn,
+        authController.protect,
+        imageController.getAllImages
+    )
     .post(
+        authController.isSignedIn,
         authController.protect,
         authController.restrictTo("admin"),
         imageController.createImage
     )
     .patch(
+        authController.isSignedIn,
         authController.protect,
         authController.restrictTo("admin"),
         imageController.updateImage
     )
     .delete(
+        authController.isSignedIn,
         authController.protect,
         authController.restrictTo("admin"),
         imageController.deleteImage
+    );
+
+router
+    .route("/data")
+    .get(
+        authController.isSignedIn,
+        authController.protect,
+        imageController.getImageData
     );
 
 module.exports = router;

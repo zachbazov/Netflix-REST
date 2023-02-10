@@ -66,43 +66,16 @@ const getSettings = catchAsync(async (req, res, next) => {
 const getImages = catchAsync(async (req, res, next) => {
     const images = await Image.find();
 
-    res.status(200).render("image", {
+    res.status(200).render("images", {
         title: "Images",
         images,
     });
 });
 
-const path = require("path");
 const getImage = catchAsync(async (req, res, next) => {
     const image = await Image.findOne({ name: req.query.name });
-    // res.myImage = image;
-    // res.status(200).sendFile(image);
-    // var b64 = image.output.dataUri.replace(/^data:.+;base64,/, "");
-    // next();
 
-    // const imageData = image.output.dataUri.split(",")[1];
-    // const buffer = Buffer.from(imageData, "base64");
-
-    // res.writeHead(200, {
-    //     "Content-Type": "image/jpeg",
-    //     "Content-Length": buffer.length,
-    // });
-    // res.end(buffer);
-
-    res.setHeader("Content-Type", "image/jpeg");
-    const x = path.join(
-        __dirname,
-        "../public/img/poster/",
-        `${image.name}${image.type}`
-    );
-    console.log(x);
-    res.sendFile(x);
-});
-
-const getImagePreview = catchAsync(async (req, res, next) => {
-    const image = await Image.findOne({ name: req.query.name });
-
-    res.status(200).render("image-preview", {
+    res.status(200).render("image", {
         title: `${image.name}`,
         image,
     });
@@ -130,5 +103,4 @@ module.exports = {
     getImage,
     uploadImage,
     cropImage,
-    getImagePreview,
 };
