@@ -21,7 +21,6 @@ const seasonRouter = require("./routes/season-router");
 const episodeRouter = require("./routes/episode-router");
 const viewRouter = require("./routes/view-router");
 const myListRouter = require("./routes/mylist-router");
-const imageRouter = require("./routes/image-router");
 
 const app = express();
 
@@ -194,7 +193,6 @@ app.use("/api/v1/seasons", seasonRouter);
 app.use("/api/v1/episodes", episodeRouter);
 app.use("/api/v1/sections", sectionRouter);
 app.use("/api/v1/mylists", myListRouter);
-app.use("/api/v1/images", imageRouter);
 
 // MARK: - Error Handling Routes
 
@@ -208,5 +206,7 @@ app.all("*", (req, res, next) => {
 // MARK: - Error Handling Middleware
 
 app.use(globalErrorHandler);
+
+// MARK: - Module Export
 
 module.exports = app;

@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const User = require("./../models/user-model");
 const catchAsync = require("../utils/catch-async");
 const AppError = require("./../utils/AppError");
-const dispatch = require("./../utils/mailer");
+const NodeMailer = require("./../utils/mailer");
 
 // MARK: - Restrict Feature Access for Roles
 
@@ -217,7 +217,7 @@ const forgotPassword = catchAsync(async (req, res, next) => {
     const message = `Forgot your password?\nin order to reset your password please visit:\n${resetURL}\nIf you didn't forget your password, ignore this message.`;
 
     try {
-        await dispatch({
+        await NodeMailer({
             email: user.email,
             subject: "Your password reset token. will be valid for 10min.",
             message,

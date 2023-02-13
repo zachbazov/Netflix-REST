@@ -1,6 +1,5 @@
 const AppError = require("../utils/AppError");
 const Media = require("./../models/media-model");
-const Image = require("../models/image-model");
 const catchAsync = require("./../utils/catch-async");
 
 // MARK: - Media
@@ -61,46 +60,10 @@ const getSettings = catchAsync(async (req, res, next) => {
     });
 });
 
-// MARK: - Images
-
-const getImages = catchAsync(async (req, res, next) => {
-    const images = await Image.find();
-
-    res.status(200).render("images", {
-        title: "Images",
-        images,
-    });
-});
-
-const getImage = catchAsync(async (req, res, next) => {
-    const image = await Image.findOne({ name: req.query.name });
-
-    res.status(200).render("image", {
-        title: `${image.name}`,
-        image,
-    });
-});
-
-const uploadImage = catchAsync(async (req, res, next) => {
-    res.status(200).render("image-upload", {
-        title: "Image Upload",
-    });
-});
-
-const cropImage = catchAsync(async (req, res, next) => {
-    res.status(200).render("image-crop", {
-        title: "Image Cropping",
-    });
-});
-
 module.exports = {
     getOverview,
     getMedia,
     getSignin,
     getSettings,
     createMedia,
-    getImages,
-    getImage,
-    uploadImage,
-    cropImage,
 };

@@ -43,7 +43,7 @@ const port = process.env.PORT || 8000;
 // Environment Logger
 console.log(app.get("env"));
 
-// Run Server
+// Server Deployment
 const server = app.listen(port, () =>
     console.log(`PORT: ${port}\nENVIRONMENT: ${app.get("env")}`)
 );

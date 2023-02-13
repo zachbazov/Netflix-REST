@@ -35,34 +35,4 @@ router.get(
     viewController.createMedia
 );
 
-router.get(
-    "/images",
-    authController.isSignedIn,
-    authController.protect,
-    viewController.getImages
-);
-
-router.get(
-    "/image",
-    authController.isSignedIn,
-    authController.protect,
-    viewController.getImage
-);
-
-router.get(
-    "/upload",
-    authController.isSignedIn,
-    authController.protect,
-    authController.restrictTo("admin"),
-    viewController.uploadImage
-);
-
-router.get(
-    "/crop",
-    authController.isSignedIn,
-    authController.protect,
-    authController.restrictTo("admin"),
-    viewController.cropImage
-);
-
 module.exports = router;
