@@ -100,26 +100,6 @@ mediaSchema.pre("aggregate", function (next) {
     next();
 });
 
-// mediaSchema.post("find", function (docs, next) {
-//     var fs = require("fs");
-//     var files = fs.readdirSync("./public/img/logo/");
-//     docs.forEach(async (el) => {
-//         el.resources.logos = files.filter((file) => {
-//             const regex = new RegExp(`${el.slug}-\\d+\\.png$`);
-//             return file === `${el.slug}.png` || regex.test(file);
-//         });
-//         let newLogos = await el.resources.logos.map(
-//             (el) => `https://netflix-rest-api.onrender.com/img/logo/${el}`
-//         );
-//         newLogos.unshift(newLogos.pop());
-//         el.resources.logos = await newLogos;
-
-//         await el.save({ validateBeforeSave: false });
-//     });
-
-//     next();
-// });
-
 // MARK: - Media Model
 
 const Media = mongoose.model("Media", mediaSchema);
