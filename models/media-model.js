@@ -65,6 +65,8 @@ const mediaSchema = new mongoose.Schema(
             },
         ],
         numberOfEpisodes: Number,
+
+        timesSearched: Number,
     },
     {
         toJSON: { virtuals: true },
