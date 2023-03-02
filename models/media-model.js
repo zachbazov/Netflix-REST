@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+const path = require("path");
 
 // MARK: - Media Schema
 
@@ -49,7 +50,6 @@ const mediaSchema = new mongoose.Schema(
             logos: [String],
             trailers: [String],
             displayPoster: String,
-            displayLogos: [String],
             previewPoster: String,
             previewUrl: String,
             presentedPoster: String,
