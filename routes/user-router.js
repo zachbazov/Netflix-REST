@@ -50,6 +50,6 @@ router.delete(
     usersController.deleteData
 );
 
-router.use("/:userId/profiles", userProfilesRouter);
+router.use("/profiles", userProfilesRouter);
 
 module.exports = router;

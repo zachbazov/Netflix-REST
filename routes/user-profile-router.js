@@ -1,16 +1,26 @@
 const express = require("express");
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
 const userProfilesController = require("../controllers/user-profile-controller");
 const authController = require("../controllers/auth-controller");
 
-router.use(authController.protect, authController.restrictTo("admin", "user"));
-
 router
     .route("/")
     .get(userProfilesController.get)
-    .post(userProfilesController.create)
-    .patch(userProfilesController.update)
-    .delete(userProfilesController.delete);
+    .post(
+        authController.protect,
+        authController.isCurrentUser,
+        userProfilesController.create
+    )
+    .patch(
+        authController.protect,
+        authController.isCurrentUser,
+        userProfilesController.update
+    )
+    .delete(
+        authController.protect,
+        authController.isCurrentUser,
+        userProfilesController.delete
+    );
 
 module.exports = router;

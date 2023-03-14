@@ -163,7 +163,7 @@ exports.create = (Model) =>
                     name: req.body.name,
                     image: req.body.image,
                     active: req.body.active,
-                    user: req.params.userId,
+                    user: req.query.user,
                 });
                 break;
             default:
@@ -464,12 +464,6 @@ exports.deleteOne = (Model) =>
                         ? { _id: req.query.id }
                         : { name: req.query.name }
                 );
-
-                const doc = await User.findOne({ _id: req.params.userId });
-                console.log(doc.profiles);
-                doc.profiles.pull(data);
-                await doc.save({ validateBeforeSave: false });
-
                 break;
             default:
                 break;

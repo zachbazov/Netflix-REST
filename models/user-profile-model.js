@@ -15,7 +15,6 @@ const userProfileSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
     },
     image: {
         type: String,
@@ -41,6 +40,12 @@ userProfileSchema.pre("save", async function (next) {
     user.save({ validateBeforeSave: false });
 
     next();
+});
+
+userProfileSchema.post("remove", async function (doc) {
+    const user = await User.findOne({ _id: doc.user._id });
+    user.profiles.pull(doc);
+    await user.save({ validateBeforeSave: false });
 });
 
 const UserProfile = mongoose.model("UserProfile", userProfileSchema);

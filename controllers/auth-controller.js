@@ -102,6 +102,20 @@ const isSignedIn = async (req, res, next) => {
     next();
 };
 
+const isCurrentUser = catchAsync(async (req, res, next) => {
+    const currentUser = res.locals.user;
+
+    if (currentUser._id.toString() === req.query.user) {
+        return next();
+    }
+
+    const appError = new AppError(
+        "You may operate your own profiles only.",
+        401
+    );
+    next(appError);
+});
+
 // MARK: - Sign a JWT Token
 // Initiate a JWT token signing request
 const signToken = (id) => {
@@ -292,6 +306,7 @@ const updatePassword = catchAsync(async (req, res, next) => {
 
 module.exports = {
     isSignedIn,
+    isCurrentUser,
     forgotPassword,
     resetPassword,
     restrictTo,
