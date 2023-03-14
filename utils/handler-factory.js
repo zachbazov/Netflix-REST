@@ -4,6 +4,7 @@ const catchAsync = require("./catch-async");
 const Media = require("../models/media-model");
 const Season = require("./../models/season-model");
 const Episode = require("../models/episode-model");
+const User = require("../models/user-model");
 
 // MARK: - CRUD Operations
 
@@ -133,6 +134,7 @@ exports.create = (Model) =>
                     photo: req.body.photo,
                     password: req.body.password,
                     passwordConfirm: req.body.passwordConfirm,
+                    profiles: [],
                 });
                 break;
             case "MyList":
@@ -304,6 +306,7 @@ exports.update = (Model) =>
                         role: req.body.role,
                         password: req.body.password,
                         passwordConfirm: req.body.passwordConfirm,
+                        profiles: req.body.profiles,
                     },
                     {
                         new: true,
@@ -461,6 +464,12 @@ exports.deleteOne = (Model) =>
                         ? { _id: req.query.id }
                         : { name: req.query.name }
                 );
+
+                const doc = await User.findOne({ _id: req.params.userId });
+                console.log(doc.profiles);
+                doc.profiles.pull(data);
+                await doc.save({ validateBeforeSave: false });
+
                 break;
             default:
                 break;

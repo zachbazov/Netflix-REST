@@ -55,6 +55,7 @@ const userSchema = new mongoose.Schema({
         select: false,
     },
     mylist: [{ type: mongoose.Schema.ObjectId, ref: "MyList" }],
+    profiles: [{ type: mongoose.Schema.ObjectId, ref: "UserProfile" }],
 });
 
 // MARK: - Document Middleware
