@@ -75,6 +75,9 @@ class APIService {
         } else if (Model.modelName === "MyList") {
             data = await this.query.populate("media");
             return data;
+        } else if (Model.modelName === "User") {
+            data = await this.query.populate("profiles");
+            return data;
         } else {
             data = await this.query; //.explain();
             return data;
