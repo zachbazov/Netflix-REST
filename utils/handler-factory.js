@@ -156,6 +156,14 @@ exports.create = (Model) =>
                     output: req.body.output,
                 });
                 break;
+            case "UserProfile":
+                data = await Model.create({
+                    name: req.body.name,
+                    image: req.body.image,
+                    active: req.body.active,
+                    user: req.params.userId,
+                });
+                break;
             default:
                 break;
         }
@@ -316,6 +324,19 @@ exports.update = (Model) =>
                     { new: true }
                 );
                 break;
+            case "UserProfile":
+                data = await Model.findOneAndUpdate(
+                    req.query.id !== undefined
+                        ? { _id: req.query.id }
+                        : { name: req.query.name },
+                    {
+                        name: req.body.name,
+                        image: req.body.image,
+                        active: req.body.active,
+                    },
+                    { new: true, runValidators: true }
+                );
+                break;
             default:
                 break;
         }
@@ -433,6 +454,14 @@ exports.deleteOne = (Model) =>
                         ? { name: req.query.name }
                         : { _id: req.query._id }
                 );
+                break;
+            case "UserProfile":
+                data = await Model.findOne(
+                    req.query.id !== undefined
+                        ? { _id: req.query.id }
+                        : { name: req.query.name }
+                );
+                break;
             default:
                 break;
         }
@@ -454,6 +483,7 @@ exports.deleteOne = (Model) =>
 exports.deleteAll = (Model) =>
     catchAsync(async (req, res, next) => {
         const data = await Model.deleteMany();
+
         if (!data) {
             const message = `Unable to delete ${Model.modelName} documents.`;
             const appError = new AppError(message, 404);

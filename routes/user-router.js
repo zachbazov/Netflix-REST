@@ -4,6 +4,8 @@ const router = express.Router();
 const usersController = require("../controllers/user-controller");
 const authController = require("../controllers/auth-controller");
 
+const userProfilesRouter = require("../routes/user-profile-router");
+
 router
     .route("/")
     .get(authController.protect, usersController.getAllUsers)
@@ -47,5 +49,7 @@ router.delete(
     authController.protect,
     usersController.deleteData
 );
+
+router.use("/:userId/profiles", userProfilesRouter);
 
 module.exports = router;

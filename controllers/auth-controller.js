@@ -127,7 +127,7 @@ const dispatchSignToken = async (user, statusCode, req, res) => {
                 process.env.JWT_COOKIE_EXPIRATION_PERIOD * 24 * 60 * 60 * 1000
         ),
         httpOnly: true,
-        secure: req.secure || req.headers("x-forwarded-proto") === "https",
+        // secure: req.secure || req.headers("x-forwarded-proto") === "https",
     });
 
     user.password = undefined;
