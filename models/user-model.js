@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema({
     mylist: [{ type: mongoose.Schema.ObjectId, ref: "MyList" }],
     profiles: [{ type: mongoose.Schema.ObjectId, ref: "UserProfile" }],
     selectedProfile: {
-        type: new mongoose.Schema.ObjectId(),
+        type: mongoose.Schema.ObjectId,
         ref: "UserProfile",
     },
 });
