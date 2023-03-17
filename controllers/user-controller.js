@@ -33,7 +33,12 @@ exports.updateData = catchAsync(async (req, res, next) => {
         return newObject;
     }
 
-    const filteredBody = filterObject(req.body, "name", "email");
+    const filteredBody = filterObject(
+        req.body,
+        "name",
+        "email",
+        "selectedProfile"
+    );
 
     doc = await User.findByIdAndUpdate(req.user.id, filteredBody, {
         new: true,
