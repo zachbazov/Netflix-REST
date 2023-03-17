@@ -40,12 +40,12 @@ exports.updateData = catchAsync(async (req, res, next) => {
         "selectedProfile"
     );
 
-    doc = await User.findByIdAndUpdate(req.user.id, filteredBody, {
+    const data = await User.findByIdAndUpdate(req.user.id, filteredBody, {
         new: true,
         runValidators: true,
     });
 
-    if (!doc) {
+    if (!data) {
         const message = "No documents found.";
         const appError = new AppError(message, 404);
 
@@ -54,9 +54,7 @@ exports.updateData = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: "success",
-        data: {
-            doc,
-        },
+        data,
     });
 });
 
