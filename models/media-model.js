@@ -79,6 +79,39 @@ mediaSchema.index({ slug: 1 });
 mediaSchema.index({ title: 1 });
 mediaSchema.index({ rating: 1 });
 
+//
+
+// mediaSchema.post('find', async function (docs, next) {
+//     const promises = docs.map(async (doc) => {
+//         let str = removeString(doc.resources.displayPoster);
+//         doc.resources.displayPoster = str;
+  
+//       await doc.save();
+//     });
+  
+//     await Promise.all(promises);
+//     next();
+//   });
+// mediaSchema.post('find', function (docs, next) {
+//     docs.forEach(async (doc) => {
+//         doc.resources.posters.forEach((poster) => {
+//             let str = removeString(poster);
+//             doc.resources.posters[poster] = str;
+//             console.log(doc.resources.posters[poster]);
+//         })
+
+//         await doc.save();
+//     });
+
+//     next();
+// })
+
+function removeString(input) {
+    const stringToRemove = "https://netflix-rest-api.onrender.com";
+    const removedString = input.replace(stringToRemove, "");
+    return removedString;
+  }
+
 // MARK: - Document Middleware
 
 mediaSchema.pre("save", function (next) {
