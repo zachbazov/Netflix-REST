@@ -1,145 +1,162 @@
-[{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0027"
-  },
-  "id": 6,
-  "title": "My List",
-  "__v": 0,
-  "media": [],
-  "slug": "my-list"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0022"
-  },
-  "id": 1,
-  "title": "Top Rated on Netflix",
-  "__v": 0,
-  "media": [],
-  "slug": "top-rated-on-netflix"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b002a"
-  },
-  "id": 9,
-  "title": "Adventure",
-  "__v": 0,
-  "media": [],
-  "slug": "adventure"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0023"
-  },
-  "id": 2,
-  "title": "Resume Watching",
-  "__v": 0,
-  "media": [],
-  "slug": "resume-watching"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0026"
-  },
-  "id": 5,
-  "title": "Blockbusters",
-  "__v": 0,
-  "media": [],
-  "slug": "blockbusters"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0028"
-  },
-  "id": 7,
-  "title": "Crime",
-  "__v": 0,
-  "media": [],
-  "slug": "crime"
-},{
-  "_id": {
-    "$oid": "62cf5e5012343587f11b001f"
-  },
-  "id": 0,
-  "title": "Display",
-  "__v": 0,
-  "media": [],
-  "slug": "display"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b002c"
-  },
-  "id": 11,
-  "title": "Drama",
-  "__v": 0,
-  "media": [],
-  "slug": "drama"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0029"
-  },
-  "id": 8,
-  "title": "Thriller",
-  "__v": 0,
-  "media": [],
-  "slug": "thriller"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b002d"
-  },
-  "id": 12,
-  "title": "Horror",
-  "__v": 0,
-  "media": [],
-  "slug": "horror"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b002b"
-  },
-  "id": 10,
-  "title": "Comedy",
-  "__v": 0,
-  "media": [],
-  "slug": "comedy"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b002e"
-  },
-  "id": 13,
-  "title": "Anime",
-  "__v": 0,
-  "media": [],
-  "slug": "anime"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0030"
-  },
-  "id": 15,
-  "title": "Documentary",
-  "__v": 0,
-  "media": [],
-  "slug": "documentary"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0025"
-  },
-  "id": 4,
-  "title": "Sci-Fi",
-  "__v": 0,
-  "media": [],
-  "slug": "sci-fi"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b0024"
-  },
-  "id": 3,
-  "title": "Action",
-  "__v": 0,
-  "media": [],
-  "slug": "action"
-},{
-  "_id": {
-    "$oid": "62cf5e5212343587f11b002f"
-  },
-  "id": 14,
-  "title": "Family & Children",
-  "__v": 0,
-  "media": [],
-  "slug": "family-and-children"
-}]
+[
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0027"
+        },
+        "id": 6,
+        "title": "My List",
+        "__v": 0,
+        "media": [],
+        "slug": "my-list"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0022"
+        },
+        "id": 1,
+        "title": "Top Rated on Netflix",
+        "__v": 0,
+        "media": [],
+        "slug": "top-rated-on-netflix"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b002a"
+        },
+        "id": 9,
+        "title": "Adventure",
+        "__v": 0,
+        "media": [],
+        "slug": "adventure"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0023"
+        },
+        "id": 2,
+        "title": "Resume Watching",
+        "__v": 0,
+        "media": [],
+        "slug": "resume-watching"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0026"
+        },
+        "id": 5,
+        "title": "Blockbusters",
+        "__v": 0,
+        "media": [],
+        "slug": "blockbusters"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0028"
+        },
+        "id": 7,
+        "title": "Crime",
+        "__v": 0,
+        "media": [],
+        "slug": "crime"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5012343587f11b001f"
+        },
+        "id": 0,
+        "title": "Display",
+        "__v": 0,
+        "media": [],
+        "slug": "display"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b002c"
+        },
+        "id": 11,
+        "title": "Drama",
+        "__v": 0,
+        "media": [],
+        "slug": "drama"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0029"
+        },
+        "id": 8,
+        "title": "Thriller",
+        "__v": 0,
+        "media": [],
+        "slug": "thriller"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b002d"
+        },
+        "id": 12,
+        "title": "Horror",
+        "__v": 0,
+        "media": [],
+        "slug": "horror"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b002b"
+        },
+        "id": 10,
+        "title": "Comedy",
+        "__v": 0,
+        "media": [],
+        "slug": "comedy"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b002e"
+        },
+        "id": 13,
+        "title": "Anime",
+        "__v": 0,
+        "media": [],
+        "slug": "anime"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0030"
+        },
+        "id": 15,
+        "title": "Documentary",
+        "__v": 0,
+        "media": [],
+        "slug": "documentary"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0025"
+        },
+        "id": 4,
+        "title": "Sci-Fi",
+        "__v": 0,
+        "media": [],
+        "slug": "sci-fi"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b0024"
+        },
+        "id": 3,
+        "title": "Action",
+        "__v": 0,
+        "media": [],
+        "slug": "action"
+    },
+    {
+        "_id": {
+            "$oid": "62cf5e5212343587f11b002f"
+        },
+        "id": 14,
+        "title": "Family & Children",
+        "__v": 0,
+        "media": [],
+        "slug": "family-and-children"
+    }
+]

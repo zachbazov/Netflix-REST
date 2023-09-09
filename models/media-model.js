@@ -85,10 +85,10 @@ mediaSchema.index({ rating: 1 });
 //     const promises = docs.map(async (doc) => {
 //         let str = removeString(doc.resources.displayPoster);
 //         doc.resources.displayPoster = str;
-  
+
 //       await doc.save();
 //     });
-  
+
 //     await Promise.all(promises);
 //     next();
 //   });
@@ -110,7 +110,7 @@ function removeString(input) {
     const stringToRemove = "https://netflix-rest-api.onrender.com";
     const removedString = input.replace(stringToRemove, "");
     return removedString;
-  }
+}
 
 // MARK: - Document Middleware
 

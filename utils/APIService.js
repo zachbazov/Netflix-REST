@@ -75,6 +75,23 @@ class APIService {
         } else if (Model.modelName === "MyList") {
             data = await this.query.populate("media");
             return data;
+        } else if (Model.modelName === "User") {
+            data = await this.query.populate({
+                path: "profiles",
+                populate: {
+                    path: "settings",
+                },
+            });
+            return data;
+        } else if (Model.modelName === "User") {
+            data = await this.query.populate("profiles");
+            return data;
+        } else if (Model.modelName === "UserProfile") {
+            data = await this.query.populate("settings");
+            return data;
+            // } else if (Model.modelName === "UserProfileSettings") {
+            //     data = await this.query;
+            //     return data;
         } else {
             data = await this.query; //.explain();
             return data;

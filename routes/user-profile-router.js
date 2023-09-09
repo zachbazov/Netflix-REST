@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userProfilesController = require("../controllers/user-profile-controller");
 const authController = require("../controllers/auth-controller");
+const userProfileSettingsRouter = require("../routes/user-profile-settings-router");
 
 router
     .route("/")
@@ -22,5 +23,7 @@ router
         authController.isCurrentUser,
         userProfilesController.delete
     );
+
+router.use("/settings", userProfileSettingsRouter);
 
 module.exports = router;

@@ -5,6 +5,8 @@ const Media = require("../models/media-model");
 const Season = require("./../models/season-model");
 const Episode = require("../models/episode-model");
 const User = require("../models/user-model");
+const UserProfile = require("../models/user-profile-model");
+const UserProfileSettings = require("../models/user-profile-settings-model");
 
 // MARK: - CRUD Operations
 
@@ -141,10 +143,12 @@ exports.create = (Model) =>
                 const userListCount = await Model.find({
                     user: req.query.user,
                 }).count();
+
                 if (userListCount > 1) {
                     const message = "Only a single list is allowed per user.";
                     return next(new AppError(message, 400));
                 }
+
                 data = await Model.create({
                     user: req.body.user,
                     media: req.body.media,
@@ -165,6 +169,21 @@ exports.create = (Model) =>
                     active: req.body.active,
                     user: req.query.user,
                 });
+
+                let settings = await UserProfileSettings.create({
+                    maturityRating: req.body.maturityRating,
+                    displayLanguage: req.body.displayLanguage,
+                    audioAndSubtitles: req.body.audioAndSubtitles,
+                    autoplayNextEpisode: req.body.autoplayNextEpisode,
+                    autoplayPreviews: req.body.autoplayPreviews,
+                    profile: data._id,
+                });
+
+                data.settings = settings;
+                await data.save();
+
+                break;
+            case "UserProfileSettings":
                 break;
             default:
                 break;
@@ -339,6 +358,21 @@ exports.update = (Model) =>
                     },
                     { new: true, runValidators: true }
                 );
+
+                data = await data.populate("settings");
+                break;
+            case "UserProfileSettings":
+                data = await Model.findOneAndUpdate(
+                    { _id: req.query.id },
+                    {
+                        maturityRating: req.body.maturityRating,
+                        displayLanguage: req.body.displayLanguage,
+                        audioAndSubtitles: req.body.audioAndSubtitles,
+                        autoplayNextEpisode: req.body.autoplayNextEpisode,
+                        autoplayPreviews: req.body.autoplayPreviews,
+                    },
+                    { new: true, runValidators: true }
+                );
                 break;
             default:
                 break;
@@ -459,11 +493,28 @@ exports.deleteOne = (Model) =>
                 );
                 break;
             case "UserProfile":
+                await UserProfileSettings.findOneAndDelete({
+                    profile: req.query.id,
+                });
+
                 data = await Model.findOne(
                     req.query.id !== undefined
                         ? { _id: req.query.id }
                         : { name: req.query.name }
                 );
+
+                // const user = await User.findOne({ user: req.params.user });
+
+                // const idToRemove = req.query.id;
+
+                // const foundId = user.profiles.find(
+                //     (el) => el._id === idToRemove
+                // );
+                // console.log(foundId, req.query.id);
+                // // user.profiles = await updatedProfiles;
+
+                // // await user.save({ validateBeforeSave: false });
+
                 break;
             default:
                 break;
@@ -486,6 +537,19 @@ exports.deleteOne = (Model) =>
 exports.deleteAll = (Model) =>
     catchAsync(async (req, res, next) => {
         const data = await Model.deleteMany();
+
+        switch (Model.modelName) {
+            case "UserProfile":
+                const user = await User.findOne({ user: req.params.user });
+
+                await user.profiles.splice(0, user.profiles.length);
+
+                await user.save({ validateBeforeSave: false });
+
+                break;
+            default:
+                break;
+        }
 
         if (!data) {
             const message = `Unable to delete ${Model.modelName} documents.`;
