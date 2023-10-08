@@ -76,7 +76,7 @@ class APIService {
             data = await this.query.populate("media");
             return data;
         } else if (Model.modelName === "User") {
-            data = await this.query.populate({
+            data = await this.query.populate("selectedProfile").populate({
                 path: "profiles",
                 populate: {
                     path: "settings",
