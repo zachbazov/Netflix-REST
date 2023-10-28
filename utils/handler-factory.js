@@ -5,7 +5,7 @@ const Media = require("../models/media-model");
 const Season = require("./../models/season-model");
 const Episode = require("../models/episode-model");
 const User = require("../models/user-model");
-const UserProfile = require("../models/user-profile-model");
+//const UserProfile = require("../models/user-profile-model");
 const UserProfileSettings = require("../models/user-profile-settings-model");
 
 // MARK: - CRUD Operations
@@ -326,6 +326,7 @@ exports.update = (Model) =>
                         password: req.body.password,
                         passwordConfirm: req.body.passwordConfirm,
                         profiles: req.body.profiles,
+                        selectedProfile: req.body.selectedProfile
                     },
                     {
                         new: true,
@@ -354,7 +355,7 @@ exports.update = (Model) =>
                     {
                         name: req.body.name,
                         image: req.body.image,
-                        active: req.body.active,
+                        active: req.body.active
                     },
                     { new: true, runValidators: true }
                 );
