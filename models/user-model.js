@@ -78,10 +78,13 @@ userSchema.pre("save", async function (next) {
 
 // Create an associated list for the user once saved
 userSchema.pre("save", async function (next) {
-    await MyList.create({
+    const list = await MyList.create({
         user: this._id,
         media: [],
     });
+
+    this.mylist = list;
+    this.selectedlist = null;
 
     next();
 });
@@ -150,5 +153,10 @@ userSchema.methods.generatePasswordResetToken = function () {
 // MARK: - User Model
 
 const User = mongoose.model("User", userSchema);
+
+// MARK: - Improve Performance
+
+userSchema.index({ name: 1 });
+userSchema.index({ role: 1 });
 
 module.exports = User;

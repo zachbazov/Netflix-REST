@@ -1,24 +1,24 @@
 const express = require("express");
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
 const seasonController = require("../controllers/season-controller");
 const authController = require("../controllers/auth-controller");
 
 router
     .route("/")
-    .get(authController.protect, seasonController.getAllSeasons)
+    .get(authController.restrictToToken, seasonController.getAllSeasons)
     .post(
-        authController.protect,
+        authController.restrictToToken,
         authController.restrictTo("admin"),
         seasonController.createSeason
     )
     .patch(
-        authController.protect,
+        authController.restrictToToken,
         authController.restrictTo("admin"),
         seasonController.updateSeason
     )
     .delete(
-        authController.protect,
+        authController.restrictToToken,
         authController.restrictTo("admin"),
         seasonController.deleteSeason
     );

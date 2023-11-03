@@ -5,24 +5,26 @@ const Media = require("../models/media-model");
 const Season = require("./../models/season-model");
 const Episode = require("../models/episode-model");
 const User = require("../models/user-model");
-//const UserProfile = require("../models/user-profile-model");
-const UserProfileSettings = require("../models/user-profile-settings-model");
 
 // MARK: - CRUD Operations
 
 exports.get = (Model) =>
     catchAsync(async (req, res, next) => {
         let data;
-        let query = Model.find();
+        let query;
+        let service;
 
-        const service = new APIService(query, req.query)
+        query = Model.find();
+
+        service = new APIService(query, req.query)
             .filter()
             .sort()
             .limit()
             .limitFields()
-            .paginate();
+            .paginate()
+            .populate(Model);
 
-        data = await service.populate(Model);
+        data = await service;
 
         if (!data) {
             const message = `No ${Model.modelName} documents found.`;
@@ -77,13 +79,15 @@ exports.create = (Model) =>
                         ? { id: req.query.mediaId }
                         : { slug: req.query.slug }
                 );
+
                 if (!media) {
-                    const message = "None Media document found.";
+                    const message = "No media document found.";
                     const appError = new AppError(message, 400);
                     return next(appError);
                 }
 
                 let episodes = [];
+
                 for (let i = 1; i <= req.query.episodes; i++) {
                     const episode = await Episode.create({
                         mediaId: media.id,
@@ -95,8 +99,10 @@ exports.create = (Model) =>
                             media.slug
                         }/s${req.query.season}e${i}`,
                     });
+
                     episodes.push(episode);
                 }
+
                 if (!episodes) {
                     const message = `Unable to create episodes for media: ${media.title}.`;
                     const appError = new AppError(message, 400);
@@ -110,6 +116,7 @@ exports.create = (Model) =>
                     season: req.query.season * 1,
                     episodes,
                 });
+
                 if (!data) {
                     const message = `Unable to create a season for media: ${media.title}.`;
                     const appError = new AppError(message, 400);
@@ -117,7 +124,9 @@ exports.create = (Model) =>
                 }
 
                 media.seasons.push(data._id);
+
                 await media.save();
+
                 break;
             case "Episode":
                 data = await Model.create({
@@ -168,22 +177,8 @@ exports.create = (Model) =>
                     image: req.body.image,
                     active: req.body.active,
                     user: req.query.user,
+                    settings: req.query.settings,
                 });
-
-                let settings = await UserProfileSettings.create({
-                    maturityRating: req.body.maturityRating,
-                    displayLanguage: req.body.displayLanguage,
-                    audioAndSubtitles: req.body.audioAndSubtitles,
-                    autoplayNextEpisode: req.body.autoplayNextEpisode,
-                    autoplayPreviews: req.body.autoplayPreviews,
-                    profile: data._id,
-                });
-
-                data.settings = settings;
-                await data.save();
-
-                break;
-            case "UserProfileSettings":
                 break;
             default:
                 break;
@@ -218,9 +213,7 @@ exports.update = (Model) =>
                         title: req.body.title,
                         slug: req.body.slug,
                     },
-                    {
-                        new: true,
-                    }
+                    { new: true }
                 );
                 break;
             case "Media":
@@ -249,10 +242,7 @@ exports.update = (Model) =>
                         resources: req.body.resources,
                         seasons: req.body.seasons,
                     },
-                    {
-                        new: true,
-                        runValidators: true,
-                    }
+                    { new: true, runValidators: true }
                 );
                 break;
             case "Season":
@@ -270,9 +260,7 @@ exports.update = (Model) =>
                         season: req.body.season,
                         episodes: req.body.episodes,
                     },
-                    {
-                        new: true,
-                    }
+                    { new: true }
                 );
                 break;
             case "Episode":
@@ -290,9 +278,7 @@ exports.update = (Model) =>
                         episode: req.body.episode,
                         url: req.body.url,
                     },
-                    {
-                        new: true,
-                    }
+                    { new: true }
                 );
                 break;
             case "MyList":
@@ -304,9 +290,7 @@ exports.update = (Model) =>
                         user: req.body.user,
                         media: req.body.media,
                     },
-                    {
-                        new: true,
-                    }
+                    { new: true }
                 );
                 break;
             case "User":
@@ -326,12 +310,9 @@ exports.update = (Model) =>
                         password: req.body.password,
                         passwordConfirm: req.body.passwordConfirm,
                         profiles: req.body.profiles,
-                        selectedProfile: req.body.selectedProfile
+                        selectedProfile: req.body.selectedProfile,
                     },
-                    {
-                        new: true,
-                        runValidators: true,
-                    }
+                    { new: true, runValidators: true }
                 );
                 break;
             case "Image":
@@ -355,22 +336,8 @@ exports.update = (Model) =>
                     {
                         name: req.body.name,
                         image: req.body.image,
-                        active: req.body.active
-                    },
-                    { new: true, runValidators: true }
-                );
-
-                data = await data.populate("settings");
-                break;
-            case "UserProfileSettings":
-                data = await Model.findOneAndUpdate(
-                    { _id: req.query.id },
-                    {
-                        maturityRating: req.body.maturityRating,
-                        displayLanguage: req.body.displayLanguage,
-                        audioAndSubtitles: req.body.audioAndSubtitles,
-                        autoplayNextEpisode: req.body.autoplayNextEpisode,
-                        autoplayPreviews: req.body.autoplayPreviews,
+                        active: req.body.active,
+                        settings: req.body.settings,
                     },
                     { new: true, runValidators: true }
                 );
@@ -420,8 +387,9 @@ exports.deleteOne = (Model) =>
                         ? { _id: req.query.mediaId }
                         : { slug: req.query.slug }
                 );
+
                 if (!media) {
-                    const message = "None Media document found.";
+                    const message = "No media document found.";
                     const appError = new AppError(message, 400);
                     return next(appError);
                 }
@@ -438,8 +406,9 @@ exports.deleteOne = (Model) =>
                           },
                     { episode: 1 }
                 );
+
                 if (!episodes) {
-                    const message = "No Episode documents found.";
+                    const message = "No episode documents found.";
                     const appError = new AppError(message, 400);
                     return next(appError);
                 }
@@ -455,9 +424,12 @@ exports.deleteOne = (Model) =>
                               season: req.query.season,
                           }
                 );
+
                 if (data) {
                     media.seasons.pop(data._id);
+
                     await media.save();
+
                     eps.forEach(async (el) => await el.delete());
                 }
                 break;
@@ -494,28 +466,11 @@ exports.deleteOne = (Model) =>
                 );
                 break;
             case "UserProfile":
-                await UserProfileSettings.findOneAndDelete({
-                    profile: req.query.id,
-                });
-
                 data = await Model.findOne(
                     req.query.id !== undefined
                         ? { _id: req.query.id }
                         : { name: req.query.name }
                 );
-
-                // const user = await User.findOne({ user: req.params.user });
-
-                // const idToRemove = req.query.id;
-
-                // const foundId = user.profiles.find(
-                //     (el) => el._id === idToRemove
-                // );
-                // console.log(foundId, req.query.id);
-                // // user.profiles = await updatedProfiles;
-
-                // // await user.save({ validateBeforeSave: false });
-
                 break;
             default:
                 break;

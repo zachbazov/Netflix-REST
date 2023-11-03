@@ -6,19 +6,19 @@ const authController = require("../controllers/auth-controller");
 
 router
     .route("/")
-    .get(authController.protect, mediaController.getAllMedia)
+    .get(authController.restrictToToken, mediaController.getAllMedia)
     .post(
-        authController.protect,
+        authController.restrictToToken,
         authController.restrictTo("admin"),
         mediaController.createMedia
     )
     .patch(
-        authController.protect,
+        authController.restrictToToken,
         authController.restrictTo("admin"),
         mediaController.updateMedia
     )
     .delete(
-        authController.protect,
+        authController.restrictToToken,
         authController.restrictTo("admin"),
         mediaController.deleteMedia
     );
@@ -26,7 +26,7 @@ router
 router
     .route("/top-rated")
     .get(
-        authController.protect,
+        authController.restrictToToken,
         mediaController.aliasTopRated,
         mediaController.getAllMedia
     );
@@ -34,7 +34,7 @@ router
 router
     .route("/stats")
     .get(
-        authController.protect,
+        authController.restrictToToken,
         authController.restrictTo("admin"),
         mediaController.getTvShowsStats
     );
@@ -42,7 +42,7 @@ router
 router
     .route("/trailer-count")
     .get(
-        authController.protect,
+        authController.restrictToToken,
         authController.restrictTo("admin"),
         mediaController.getTrailersCount
     );

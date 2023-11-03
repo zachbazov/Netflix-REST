@@ -22,9 +22,19 @@ const restrictTo = (...roles) => {
     };
 };
 
+const restrictToRole = async (req, role) => {
+    return new Promise((resolve, reject) => {
+        if (role === req.user.role) {
+            resolve(true);
+        } else {
+            resolve(false);
+        }
+    });
+};
+
 // MARK: - Feature Protection Layer
 // Request from the user to sign-in to gain access
-const protect = catchAsync(async (req, res, next) => {
+const restrictToToken = catchAsync(async (req, res, next) => {
     let token;
 
     if (
@@ -72,7 +82,7 @@ const protect = catchAsync(async (req, res, next) => {
 
 // MARK: - Feature Protection Layer
 // Validate if the user is signed in
-const isSignedIn = async (req, res, next) => {
+const restrictToSelf = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
             const decoded = await promisify(jwt.verify)(
@@ -93,6 +103,14 @@ const isSignedIn = async (req, res, next) => {
             // Creates a variable inside a template
             res.locals.user = decodedUser;
 
+            if (decoded.id !== req.query.user && decodedUser.role !== "admin") {
+                const message =
+                    "Permissions are required in order to perform this action.";
+                const appError = new AppError(message, 403);
+
+                return next(appError);
+            }
+
             return next();
         } catch (err) {
             return next();
@@ -102,32 +120,12 @@ const isSignedIn = async (req, res, next) => {
     next();
 };
 
-const isCurrentUser = catchAsync(async (req, res, next) => {
-    const currentUser = res.locals.user;
-
-    if (currentUser._id.toString() === req.query.user) {
-        return next();
-    }
-
-    const appError = new AppError(
-        "You may operate your own profiles only.",
-        401
-    );
-    next(appError);
-});
-
 // MARK: - Sign a JWT Token
 // Initiate a JWT token signing request
 const signToken = (id) => {
-    return jwt.sign(
-        {
-            id,
-        },
-        process.env.JWT_SECRET,
-        {
-            expiresIn: process.env.JWT_EXPIRATION_PERIOD,
-        }
-    );
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRATION_PERIOD,
+    });
 };
 
 // MARK: - Dispatch a Signed JWT Token
@@ -199,7 +197,7 @@ const signIn = catchAsync(async (req, res, next) => {
 const signOut = (req, res) => {
     res.cookie("jwt", "signedOut", {
         expires: new Date(Date.now() + 10 * 1000),
-        httpOnly: true,
+        // httpOnly: true,
     });
 
     res.status(200).json({
@@ -305,14 +303,14 @@ const updatePassword = catchAsync(async (req, res, next) => {
 });
 
 module.exports = {
-    isSignedIn,
-    isCurrentUser,
-    forgotPassword,
-    resetPassword,
     restrictTo,
-    protect,
+    restrictToRole,
+    restrictToToken,
+    restrictToSelf,
     signUp,
     signIn,
     signOut,
     updatePassword,
+    forgotPassword,
+    resetPassword,
 };

@@ -8,20 +8,19 @@ const userProfilesRouter = require("../routes/user-profile-router");
 
 router
     .route("/")
-    .get(authController.protect, usersController.getAllUsers)
-    .post(
-        authController.protect,
+    .get(
+        authController.restrictToToken,
         authController.restrictTo("admin"),
-        usersController.createUser
+        usersController.getAllUsers
     )
     .patch(
-        authController.protect,
-        authController.restrictTo("admin"),
+        authController.restrictToToken,
+        authController.restrictToSelf,
         usersController.updateUser
     )
     .delete(
-        authController.protect,
-        authController.restrictTo("admin"),
+        authController.restrictToToken,
+        authController.restrictToSelf,
         usersController.deleteUser
     );
 
@@ -34,19 +33,19 @@ router.patch("/reset-password", authController.resetPassword);
 
 router.patch(
     "/update-password",
-    authController.protect,
+    authController.restrictToToken,
     authController.updatePassword
 );
 
 router.patch(
     "/update-data",
-    authController.protect,
+    authController.restrictToToken,
     usersController.updateData
 );
 
 router.delete(
     "/delete-data",
-    authController.protect,
+    authController.restrictToToken,
     usersController.deleteData
 );
 

@@ -7,23 +7,23 @@ const myListController = require("./../controllers/mylist-controller");
 router
     .route("/")
     .get(
-        authController.protect,
-        authController.isSignedIn,
+        authController.restrictToToken,
+        authController.restrictToSelf,
         myListController.getAllLists
     )
     .post(
-        authController.protect,
-        authController.isSignedIn,
+        authController.restrictToToken,
+        authController.restrictToSelf,
         myListController.createList
     )
     .patch(
-        authController.protect,
-        authController.isSignedIn,
+        authController.restrictToToken,
+        authController.restrictToSelf,
         myListController.updateList
     )
     .delete(
-        authController.protect,
-        authController.isSignedIn,
+        authController.restrictToToken,
+        authController.restrictToSelf,
         myListController.deleteList
     );
 

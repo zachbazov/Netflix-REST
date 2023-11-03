@@ -3,27 +3,28 @@ const router = express.Router();
 
 const userProfilesController = require("../controllers/user-profile-controller");
 const authController = require("../controllers/auth-controller");
-const userProfileSettingsRouter = require("../routes/user-profile-settings-router");
 
 router
     .route("/")
-    .get(userProfilesController.get)
+    .get(
+        authController.restrictToToken,
+        authController.restrictToSelf,
+        userProfilesController.get
+    )
     .post(
-        authController.protect,
-        authController.isCurrentUser,
+        authController.restrictToToken,
+        authController.restrictToSelf,
         userProfilesController.create
     )
     .patch(
-        authController.protect,
-        authController.isCurrentUser,
+        authController.restrictToToken,
+        authController.restrictToSelf,
         userProfilesController.update
     )
     .delete(
-        authController.protect,
-        authController.isCurrentUser,
+        authController.restrictToToken,
+        authController.restrictToSelf,
         userProfilesController.delete
     );
-
-router.use("/settings", userProfileSettingsRouter);
 
 module.exports = router;
