@@ -1,6 +1,6 @@
 const Media = require("../models/media-model");
-const catchAsync = require("./../utils/catch-async");
-const handlerFactory = require("../utils/handler-factory");
+const catchAsync = require("../utils/helpers/catch-async");
+const handlerFactory = require("../utils/factory/handler-factory");
 
 // MARK: - CRUD Operations
 

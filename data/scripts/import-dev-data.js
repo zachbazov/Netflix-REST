@@ -2,9 +2,9 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const TVShow = require("./../models/tv-show-model");
-const Season = require("./../models/season-model");
-const Episode = require("./../models/episode-model");
-const User = require("./../models/user-model");
+const Season = require("../../models/season-model");
+const Episode = require("../../models/episode-model");
+const User = require("../../models/user-model");
 const Movie = require("./../models/movie-model");
 
 dotenv.config({ path: "./config.env" });

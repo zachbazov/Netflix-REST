@@ -1,5 +1,5 @@
 const Episode = require("../models/episode-model");
-const handlerFactory = require("../utils/handler-factory");
+const handlerFactory = require("../utils/factory/handler-factory");
 
 // MARK: - CRUD Operations
 

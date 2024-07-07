@@ -1,26 +1,13 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-
+const APIRestrictor = require("../utils/api/APIRestrictor");
 const episodeController = require("../controllers/episode-controller");
-const authController = require("../controllers/auth-controller");
 
 router
     .route("/")
-    .get(authController.restrictToToken, episodeController.getAllEpisodes)
-    .post(
-        authController.restrictToToken,
-        authController.restrictTo("admin"),
-        episodeController.createEpisode
-    )
-    .patch(
-        authController.restrictToToken,
-        authController.restrictTo("admin"),
-        episodeController.updateEpisode
-    )
-    .delete(
-        authController.restrictToToken,
-        authController.restrictTo("admin"),
-        episodeController.deleteEpisode
-    );
+    .get(episodeController.getAllEpisodes)
+    .post(APIRestrictor.restrictTo("admin"), episodeController.createEpisode)
+    .patch(APIRestrictor.restrictTo("admin"), episodeController.updateEpisode)
+    .delete(APIRestrictor.restrictTo("admin"), episodeController.deleteEpisode);
 
 module.exports = router;

@@ -1,10 +1,10 @@
-const AppError = require("./AppError");
-const APIService = require("../utils/APIService");
-const catchAsync = require("./catch-async");
-const Media = require("../models/media-model");
-const Season = require("./../models/season-model");
-const Episode = require("../models/episode-model");
-const User = require("../models/user-model");
+const AppError = require("../app/AppError");
+const APIService = require("../api/APIService");
+const catchAsync = require("../helpers/catch-async");
+const Media = require("../../models/media-model");
+const Season = require("../../models/season-model");
+const Episode = require("../../models/episode-model");
+const User = require("../../models/user-model");
 
 // MARK: - CRUD Operations
 
@@ -145,16 +145,16 @@ exports.create = (Model) =>
                     photo: req.body.photo,
                     password: req.body.password,
                     passwordConfirm: req.body.passwordConfirm,
-                    profiles: [],
+                    // role: req.body.role
                 });
                 break;
             case "MyList":
-                const userListCount = await Model.find({
+                const numberOfLists = await Model.find({
                     user: req.query.user,
                 }).count();
 
-                if (userListCount > 1) {
-                    const message = "Only a single list is allowed per user.";
+                if (numberOfLists > 1) {
+                    const message = "Exceeds list limitataion.";
                     return next(new AppError(message, 400));
                 }
 
@@ -458,18 +458,18 @@ exports.deleteOne = (Model) =>
                         : { email: req.query.email }
                 );
                 break;
-            case "Image":
-                data = await Model.findOne(
-                    req.query.name !== undefined
-                        ? { name: req.query.name }
-                        : { _id: req.query._id }
-                );
-                break;
             case "UserProfile":
                 data = await Model.findOne(
                     req.query.id !== undefined
                         ? { _id: req.query.id }
                         : { name: req.query.name }
+                );
+                break;
+            case "Image":
+                data = await Model.findOne(
+                    req.query.name !== undefined
+                        ? { name: req.query.name }
+                        : { _id: req.query._id }
                 );
                 break;
             default:

@@ -1,6 +1,6 @@
-const AppError = require("../utils/AppError");
+const AppError = require("../utils/app/AppError");
 const Media = require("./../models/media-model");
-const catchAsync = require("./../utils/catch-async");
+const catchAsync = require("../utils/helpers/catch-async");
 
 // MARK: - Media
 

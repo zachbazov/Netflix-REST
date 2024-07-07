@@ -1,52 +1,21 @@
-const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-
-// MARK: - DotEnv Config
-
-dotenv.config({ path: "./config.env" });
-
-// MARK: - Database Connection String
-
-const db = process.env.DB_URL.replace(
-    /<DB_USER>|<DB_PASS>|<DB_CLUSTER>|<DB_NAME>/gi,
-    (arg) => {
-        return {
-            "<DB_USER>": process.env.DB_USER,
-            "<DB_PASS>": process.env.DB_PASS,
-            "<DB_CLUSTER>": process.env.DB_CLUSTER,
-            "<DB_NAME>": process.env.DB_NAME,
-        }[arg];
-    }
-);
-
-// MARK: - Strict Policy - Mongoose v7.0
-
-mongoose.set("strictQuery", false);
-
-// MARK: - Mongoose Connection
-
-mongoose
-    .connect(db, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => console.log("DATABASE: 🟢"));
+const MongoConnection = require("./utils/db/MongoConnection").connect();
 
 // MARK: - Application
 
 const app = require("./app");
 
 // MARK: - Server
-// Server Port
+
 const port = process.env.PORT || 8000;
 
-// Environment Logger
-console.log(app.get("env"));
+mongoose.connection.once("open", () => {
+    app.listen(port, () => console.log(`DATABASE: connected\nPORT: ${port}`));
+});
 
-// Server Deployment
-const server = app.listen(port, () =>
-    console.log(`PORT: ${port}\nENVIRONMENT: ${app.get("env")}`)
-);
+// MARK: - Environment Logger
+
+console.log(`NODE_ENV: ${app.get("env")}`);
 
 // MARK: - Unhandled Rejection Error
 

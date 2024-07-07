@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("./user-model");
 
 const userProfileSchema = new mongoose.Schema({
     name: {
@@ -45,6 +44,8 @@ const userProfileSchema = new mongoose.Schema({
 });
 
 userProfileSchema.pre("save", async function (next) {
+    const User = require("./user-model");
+
     const user = await User.findOne({ _id: this.user._id });
 
     if (user.profiles.includes(this._id)) {
@@ -52,13 +53,18 @@ userProfileSchema.pre("save", async function (next) {
     }
 
     user.profiles.push(this);
+
     user.save({ validateBeforeSave: false });
 
     next();
 });
 
 userProfileSchema.post("remove", async function (doc) {
+    const User = require("./user-model");
+
     const user = await User.findOne({ _id: doc.user._id });
+
+    if (!user) return;
 
     user.profiles.pull(doc);
 
