@@ -5,6 +5,9 @@ const cookieParser = require("cookie-parser");
 
 const AppSecurity = require("./utils/app/AppSecurity");
 const AppError = require("./utils/app/AppError");
+
+const APIRestrictor = require("../api/APIRestrictor");
+
 const globalErrorHandler = require("./controllers/error-controller");
 
 const app = express();
@@ -41,15 +44,39 @@ app.use(express.json({ limit: "100000kb" }));
 
 app.use(cookieParser());
 
-// MARK: - Route Mounting
+// MARK: - Route Mounting + User Token Verification
 
 app.use("/", require("./routes/view-router"));
-app.use("/api/v1/media", require("./routes/media-router"));
-app.use("/api/v1/users", require("./routes/user-router"));
-app.use("/api/v1/seasons", require("./routes/season-router"));
-app.use("/api/v1/episodes", require("./routes/episode-router"));
-app.use("/api/v1/sections", require("./routes/section-router"));
-app.use("/api/v1/mylists", require("./routes/mylist-router"));
+app.use(
+    "/api/v1/media",
+    APIRestrictor.verifyToken,
+    require("./routes/media-router")
+);
+app.use(
+    "/api/v1/users",
+    APIRestrictor.verifyToken,
+    require("./routes/user-router")
+);
+app.use(
+    "/api/v1/seasons",
+    APIRestrictor.verifyToken,
+    require("./routes/season-router")
+);
+app.use(
+    "/api/v1/episodes",
+    APIRestrictor.verifyToken,
+    require("./routes/episode-router")
+);
+app.use(
+    "/api/v1/sections",
+    APIRestrictor.verifyToken,
+    require("./routes/section-router")
+);
+app.use(
+    "/api/v1/mylists",
+    APIRestrictor.verifyToken,
+    require("./routes/mylist-router")
+);
 
 // MARK: - Error Handling Routes
 

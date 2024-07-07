@@ -7,8 +7,6 @@ const compression = require("compression");
 const cors = require("cors");
 const csp = require("express-csp");
 
-const APIRestrictor = require("../api/APIRestrictor");
-
 const cspConfiguration = require("../../config/csp-list");
 const hppConfiguration = require("../../config/hpp-list");
 
@@ -51,9 +49,6 @@ class AppSecurity {
             res.set("X-Content-Type-Options", "nosniff");
             next();
         });
-
-        // User Token Verification
-        app.use(APIRestrictor.verifyToken);
     }
 }
 
