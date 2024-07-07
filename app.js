@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const AppSecurity = require("./utils/app/AppSecurity");
 const AppError = require("./utils/app/AppError");
 
-const APIRestrictor = require("../api/APIRestrictor");
+const APIRestrictor = require("./utils/api/APIRestrictor");
 
 const globalErrorHandler = require("./controllers/error-controller");
 
