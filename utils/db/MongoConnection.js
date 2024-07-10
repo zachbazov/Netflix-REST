@@ -1,16 +1,19 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-
-// MARK: - DotEnv Config
-
+// ------------------------------------------------------------
+// MARK: - CONFIG PATH
+// ------------------------------------------------------------
 dotenv.config({ path: "./config.env" });
-
-// MARK: - Strict Policy - Mongoose v7.0
-
+// ------------------------------------------------------------
+// MARK: - STRICT POILICY (MONGOOSE V7.0)
+// ------------------------------------------------------------
 mongoose.set("strictQuery", false);
-
-// MARK: - Database Connection String
-
+// ------------------------------------------------------------
+// MARK: - CONNECTION STRING
+// ------------------------------------------------------------
 const db = process.env.DB_URL.replace(
     /<DB_USER>|<DB_PASS>|<DB_CLUSTER>|<DB_NAME>/gi,
     (arg) => {
@@ -22,9 +25,9 @@ const db = process.env.DB_URL.replace(
         }[arg];
     }
 );
-
-// MARK: - MongoConnection
-
+// ------------------------------------------------------------
+// MARK: - CLASS DECLARATION
+// ------------------------------------------------------------
 class MongoConnection {
     static async connect() {
         try {
@@ -35,5 +38,7 @@ class MongoConnection {
         return this;
     }
 }
-
+// ------------------------------------------------------------
+// MARK: - MODULE EXPORT
+// ------------------------------------------------------------
 module.exports = MongoConnection;

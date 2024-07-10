@@ -1,4 +1,7 @@
-const configure = {
+// ------------------------------------------------------------
+// MARK: - CSP ALLOWED LIST
+// ------------------------------------------------------------
+const list = {
     policy: {
         directives: {
             "default-src": ["'self'"],
@@ -64,9 +67,12 @@ const configure = {
                 "https://bundle.js:*",
                 "ws://localhost:*/",
                 "ws://127.0.0.1:*/",
+                "http://localhost:3001",
             ],
         },
     },
 };
-
-module.exports = configure;
+// ------------------------------------------------------------
+// MARK: - MODULE EXPORT
+// ------------------------------------------------------------
+module.exports = list;

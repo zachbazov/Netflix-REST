@@ -1,7 +1,10 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const mongoose = require("mongoose");
-
-// MARK: - Season Schema
-
+// ------------------------------------------------------------
+// MARK: - SCHEMA DECLARATION
+// ------------------------------------------------------------
 const seasonSchema = new mongoose.Schema({
     mediaId: mongoose.Schema.ObjectId,
     slug: String,
@@ -14,15 +17,13 @@ const seasonSchema = new mongoose.Schema({
         },
     ],
 });
-
-// MARK: - Improve Performance
-
+// ------------------------------------------------------------
+// MARK: - PERFORMANCE KEYS
+// ------------------------------------------------------------
 seasonSchema.index({ slug: 1 });
 seasonSchema.index({ season: 1 });
 seasonSchema.index({ slug: 1, season: 1 });
-
-// MARK: - Season Model
-
-const Season = mongoose.model("Season", seasonSchema);
-
-module.exports = Season;
+// ------------------------------------------------------------
+// MARK: - MODULE EXPORT
+// ------------------------------------------------------------
+module.exports = mongoose.model("Season", seasonSchema);

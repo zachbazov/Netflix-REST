@@ -1,13 +1,16 @@
-const AppError = require("../app/AppError");
-const APIService = require("../api/APIService");
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
+const AppError = require("../services/AppError");
+const APIService = require("../services/APIService");
 const catchAsync = require("../helpers/catch-async");
 const Media = require("../../models/media-model");
 const Season = require("../../models/season-model");
 const Episode = require("../../models/episode-model");
 const User = require("../../models/user-model");
-
-// MARK: - CRUD Operations
-
+// ------------------------------------------------------------
+// MARK: - GET REQUEST HANDLER
+// ------------------------------------------------------------
 exports.get = (Model) =>
     catchAsync(async (req, res, next) => {
         let data;
@@ -38,12 +41,17 @@ exports.get = (Model) =>
             data,
         });
     });
-
+// ------------------------------------------------------------
+// MARK: - CREATE REQUEST HANDLER
+// ------------------------------------------------------------
 exports.create = (Model) =>
     catchAsync(async (req, res, next) => {
         let data;
 
         switch (Model.modelName) {
+            // ------------------------------
+            // SECTION
+            // ------------------------------
             case "Section":
                 data = await Model.create({
                     id: req.body.id,
@@ -52,6 +60,9 @@ exports.create = (Model) =>
                     media: req.body.media,
                 });
                 break;
+            // ------------------------------
+            // MEDIA
+            // ------------------------------
             case "Media":
                 data = await Model.create({
                     type: req.body.type,
@@ -73,6 +84,9 @@ exports.create = (Model) =>
                     numberOfEpisodes: req.body.numberOfEpisodes,
                 });
                 break;
+            // ------------------------------
+            // SEASON
+            // ------------------------------
             case "Season":
                 const media = await Media.findOne(
                     req.query.mediaId !== undefined
@@ -128,6 +142,9 @@ exports.create = (Model) =>
                 await media.save();
 
                 break;
+            // ------------------------------
+            // EPISODE
+            // ------------------------------
             case "Episode":
                 data = await Model.create({
                     mediaId: req.body.mediaId,
@@ -138,6 +155,9 @@ exports.create = (Model) =>
                     url: req.body.url,
                 });
                 break;
+            // ------------------------------
+            // USER
+            // ------------------------------
             case "User":
                 data = await Model.create({
                     name: req.body.name,
@@ -148,6 +168,9 @@ exports.create = (Model) =>
                     // role: req.body.role
                 });
                 break;
+            // ------------------------------
+            // MY LIST
+            // ------------------------------
             case "MyList":
                 const numberOfLists = await Model.find({
                     user: req.query.user,
@@ -163,6 +186,9 @@ exports.create = (Model) =>
                     media: req.body.media,
                 });
                 break;
+            // ------------------------------
+            // IMAGE
+            // ------------------------------
             case "Image":
                 data = await Model.create({
                     name: req.body.name,
@@ -171,6 +197,9 @@ exports.create = (Model) =>
                     output: req.body.output,
                 });
                 break;
+            // ------------------------------
+            // USER PROFILE
+            // ------------------------------
             case "UserProfile":
                 data = await Model.create({
                     name: req.body.name,
@@ -195,12 +224,17 @@ exports.create = (Model) =>
             data,
         });
     });
-
+// ------------------------------------------------------------
+// MARK: - UPDATE REQUEST HANDLER
+// ------------------------------------------------------------
 exports.update = (Model) =>
     catchAsync(async (req, res, next) => {
         let data;
 
         switch (Model.modelName) {
+            // ------------------------------
+            // SECTION
+            // ------------------------------
             case "Section":
                 data = await Model.findOneAndUpdate(
                     req.query.id !== undefined
@@ -216,6 +250,9 @@ exports.update = (Model) =>
                     { new: true }
                 );
                 break;
+            // ------------------------------
+            // MEDIA
+            // ------------------------------
             case "Media":
                 data = await Model.findOneAndUpdate(
                     req.query._id !== undefined
@@ -245,6 +282,9 @@ exports.update = (Model) =>
                     { new: true, runValidators: true }
                 );
                 break;
+            // ------------------------------
+            // SEASON
+            // ------------------------------
             case "Season":
                 data = await Model.findOneAndUpdate(
                     req.query.mediaId !== undefined
@@ -263,6 +303,9 @@ exports.update = (Model) =>
                     { new: true }
                 );
                 break;
+            // ------------------------------
+            // EPISODE
+            // ------------------------------
             case "Episode":
                 data = await Model.findOneAndUpdate(
                     {
@@ -281,6 +324,9 @@ exports.update = (Model) =>
                     { new: true }
                 );
                 break;
+            // ------------------------------
+            // MY LIST
+            // ------------------------------
             case "MyList":
                 data = await Model.findOneAndUpdate(
                     req.query.user !== undefined
@@ -294,6 +340,9 @@ exports.update = (Model) =>
                 );
                 break;
             case "User":
+                // ------------------------------
+                // USER
+                // ------------------------------
                 data = await Model.findOneAndUpdate(
                     req.query.id !== undefined
                         ? {
@@ -315,6 +364,9 @@ exports.update = (Model) =>
                     { new: true, runValidators: true }
                 );
                 break;
+            // ------------------------------
+            // IMAGE
+            // ------------------------------
             case "Image":
                 data = await Model.findOneAndUpdate(
                     req.query.name !== undefined
@@ -328,6 +380,9 @@ exports.update = (Model) =>
                     { new: true }
                 );
                 break;
+            // ------------------------------
+            // USER PROFILE
+            // ------------------------------
             case "UserProfile":
                 data = await Model.findOneAndUpdate(
                     req.query.id !== undefined
@@ -357,12 +412,17 @@ exports.update = (Model) =>
             data,
         });
     });
-
+// ------------------------------------------------------------
+// MARK: - DELETE REQUEST HANDLER
+// ------------------------------------------------------------
 exports.deleteOne = (Model) =>
     catchAsync(async (req, res, next) => {
         let data;
 
         switch (Model.modelName) {
+            // ------------------------------
+            // SECTION
+            // ------------------------------
             case "Section":
                 data = await Model.findOne(
                     req.query.id !== undefined
@@ -372,6 +432,9 @@ exports.deleteOne = (Model) =>
                         : { slug: req.query.slug }
                 );
                 break;
+            // ------------------------------
+            // MEDIA
+            // ------------------------------
             case "Media":
                 data = await Model.findOne(
                     req.query._id !== undefined
@@ -381,6 +444,9 @@ exports.deleteOne = (Model) =>
                         : { slug: req.query.slug }
                 );
                 break;
+            // ------------------------------
+            // SEASON
+            // ------------------------------
             case "Season":
                 const media = await Media.findOne(
                     req.query.mediaId !== undefined
@@ -433,6 +499,9 @@ exports.deleteOne = (Model) =>
                     eps.forEach(async (el) => await el.delete());
                 }
                 break;
+            // ------------------------------
+            // EPISODE
+            // ------------------------------
             case "Episode":
                 data = await Model.findOne({
                     mediaId: req.query.mediaId,
@@ -440,6 +509,9 @@ exports.deleteOne = (Model) =>
                     episode: req.query.episode,
                 });
                 break;
+            // ------------------------------
+            // MY LIST
+            // ------------------------------
             case "MyList":
                 data = await Model.findOne(
                     req.query.user !== undefined
@@ -447,6 +519,9 @@ exports.deleteOne = (Model) =>
                         : { _id: req.query._id }
                 );
                 break;
+            // ------------------------------
+            // USER
+            // ------------------------------
             case "User":
                 data = await Model.findOne(
                     req.query.id !== undefined
@@ -458,6 +533,9 @@ exports.deleteOne = (Model) =>
                         : { email: req.query.email }
                 );
                 break;
+            // ------------------------------
+            // USER PROFILE
+            // ------------------------------
             case "UserProfile":
                 data = await Model.findOne(
                     req.query.id !== undefined
@@ -465,6 +543,9 @@ exports.deleteOne = (Model) =>
                         : { name: req.query.name }
                 );
                 break;
+            // ------------------------------
+            // IMAGE
+            // ------------------------------
             case "Image":
                 data = await Model.findOne(
                     req.query.name !== undefined
@@ -489,12 +570,17 @@ exports.deleteOne = (Model) =>
             data: null,
         });
     });
-
+// ------------------------------------------------------------
+// MARK: - DELETE ALL REQUEST HANDLER
+// ------------------------------------------------------------
 exports.deleteAll = (Model) =>
     catchAsync(async (req, res, next) => {
         const data = await Model.deleteMany();
 
         switch (Model.modelName) {
+            // ------------------------------
+            // USER PROFILE
+            // ------------------------------
             case "UserProfile":
                 const user = await User.findOne({ user: req.params.user });
 

@@ -1,5 +1,10 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const mongoose = require("mongoose");
-
+// ------------------------------------------------------------
+// MARK: - SCHEMA DECLARATION
+// ------------------------------------------------------------
 const userProfileSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -42,35 +47,32 @@ const userProfileSchema = new mongoose.Schema({
         },
     },
 });
-
+// ------------------------------------------------------------
+// MARK: - DOCUMENT MWS
+// ------------------------------------------------------------
+// PUSH A NEWLY CREATED PROFILE FOR THE USER'S ASSOCIATED PROFILE LIST
+// ------------------------------
 userProfileSchema.pre("save", async function (next) {
     const User = require("./user-model");
-
     const user = await User.findOne({ _id: this.user._id });
-
-    if (user.profiles.includes(this._id)) {
-        return next();
-    }
-
+    if (user.profiles.includes(this._id)) return next();
     user.profiles.push(this);
-
     user.save({ validateBeforeSave: false });
-
     next();
 });
-
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
+// REMOVE A PROFILE FROM THE ARRAY AFTER PROFILE HAS BEEN DELETE
+// ------------------------------
 userProfileSchema.post("remove", async function (doc) {
     const User = require("./user-model");
-
     const user = await User.findOne({ _id: doc.user._id });
-
     if (!user) return;
-
     user.profiles.pull(doc);
-
     await user.save({ validateBeforeSave: false });
 });
-
-const UserProfile = mongoose.model("UserProfile", userProfileSchema);
-
-module.exports = UserProfile;
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
+module.exports = mongoose.model("UserProfile", userProfileSchema);

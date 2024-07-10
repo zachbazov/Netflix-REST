@@ -1,35 +1,37 @@
-const AppError = require("../utils/app/AppError");
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
+const AppError = require("../utils/services/AppError");
 const User = require("../models/user-model");
 const catchAsync = require("../utils/helpers/catch-async");
 const handlerFactory = require("../utils/factory/handler-factory");
-
-// MARK: - CRUD Operations
-
+// ------------------------------------------------------------
+// MARK: - CRUD METHODS
+// ------------------------------------------------------------
 exports.getAllUsers = handlerFactory.get(User);
 exports.createUser = handlerFactory.create(User);
 exports.updateUser = handlerFactory.update(User);
 exports.deleteUser = handlerFactory.deleteOne(User);
 exports.deleteAllUsers = handlerFactory.deleteAll(User);
-
-// MARK: - User Settings Operations
-
+// ------------------------------------------------------------
+// MARK: - USER UPDATE HANDLER
+// ------------------------------------------------------------
+// UPDATE USER SETTINGS
+// ------------------------------
 exports.updateData = catchAsync(async (req, res, next) => {
     if (req.body.password || req.body.passwordConfirm) {
         const message = `Use '/update-password' in order to update your password.`;
         const appError = new AppError(message, 400);
-
         return next(appError);
     }
 
     function filterObject(object, ...allowedFields) {
         const newObject = {};
-
         Object.keys(object).forEach((el) => {
             if (allowedFields.includes(el)) {
                 newObject[el] = object[el];
             }
         });
-
         return newObject;
     }
 
@@ -48,7 +50,6 @@ exports.updateData = catchAsync(async (req, res, next) => {
     if (!data) {
         const message = "No documents found.";
         const appError = new AppError(message, 404);
-
         return next(appError);
     }
 
@@ -57,12 +58,13 @@ exports.updateData = catchAsync(async (req, res, next) => {
         data,
     });
 });
-
+// ------------------------------
+// DELETE USER DATA (MAKE INACTIVE - WITHOUT DATA REMOVAL)
+// ------------------------------
 exports.deleteData = catchAsync(async (req, res, next) => {
     await User.findByIdAndUpdate(req.user.id, {
         active: false,
     });
-
     res.status(204).json({
         status: "success",
         data: null,

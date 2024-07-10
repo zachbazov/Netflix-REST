@@ -1,4 +1,7 @@
-const config = {
+// ------------------------------------------------------------
+// MARK: - HPP ALLOWED LIST
+// ------------------------------------------------------------
+const list = {
     whitelist: [
         "duration",
         "rating",
@@ -11,4 +14,4 @@ const config = {
     ],
 };
 
-module.exports = config;
+module.exports = list;

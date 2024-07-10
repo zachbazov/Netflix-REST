@@ -1,7 +1,10 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const mongoose = require("mongoose");
-
-// MARK: - Section Schema
-
+// ------------------------------------------------------------
+// MARK: - SCHEMA DECLARATION
+// ------------------------------------------------------------
 const sectionSchema = new mongoose.Schema({
     id: Number,
     title: String,
@@ -13,14 +16,12 @@ const sectionSchema = new mongoose.Schema({
         },
     ],
 });
-
-// MARK: - Improve Performance
-
+// ------------------------------------------------------------
+// MARK: - PERFORMANCE KEYS
+// ------------------------------------------------------------
 sectionSchema.index({ id: 1 });
 sectionSchema.index({ title: 1 });
-
-// MARK: - Section Model
-
-const Section = mongoose.model("Section", sectionSchema);
-
-module.exports = Section;
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
+module.exports = mongoose.model("Section", sectionSchema);

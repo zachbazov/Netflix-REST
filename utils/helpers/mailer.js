@@ -1,7 +1,10 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const nodemailer = require("nodemailer");
-
-// MARK: - Mail Dispatcher
-
+// ------------------------------------------------------------
+// MARK: - DISPATCH HANDLER
+// ------------------------------------------------------------
 const dispatch = async (options) => {
     const transporter = nodemailer.createTransport({
         host: process.env.MAILER_HOST,
@@ -21,5 +24,7 @@ const dispatch = async (options) => {
 
     await transporter.sendMail(mailerOptions);
 };
-
+// ------------------------------------------------------------
+// MARK: - MODULE EXPORT
+// ------------------------------------------------------------
 module.exports = dispatch;

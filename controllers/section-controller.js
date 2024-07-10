@@ -1,8 +1,11 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const Section = require("../models/section-model");
 const handlerFactory = require("../utils/factory/handler-factory");
-
-// MARK: - CRUD Operations
-
+// ------------------------------------------------------------
+// MARK: - CRUD METHODS
+// ------------------------------------------------------------
 exports.getAllSections = handlerFactory.get(Section);
 exports.createSection = handlerFactory.create(Section);
 exports.updateSection = handlerFactory.update(Section);

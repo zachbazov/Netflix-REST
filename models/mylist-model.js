@@ -1,7 +1,10 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const mongoose = require("mongoose");
-
-// MARK: - MyList Schema
-
+// ------------------------------------------------------------
+// MARK: - SCHEMA DECLARATION
+// ------------------------------------------------------------
 const myListSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
@@ -14,9 +17,7 @@ const myListSchema = new mongoose.Schema({
         },
     ],
 });
-
-// MARK: - MyList Model
-
-const myList = mongoose.model("MyList", myListSchema);
-
-module.exports = myList;
+// ------------------------------------------------------------
+// MARK: - MODULE EXPORT
+// ------------------------------------------------------------
+module.exports = mongoose.model("MyList", myListSchema);

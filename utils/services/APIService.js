@@ -1,9 +1,17 @@
+// ------------------------------------------------------------
+// MARK: - CLASS DECLARATION
+// ------------------------------------------------------------
 class APIService {
+    // ------------------------------
+    // CONSTRUCTOR
+    // ------------------------------
     constructor(query, queryString) {
         this.query = query;
         this.queryString = queryString;
     }
-
+    // ------------------------------
+    // FILTER HANDLER
+    // ------------------------------
     filter() {
         const queryObject = { ...this.queryString };
         const excludedFields = ["page", "sort", "limit", "fields"];
@@ -21,7 +29,9 @@ class APIService {
 
         return this;
     }
-
+    // ------------------------------
+    // SORT HANDLER
+    // ------------------------------
     sort() {
         if (this.queryString.sort) {
             const sortBy = this.queryString.sort.split(",").join(" ");
@@ -32,7 +42,9 @@ class APIService {
 
         return this;
     }
-
+    // ------------------------------
+    // LIMIT HANDLER
+    // ------------------------------
     limit() {
         if (this.queryString.limit) {
             const limit = this.queryString.limit * 1 || 100;
@@ -42,7 +54,9 @@ class APIService {
 
         return this;
     }
-
+    // ------------------------------
+    // LIMIT FIELDS HANDLER
+    // ------------------------------
     limitFields() {
         if (this.queryString.fields) {
             const fields = this.queryString.fields.split(",").join(" ");
@@ -53,7 +67,9 @@ class APIService {
 
         return this;
     }
-
+    // ------------------------------
+    // PAGINATE HANDLER
+    // ------------------------------
     paginate() {
         if (this.queryString.page) {
             const page = this.queryString.page * 1 || 1;
@@ -65,7 +81,9 @@ class APIService {
 
         return this;
     }
-
+    // ------------------------------
+    // POPULATE HANDLER
+    // ------------------------------
     async populate(Model) {
         switch (Model.modelName) {
             case "Season":
@@ -81,5 +99,7 @@ class APIService {
         }
     }
 }
-
+// ------------------------------------------------------------
+// MARK: - MODULE EXPORT
+// ------------------------------------------------------------
 module.exports = APIService;

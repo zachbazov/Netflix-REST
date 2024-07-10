@@ -25,6 +25,7 @@ block content
         each image, i in media.resources.posters
             .picture-box
                 img.picture-box__img(src=`/${image.split('.com/')[1]}`, alt=`Media ${i+1}`, class=`picture-box__img--${i+1}`)
+                - console.log(13, `/${image.split('.com/')[1]}`)
 
     section.section-reviews
         .reviews

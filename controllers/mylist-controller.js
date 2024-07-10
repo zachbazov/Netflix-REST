@@ -1,8 +1,11 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const MyList = require("../models/mylist-model");
 const handlerFactory = require("../utils/factory/handler-factory");
-
-// MARK: - CRUD Operations
-
+// ------------------------------------------------------------
+// MARK: - CRUD METHODS
+// ------------------------------------------------------------
 exports.getAllLists = handlerFactory.get(MyList);
 exports.createList = handlerFactory.create(MyList);
 exports.updateList = handlerFactory.update(MyList);

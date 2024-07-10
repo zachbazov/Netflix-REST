@@ -8,7 +8,7 @@ block content
                     .card__header
                         .card__picture
                             .card__picture-overlay &nbsp;
-                            img.card__picture-img(src=`/${m.resources.displayPoster.split('.com/')[1]}`, alt=`${m.title}`)
+                            img.card__picture-img(src=m.resources.posters[0], alt=`${m.title}`)
                         h3.heading-tertirary
                             span= m.title
 
@@ -36,7 +36,7 @@ block content
                                 |
                             p.card__ratings
                                 svg.reviews__star(class='svg__padding' fill='white')
-                                    use(xlink:href='/img/svg/icons.svg#icon-star', class=`reviews__star--active`)
+                                    use(xlink:href='/img/icons.svg#icon-star', class=`reviews__star--active`)
                                 span.card__footer-value #{m.rating}
                                 |
                             a.btn.btn--green.btn--small(href=`/media/${m.slug}`) Details

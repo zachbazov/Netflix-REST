@@ -1,17 +1,20 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const Media = require("../models/media-model");
 const catchAsync = require("../utils/helpers/catch-async");
 const handlerFactory = require("../utils/factory/handler-factory");
-
-// MARK: - CRUD Operations
-
+// ------------------------------------------------------------
+// MARK: - CRUD METHODS
+// ------------------------------------------------------------
 exports.getAllMedia = handlerFactory.get(Media);
 exports.createMedia = handlerFactory.create(Media);
 exports.updateMedia = handlerFactory.update(Media);
 exports.deleteMedia = handlerFactory.deleteOne(Media);
 exports.deleteAllMedia = handlerFactory.deleteAll(Media);
-
-// MARK: - Search
-
+// ------------------------------------------------------------
+// MARK: - MEDIA SEARCH HANDLER
+// ------------------------------------------------------------
 exports.search = catchAsync(async (req, res, next) => {
     const docs = await Media.find(
         req.query.slug !== undefined
@@ -34,26 +37,28 @@ exports.search = catchAsync(async (req, res, next) => {
                   },
               }
     );
-
     res.status(200).json({
         status: "success",
         results: docs.length,
         data: docs,
     });
 });
-
-// MARK: - Query Middleware
-
+// ------------------------------------------------------------
+// MARK: - QUERY MWS
+// ------------------------------------------------------------
+// TOP RATED MEDIA
+// ------------------------------
 exports.aliasTopRated = (req, res, next) => {
     req.query.limit = "10";
     req.query.sort = "-rating";
     req.query.fields = "title,duration,seasonCount,rating";
-
     next();
 };
-
-// MARK: - Aggregate Pipeline
-
+// ------------------------------------------------------------
+// MARK: - AGGREGATE MWS
+// ------------------------------------------------------------
+// A MEDIA STATS DESCRIPTION
+// ------------------------------
 exports.getTvShowsStats = catchAsync(async (req, res, next) => {
     const stats = await Media.aggregate([
         {
@@ -77,16 +82,16 @@ exports.getTvShowsStats = catchAsync(async (req, res, next) => {
             },
         },
     ]);
-
     res.status(200).json({
         status: "success",
         data: stats,
     });
 });
-
+// ------------------------------------------------------------
+// MARK: - MEDIA TRAILER COUNT (TOTAL)
+// ------------------------------------------------------------
 exports.getTrailersCount = catchAsync(async (req, res, next) => {
     const year = req.params.year * 1;
-
     const plan = await Media.aggregate([
         {
             $unwind: "$trailers",
@@ -109,7 +114,6 @@ exports.getTrailersCount = catchAsync(async (req, res, next) => {
             $sort: { trailersCount: -1 },
         },
     ]);
-
     res.status(200).json({
         status: "success",
         data: plan,

@@ -1,6 +1,11 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const jwt = require("jsonwebtoken");
-const AppError = require("../app/AppError");
-
+const AppError = require("./AppError");
+// ------------------------------------------------------------
+// MARK: - CLASS DECLARATION
+// ------------------------------------------------------------
 class APIRestrictor {
     static restrictTo(...roles) {
         return (req, res, next) => {
@@ -15,23 +20,8 @@ class APIRestrictor {
             next();
         };
     }
-
-    static verifyToken(req, res, next) {
-        const authHeader = req.headers["authorization"];
-
-        if (!authHeader) return res.sendStatus(401);
-
-        const token = authHeader.split(" ")[1];
-
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-            if (err) return res.sendStatus(403);
-
-            req.verifiedEmail = decoded.email;
-            req.verifiedRole = decoded.role;
-
-            next();
-        });
-    }
 }
-
+// ------------------------------------------------------------
+// MARK: - MODULE EXPORT
+// ------------------------------------------------------------
 module.exports = APIRestrictor;

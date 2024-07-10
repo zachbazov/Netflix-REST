@@ -1,8 +1,11 @@
+// ------------------------------------------------------------
+// MARK: - MODULE INJECTION
+// ------------------------------------------------------------
 const mongoose = require("mongoose");
 const slugify = require("slugify");
-
-// MARK: - Media Schema
-
+// ------------------------------------------------------------
+// MARK: - SCHEMA DECLARATION
+// ------------------------------------------------------------
 const mediaSchema = new mongoose.Schema(
     {
         id: {
@@ -15,12 +18,10 @@ const mediaSchema = new mongoose.Schema(
             unique: true,
         },
         slug: String,
-
         createdAt: {
             type: Date,
             default: Date.now(),
         },
-
         rating: {
             type: Number,
             default: 0.0,
@@ -31,7 +32,6 @@ const mediaSchema = new mongoose.Schema(
         duration: String,
         length: String,
         genres: [String],
-
         hasWatched: Boolean,
         isHD: Boolean,
         isExclusive: Boolean,
@@ -43,7 +43,6 @@ const mediaSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
-
         resources: {
             posters: [String],
             logos: [String],
@@ -56,7 +55,6 @@ const mediaSchema = new mongoose.Schema(
             presentedDisplayLogo: String,
             presentedLogoAlignment: String,
         },
-
         seasons: [
             {
                 type: mongoose.Schema.ObjectId,
@@ -64,7 +62,6 @@ const mediaSchema = new mongoose.Schema(
             },
         ],
         numberOfEpisodes: Number,
-
         timesSearched: Number,
     },
     {
@@ -72,37 +69,36 @@ const mediaSchema = new mongoose.Schema(
         toObject: { virtuals: true },
     }
 );
-
-// MARK: - Improve Performance
-
+// ------------------------------------------------------------
+// MARK: - PERFORMANCE KEYS
+// ------------------------------------------------------------
 mediaSchema.index({ slug: 1 });
 mediaSchema.index({ title: 1 });
 mediaSchema.index({ rating: 1 });
-
-// MARK: - Document Middleware
-
+// ------------------------------------------------------------
+// MARK: - DOCUMENT MWS
+// ------------------------------------------------------------
+// ADD A SLUG TO THE MEDIA OBJECT AND USE MONGODB SUPPLIED ID VALUE
+// ------------------------------
 mediaSchema.pre("save", function (next) {
     this.slug = slugify(this.title.replace(/:|!| /g, "-"), {
         lower: true,
     });
-
     this.id = this._id;
-
     next();
 });
-
-// MARK: - Aggregate Middleware
-
+// ------------------------------------------------------------
+// MARK: - AGGREGATE MWS
+// ------------------------------------------------------------
+// OPERATING PARAMETER(S) WON'T BE INCLUDED IN THE RESPONSE
+// ------------------------------
 mediaSchema.pre("aggregate", function (next) {
     this.pipeline().unshift({
         $match: { isSecret: { $ne: true } },
     });
-
     next();
 });
-
-// MARK: - Media Model
-
-const Media = mongoose.model("Media", mediaSchema);
-
-module.exports = Media;
+// ------------------------------------------------------------
+// MARK: - MODULE EXPORT
+// ------------------------------------------------------------
+module.exports = mongoose.model("Media", mediaSchema);
