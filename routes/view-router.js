@@ -10,6 +10,7 @@ const viewController = require("../controllers/view-controller");
 // ------------------------------------------------------------
 router.get("/", JWTService.verifyToken, viewController.getOverview);
 router.get("/sign-in", viewController.getSignin);
+router.get("/invalid-token", viewController.getInvalidToken);
 // ------------------------------------------------------------
 // MARK: - MODULE EXPORT
 // ------------------------------------------------------------

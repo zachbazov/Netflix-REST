@@ -5,6 +5,7 @@ import "@babel/polyfill";
 import RequestHandler from "./modules/RequestHandler.js";
 import AlertService from "./modules/Alert.js";
 import RequestExecutor from "./modules/RequestExecutor.js";
+import Popup from "./modules/Popup.js";
 // ------------------------------------------------------------
 // MARK: - COMMAND INJECTION
 // ------------------------------------------------------------
@@ -57,6 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // USER COMMANDS REGISTERY
     // ------------------------------
     requestExecutor.register("updateSettings", updateSettingsCommand);
+    // ------------------------------------------------------------
+    // MARK: - POPUP INITIALIZATION
+    // ------------------------------------------------------------
+    const popup = new Popup(requestExecutor);
     // ------------------------------------------------------------
     // MARK: - AUTH EVENT HANDLERS
     // ------------------------------------------------------------

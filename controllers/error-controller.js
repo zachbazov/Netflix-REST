@@ -58,6 +58,8 @@ const sendErrorDev = (err, req, res) => {
             stack: err.stack,
         });
     }
+    if (err.statusCode === 401 || err.statusCode === 403)
+        return res.redirect("/invalid-token");
     res.status(err.statusCode).render("error", {
         title: "Internal Server Error",
         message: err.message,

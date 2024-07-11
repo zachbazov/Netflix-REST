@@ -6,12 +6,13 @@ header.header
         img#img-header--logo.img-header--logo(src=`/img/system/netflix-logo.svg` alt=`Logo`)
     nav.nav.nav--user
         if user
-            - console.log("us", user)
-            a#ref--refresh-token.nav__el Refresh Token 
+            - console.log("header.pug", user)
+            //- a#ref--refresh-token.nav__el Refresh Token
             a#ref--sign-out.nav__el.nav__el--logout Sign Out
             a.nav__el(href='/settings')
                 img.nav__user-img(src=`/img/system/netflix-logo.png` alt=`Photo`)
                 span= user
         else
+            //- a#ref--refresh-token.nav__el Refresh Token 
             a.nav__el(href='/sign-in') Sign in
             a.nav__el.nav__el--cta(href='#') Sign up

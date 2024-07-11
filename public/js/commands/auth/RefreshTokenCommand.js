@@ -25,6 +25,7 @@ class RefreshTokenCommand extends Command {
                 { refreshToken },
                 { withCredentials: true }
             );
+
             if (response.status === 200) {
                 this.alert.showAlert(
                     "success",
@@ -39,6 +40,14 @@ class RefreshTokenCommand extends Command {
                 }, 1500);
             }
         } catch (err) {
+            if (
+                err.response.data === "Forbidden" ||
+                err.response.data === "Unauthorized"
+            ) {
+                return window.setTimeout(() => {
+                    location.assign("/sign-in");
+                }, 1500);
+            }
             this.alert.showAlert(
                 "error",
                 "Error occurred while refreshing token",

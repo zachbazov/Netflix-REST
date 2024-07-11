@@ -68,6 +68,14 @@ const getSettings = catchAsync(async (req, res, next) => {
         title: "Settings",
     });
 });
+// ------------------------------
+// INVALID TOKEN ERROR PAGE
+// ------------------------------
+const getInvalidToken = catchAsync(async (req, res, next) => {
+    res.status(200).render("invalid-token", {
+        title: "Authorization",
+    });
+});
 // ------------------------------------------------------------
 // MARK: - MODULE EXPORT
 // ------------------------------------------------------------
@@ -77,4 +85,5 @@ module.exports = {
     getSignin,
     getSettings,
     createMedia,
+    getInvalidToken,
 };
